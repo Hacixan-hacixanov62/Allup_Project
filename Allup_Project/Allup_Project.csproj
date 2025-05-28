@@ -11,4 +11,16 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Allup_DataAccess\Allup_DataAccess.csproj" />
+    <ProjectReference Include="..\Allup_Service\Allup_Service.csproj" />
+  </ItemGroup>
+
 </Project>

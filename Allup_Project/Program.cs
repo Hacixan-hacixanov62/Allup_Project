@@ -1,3 +1,6 @@
+using Allup_DataAccess.DAL;
+using Microsoft.EntityFrameworkCore;
+
 namespace Allup_Project
 {
     public class Program
@@ -5,9 +8,26 @@ namespace Allup_Project
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var config = builder.Configuration;
+
+            builder.Services.AddBusinessServices();
+            builder.Services.AddBussniessRepository();
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+           
+
+
+
+
+
+
+
+
 
             var app = builder.Build();
 

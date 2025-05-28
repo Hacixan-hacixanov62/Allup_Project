@@ -1,18 +1,34 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Asp.Net Task (PB-202)\\Allup_Project\\",
+  "WorkspaceRootPath": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|c:\\asp.net task (pb-202)\\allup_project\\allup_project\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_service\\service\\cloudinaryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|solutionrelative:allup_service\\service\\cloudinaryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|c:\\asp.net task (pb-202)\\allup_project\\allup_project\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_service\\service\\sliderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|solutionrelative:allup_service\\service\\sliderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C21EBA5-842C-416F-A204-BEFDFF08AF24}|Allup_DataAccess\\Allup_DataAccess.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_dataaccess\\dal\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C21EBA5-842C-416F-A204-BEFDFF08AF24}|Allup_DataAccess\\Allup_DataAccess.csproj|solutionrelative:allup_dataaccess\\dal\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A8B2B2A-ABE8-4D56-9CF9-14FCFB242A5F}|Allup_Core\\Allup_Core.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_core\\attributes\\maxsizeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A8B2B2A-ABE8-4D56-9CF9-14FCFB242A5F}|Allup_Core\\Allup_Core.csproj|solutionrelative:allup_core\\attributes\\maxsizeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|c:\\asp.net task (pb-202)\\allup_project\\allup_project\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,58 +38,96 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Program.cs",
+              "RelativeDocumentMoniker": "Allup_Project\\Program.cs",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Program.cs",
+              "RelativeToolTip": "Allup_Project\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T08:47:27.606Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Allup_Project\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Views\\Shared\\_Layout.cshtml*",
-              "RelativeToolTip": "Allup_Project\\Views\\Shared\\_Layout.cshtml*",
-              "ViewState": "AgIAAG4FAAAAAAAAAAAiwHgFAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-15T20:14:26.471Z",
+              "Title": "CloudinaryService.cs",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Service\\CloudinaryService.cs",
+              "RelativeDocumentMoniker": "Allup_Service\\Service\\CloudinaryService.cs",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Service\\CloudinaryService.cs*",
+              "RelativeToolTip": "Allup_Service\\Service\\CloudinaryService.cs*",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAQwB0AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T08:37:22.632Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Program.cs",
-              "RelativeDocumentMoniker": "Allup_Project\\Program.cs",
-              "ToolTip": "C:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Program.cs",
-              "RelativeToolTip": "Allup_Project\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Title": "SliderService.cs",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Service\\SliderService.cs",
+              "RelativeDocumentMoniker": "Allup_Service\\Service\\SliderService.cs",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Service\\SliderService.cs",
+              "RelativeToolTip": "Allup_Service\\Service\\SliderService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAawBIAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T15:13:38.745Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-28T08:25:40.562Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
+              "Title": "MaxSizeAttribute.cs",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Core\\Attributes\\MaxSizeAttribute.cs",
+              "RelativeDocumentMoniker": "Allup_Core\\Attributes\\MaxSizeAttribute.cs",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Core\\Attributes\\MaxSizeAttribute.cs",
+              "RelativeToolTip": "Allup_Core\\Attributes\\MaxSizeAttribute.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAqwA8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T16:05:08.886Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\appsettings.json",
+              "RelativeDocumentMoniker": "Allup_Project\\appsettings.json",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\appsettings.json",
+              "RelativeToolTip": "Allup_Project\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-27T16:04:33.646Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_DataAccess\\DAL\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Allup_DataAccess\\DAL\\AppDbContext.cs",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_DataAccess\\DAL\\AppDbContext.cs",
+              "RelativeToolTip": "Allup_DataAccess\\DAL\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-16T12:44:19.848Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\HomeController.cs",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Allup_Project\\Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\HomeController.cs",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\HomeController.cs",
               "RelativeToolTip": "Allup_Project\\Controllers\\HomeController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T15:13:31.158Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-15T15:13:31.158Z"
             }
           ]
         }
