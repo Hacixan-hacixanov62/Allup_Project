@@ -41,6 +41,12 @@ namespace Allup_Service
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+
+            services.AddScoped<IBannerService, BannerService>();
+            services.AddScoped<IBannerRepository, BannerRepository>();
+
 
         }
     }

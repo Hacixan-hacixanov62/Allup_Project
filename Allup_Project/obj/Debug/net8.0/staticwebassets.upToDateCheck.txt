@@ -5301,9 +5301,9 @@ wwwroot\assets\js\vendor\modernizr-3.7.1.min.js
 wwwroot\assets\plugins\js\ajax-contact.js
 wwwroot\Uploads\Categories\13842900-2f3b-425b-823a-4ee53b035f6dcategory-12.jpg
 wwwroot\Uploads\Categories\53e2b9a8-1d3b-40a0-a892-03822a3b81aecategory-7.jpg
+wwwroot\Uploads\Categories\567745cc-4a8e-4b9a-be29-f7b662a337dbcategory-10.jpg
 wwwroot\Uploads\Categories\6480582e-982b-442b-be0c-5df4c32dbbc7category-11.jpg
 wwwroot\Uploads\Categories\6b776379-bf91-4889-926c-837cb489fccacategory-1.jpg
-wwwroot\Uploads\Categories\822138c2-3159-4878-9e8e-fb1506766dcfcategory-1.jpg
 wwwroot\Uploads\Sliders\6fd014bb-dc1b-4fb1-ae4c-4c36ea846fb1slider-2.jpg
 wwwroot\Uploads\Sliders\cf23cf43-0dd5-4ddd-bf04-86af2d638ae1slider-3.jpg
 wwwroot\Uploads\Sliders\efb50dd7-a281-4c6a-b61b-a7f91be9bf1fslider-7.jpg

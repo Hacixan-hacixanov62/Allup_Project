@@ -265,7 +265,7 @@
                         <ul aria-expanded="false">
                             <li><a asp-controller="Slider" asp-action="Index">Slider</a></li>
                             <li><a asp-controller="Category" asp-action="Index">Category</a></li>
-                            <li><a href="./layout-two-column.html">Two column</a></li>
+                            <li><a asp-controller="Product"  asp-action="Index">Product</a></li>
                             <li><a href="./layout-compact-nav.html">Compact Nav</a></li>
                             <li><a href="./layout-vertical.html">Vertical</a></li>
                             <li><a href="./layout-horizontal.html">Horizontal</a></li>
@@ -438,9 +438,9 @@
     <script src="~/admin/assets/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
 
-
+    
     <script src="~/admin/assets/js/dashboard/dashboard-1.js"></script>
-
+    @RenderSection("scripts", required: false)
 </body>
 
 </html>

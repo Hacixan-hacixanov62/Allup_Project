@@ -21,6 +21,7 @@ namespace Allup_Core.Entities
         [MaxSize(2 * 1024 * 1024)]
         [AllowedTypes("image/jpeg", "image/png")]
         public IFormFile ImageFile { get; set; }
+        public ICollection<Product>? Products { get; set; }
 
 
     }

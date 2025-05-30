@@ -1,0 +1,77 @@
+﻿@using Allup_Service.Dtos.ProductDtos
+
+@model ProductGetDto
+<style>
+    .card {
+        padding: 40px 0;
+        gap: 10px;
+    }
+
+    p, h2 {
+        border: 1px solid #2c2e33;
+        padding: 10px;
+        width: 90%;
+        font-size: 18px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .row2, .row3 {
+        margin: auto;
+        border: 1px solid #2c2e33;
+        width: 90%;
+        gap: 20px;
+        margin-bottom: 10px;
+    }
+
+    .row3 {
+        border: none;
+    }
+</style>
+
+
+<div class="main-panel" style="padding:0px; height:100vh;overflow:scroll">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Product Detail</h3>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="d-flex justify-content-center align-items-center flex-column">
+                        <h2>Product Name: @Model.Name</h2>
+                        <p>StockCount: @Model.StockCount</p>
+                        <p>Description: @Model.Desc</p>
+                        <p>ProductCode: @Model.ProductCode</p>
+                        <p>Price: @Model.CostPrice</p>
+                        <p>Discount: @Model.DiscountPercent %</p>
+                        @* <p>Created Time: @Model.CreatedAt</p>
+                        <p>Created By: @Model.CreatedBy</p>
+                        <p>Updated Time: @Model.UpdatedAt</p>
+                        <p>Updated At: @Model.UpdatedBy</p>
+ *@
+
+                    </div>
+                    <div class="row2" style="gap:30px;">
+
+                        <div class="col-2">
+                            <img style="width:200px; border: 2px solid red;" src="@Model.ProductImages.FirstOrDefault(x => x.IsCover)?.ImageUrl" />
+                        </div>
+                        @foreach (var item in Model.ProductImages)
+                        {
+                            <div class="col-2">
+                                <img style="width:200px;" src="@item.ImageUrl " />
+                            </div>
+                        }
+                    </div>
+
+                    <div class="row3"> <a class="btn btn-secondary" asp-action="Index">Cancel</a></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -53,7 +53,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             {
                 Title = slider.Title,
                 Desc = slider.Desc,
-                ImageUrl = slider.Image // Əgər şəklin önizləməsini göstərmək istəyirsənsə
+                ImageUrl = slider.Image 
             };
 
             return View(sliderUpdateDto);

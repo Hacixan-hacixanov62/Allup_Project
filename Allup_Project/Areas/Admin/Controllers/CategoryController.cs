@@ -1,8 +1,12 @@
-﻿using Allup_Service.Dtos.CategoryDtos;
+﻿using Allup_Core.Entities;
+using Allup_DataAccess.DAL;
+using Allup_DataAccess.Helpers;
+using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Dtos.SliderDtos;
 using Allup_Service.Service;
 using Allup_Service.Service.IService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Allup_Project.Areas.Admin.Controllers
 {
@@ -10,16 +14,19 @@ namespace Allup_Project.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly AppDbContext _context;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, AppDbContext context)
         {
             _categoryService = categoryService;
+            _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int take = 2)
         {
-            var categories = await _categoryService.GetAllAsync();
-            return View(categories);
+            var categories = _context.Categories.Include(c => c.Products).OrderByDescending(m => m.CreatedAt).AsQueryable();
+            PaginatedList<Category> paginatedList = PaginatedList<Category>.Create(categories, take, page);
+            return View(paginatedList);
         }
 
         public IActionResult Create()
