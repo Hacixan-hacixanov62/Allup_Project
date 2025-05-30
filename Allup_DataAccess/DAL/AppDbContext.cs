@@ -17,6 +17,7 @@ namespace Allup_DataAccess.DAL
         
 
         public DbSet<Slider> Sliders { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
 
 

@@ -1,5 +1,8 @@
-﻿using Allup_DataAccess.Repositories;
+﻿using Allup_DataAccess.DAL;
+using Allup_DataAccess.Repositories;
 using Allup_DataAccess.Repositories.IRepositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,13 +15,19 @@ namespace Allup_DataAccess
 {
     public static class DataAccessLayer_Registration
     {
-        public static void AddBussniessRepository(this IServiceCollection service)
+
+        public static IServiceCollection AddDataAccessServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
 
 
-            AddRepository(service);
+            services.AddMemoryCache();
+
+            AddRepository(services);
+
+
+            return services;
         }
-
 
 
 

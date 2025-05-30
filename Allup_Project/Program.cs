@@ -1,5 +1,8 @@
 using Allup_DataAccess.DAL;
+using Allup_Service;
+using Allup_Service.Profiles;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Allup_Project
 {
@@ -11,7 +14,7 @@ namespace Allup_Project
             var config = builder.Configuration;
 
             builder.Services.AddBusinessServices();
-            builder.Services.AddBussniessRepository();
+          //  builder.Services.AddBussniessRepository(builder.Configuration);
 
 
             // Add services to the container.
@@ -19,14 +22,30 @@ namespace Allup_Project
             builder.Services.AddDbContext<AppDbContext>(options =>
                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-           
+            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            builder.Services.AddAutoMapper(opt =>
+            {
+                opt.AddProfile(new MapperProfiles()); // bu usul bize eger bos constructor yoxdursa onda lazim olacaq
+            });
 
 
-
-
-
-
-
+            //builder.Services.ConfigureApplicationCookie(opt =>
+            //{
+            //    opt.Events.OnRedirectToLogin = opt.Events.OnRedirectToAccessDenied = context =>
+            //    {
+            //        var uri = new Uri(context.RedirectUri);
+            //        if (context.Request.Path.Value.ToLower().StartsWith("/admin"))
+            //        {
+            //            context.Response.Redirect("/admin/account/login" + uri.Query);
+            //        }
+            //        else
+            //        {
+            //            context.Response.Redirect("/account/login" + uri.Query);
+            //        }
+            //        return Task.CompletedTask;
+            //    };
+            //});
 
 
             var app = builder.Build();
@@ -45,6 +64,11 @@ namespace Allup_Project
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.MapControllerRoute(
+               name: "areas",
+               pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+
 
             app.MapControllerRoute(
                 name: "default",

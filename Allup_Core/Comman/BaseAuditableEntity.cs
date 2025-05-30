@@ -16,5 +16,6 @@ namespace Allup_Core.Comman
         [Required]
         public string UpdatedBy { get; set; } = null!;
         public bool IsDeleted { get; set; } = false;
+        public bool IsActivated { get; set; }
     }
 }

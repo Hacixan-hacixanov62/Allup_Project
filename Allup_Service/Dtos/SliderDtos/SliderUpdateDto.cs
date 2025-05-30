@@ -13,9 +13,10 @@ namespace Allup_Service.Dtos.SliderDtos
     {
         public string Title { get; set; } = null!;
         public string Desc { get; set; } = null!;
+        public string ImageUrl { get; set; }
         [NotMapped]
         [MaxSizeAttribute(2 * 1024 * 1024)]
         [AllowedTypes("image/jpeg", "image/png")]
-        public IFormFile Photo { get; set; } = null!;
+        public IFormFile NewImage { get; set; } = null!;
     }
 }
