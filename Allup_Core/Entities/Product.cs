@@ -47,7 +47,14 @@ namespace Allup_Core.Entities
         public List<int>? ProductImageIds { get; set; }
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
-        //public int BrandId { get; set; }
-        //public Brand? Brand { get; set; }
+
+        public int BrandId { get; set; }
+        public Brand? Brands { get; set; }
+
+        // Many to Many 
+        public List<TagProduct> TagProducts { get; set; }
+        public List<SizeProduct> SizeProducts { get; set; }
+        public List<ColorProduct> ColorProducts { get; set; }
+
     }
 }

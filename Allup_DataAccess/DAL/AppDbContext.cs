@@ -21,7 +21,16 @@ namespace Allup_DataAccess.DAL
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Banner> Banners { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Size> Sizes { get; set; }
+        public DbSet<Color> Colors { get; set; }
 
+
+        // Many to Many
+        public DbSet<TagProduct> TagProducts { get; set; }
+        public DbSet<SizeProduct> SizeProducts { get; set; }
+        public DbSet<ColorProduct> ColorProducts { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

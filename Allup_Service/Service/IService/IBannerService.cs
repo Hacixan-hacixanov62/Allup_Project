@@ -13,7 +13,7 @@ namespace Allup_Service.Service.IService
     {
         Task CreateAsync(BannerCreateDto bannerCreateDto);
         Task DeleteAsync(int id);
-        Task<Banner> DetailAsync(int id);
+        Task<BannerGetDto> DetailAsync(int id);
         Task<List<Banner>> GetAllAsync();
         Task EditAsync(int id, BannerUpdateDto bannerUpdateDto);
 

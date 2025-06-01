@@ -1,5 +1,6 @@
 ﻿using Allup_Core.Entities;
 using Allup_Service.Dtos.BannerDtos;
+using Allup_Service.Dtos.BrandDtos;
 using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Dtos.SliderDtos;
@@ -38,6 +39,10 @@ namespace Allup_Service.Profiles
             CreateMap<Banner, BannerUpdateDto>().ReverseMap();
             CreateMap<Banner, BannerGetDto>().ReverseMap();
 
+            //Brand Profiles
+            CreateMap<Brand, BrandCreateDto>().ReverseMap();
+            CreateMap<Brand, BrandUpdateDto>().ReverseMap();
+            CreateMap<Brand, BrandDetailDto>().ReverseMap();
 
         }
     }

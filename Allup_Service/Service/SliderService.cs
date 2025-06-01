@@ -28,7 +28,7 @@ namespace Allup_Service.Service
         public async Task CreateAsync(SliderCreateDto sliderCreateDto)
         {
             if (sliderCreateDto.NewImage == null)
-                throw new ArgumentNullException("ImageFile", "This area is required!");
+                throw new ArgumentNullException("NewImage", "This area is required!");
 
             string folderPath = Path.Combine(_env.WebRootPath, "Uploads/Sliders");
 
