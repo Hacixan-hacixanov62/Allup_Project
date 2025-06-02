@@ -11,6 +11,7 @@
     <Folder Include="Models\" />
     <Folder Include="wwwroot\Uploads\Categories\" />
     <Folder Include="wwwroot\Uploads\Banners\" />
+    <Folder Include="wwwroot\Uploads\FeaturesBanners\" />
     <Folder Include="wwwroot\Uploads\Sliders\" />
   </ItemGroup>
 

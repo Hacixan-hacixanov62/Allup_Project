@@ -5316,6 +5316,7 @@ wwwroot\Uploads\Categories\6480582e-982b-442b-be0c-5df4c32dbbc7category-11.jpg
 wwwroot\Uploads\Categories\6b776379-bf91-4889-926c-837cb489fccacategory-1.jpg
 wwwroot\Uploads\Categories\a61c82e1-6ada-4f39-8384-3ecb03338bb9category-10.jpg
 wwwroot\Uploads\Categories\f02f507f-8e9b-46d6-a990-c10a4f7e0290category-12.jpg
+wwwroot\Uploads\FeaturesBanners\ef468234-808a-46c7-807a-f92c032d4997banner-9.jpg
 wwwroot\Uploads\Sliders\6fd014bb-dc1b-4fb1-ae4c-4c36ea846fb1slider-2.jpg
 wwwroot\Uploads\Sliders\946ef549-3020-4780-b692-b69beef4bed1slider-7.jpg
 wwwroot\Uploads\Sliders\999ea591-cfd5-4516-93ec-e010ec131363slider-2.jpg

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Allup_Core.Entities
 {
-    public class Tag:BaseEntity
+    public class Tag:BaseAuditableEntity
     {
         [Required]
         [MaxLength(100)]

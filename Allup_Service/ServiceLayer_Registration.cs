@@ -50,6 +50,19 @@ namespace Allup_Service
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IBrandRepository, BrandRepository>();
 
+            services.AddScoped<IFeaturesBannerService, FeaturesBannerService>();
+            services.AddScoped<IFeaturesBannerRepository, FeaturesBannerRepository>();
+
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<ITagRepository, TagRepository>();
+
+            services.AddScoped<ISizeService, SizeService>();
+            services.AddScoped<ISizeRepository, SizeRepository>();
+
+            services.AddScoped<IColorService, ColorService>();             
+            services.AddScoped<IColorRepository, ColorRepository>();
+
+
 
         }
     }
