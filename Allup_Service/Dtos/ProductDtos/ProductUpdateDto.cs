@@ -45,7 +45,16 @@ namespace Allup_Service.Dtos.ProductDtos
         public List<int> ImageIds { get; set; } = new();
         public List<ProductImage>? ProductImages { get; set; }
         public List<int>? ProductImageIds { get; set; }
+
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
+
+        public int BrandId { get; set; }
+        public Brand? Brands { get; set; }
+
+        // Many to Many 
+        public List<int> SizeIds { get; set; } = new();
+        public List<int> ColorIds { get; set; } = new();
+        public List<int> TagIds { get; set; } = new();
     }
 }

@@ -74,6 +74,7 @@ namespace Allup_Service.Service
             brand.CreatedBy = "admin";
 
             _tagRepository.Update(brand);
+            await _tagRepository.SaveChangesAsync();
         }
 
         public async Task<List<Tag>> GetAllAsync()

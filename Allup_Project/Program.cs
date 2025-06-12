@@ -1,6 +1,8 @@
+using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
 using Allup_Service;
 using Allup_Service.Profiles;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -21,6 +23,27 @@ namespace Allup_Project
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<AppDbContext>(options =>
                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+            builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
+            {
+                opt.Password.RequireDigit = true;
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequireUppercase = true;
+                opt.Password.RequireNonAlphanumeric = true;
+                opt.Password.RequiredLength = 6;
+                opt.User.RequireUniqueEmail = true;
+
+                // opt.SignIn.RequireConfirmedEmail = true;
+
+                opt.Lockout.MaxFailedAccessAttempts = 3; // cehd sohbeti Remmember !!!
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                opt.Lockout.AllowedForNewUsers = true;
+
+
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -63,7 +86,8 @@ namespace Allup_Project
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication(); // bu yeri yazmasaq Identity-nin login ve registeri islemeyecek , User sistemnen baglidir
+            app.UseAuthorization(); // bu ise rol ve permissionler ucundur
 
             app.MapControllerRoute(
                name: "areas",

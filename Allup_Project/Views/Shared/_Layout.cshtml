@@ -83,7 +83,18 @@
                                         <ul class="dropdown-menu" aria-labelledby="setting">
                                             <li><a href="my-account.html">My account</a></li>
                                             <li><a href="checkout.html">Checkout</a></li>
-                                            <li><a href="login.html">Sign in</a></li>
+                                             @if (User.Identity.IsAuthenticated && User.IsInRole("Member"))
+                                {
+                        <a href="@Url.Action("Logout","Account")" class="btn-login">LogOut</a>
+
+                        <a href="@Url.Action("Profile","Account")" class="font-weight-bold">@User.Identity.Name</a>
+
+                                }
+                                else
+                                {
+                        <a href="@Url.Action("Login","Account")" class="btn-login" data-language="header.login"></a>
+                        <a href="@Url.Action("Register","Account")" class="btn-register" data-language="header.register"></a>
+                                }
                                         </ul>
                                     </div>
                                 </li>

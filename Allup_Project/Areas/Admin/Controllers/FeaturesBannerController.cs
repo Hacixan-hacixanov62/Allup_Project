@@ -2,12 +2,15 @@
 using Allup_Service.Dtos.FeaturesBannerDtos;
 using Allup_Service.Service;
 using Allup_Service.Service.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Allup_Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,Superadmin")]
+
     public class FeaturesBannerController : Controller
     {
         private readonly IFeaturesBannerService _featuresBannerService;

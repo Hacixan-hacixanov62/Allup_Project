@@ -33,38 +33,82 @@ namespace Allup_Service.Service
             _cloudinaryService = cloudinaryService;
             _context = context;
         }
-
         public async Task CreateAsync(ProductCreateDto productCreateDto)
-        {      
-            Product product = _mapper.Map<Product>(productCreateDto);
-            product.ProductImages = [];
+        {
+            var product = _mapper.Map<Product>(productCreateDto);
+            product.ProductImages = new List<ProductImage>();
 
+            // --- Main image ---
             var mainFileName = await _cloudinaryService.FileCreateAsync(productCreateDto.MainFile);
-            var mainProductImageCreate =CreateProductImage(mainFileName,true,product);
-            product.ProductImages.Add(mainProductImageCreate);
+            var mainImage = CreateProductImage(mainFileName, true, product);
+            product.ProductImages.Add(mainImage);
 
-            foreach (var additionalFile in productCreateDto.AdditionalFiles)
+            // --- Additional images ---
+            if (productCreateDto.AdditionalFiles is not null)
             {
-                var additionalFileName = await _cloudinaryService.FileCreateAsync(additionalFile);
-                var additionalProductImageCreate = CreateProductImage(additionalFileName, false, product);
-                product.ProductImages.Add(additionalProductImageCreate);
+                foreach (var file in productCreateDto.AdditionalFiles)
+                {
+                    var fileName = await _cloudinaryService.FileCreateAsync(file);
+                    var additionalImage = CreateProductImage(fileName, false, product);
+                    product.ProductImages.Add(additionalImage);
+                }
             }
 
+            // --- SizeProducts ---
+            product.SizeProducts = new List<SizeProduct>();
+            if (productCreateDto.SizeIds is not null)
+            {
+                foreach (var sizeId in productCreateDto.SizeIds.Distinct())
+                {
+                    product.SizeProducts.Add(new SizeProduct
+                    {
+                        SizeId = sizeId
+                    });
+                }
+            }
+
+            // --- ColorProducts ---
+            product.ColorProducts = new List<ColorProduct>();
+            if (productCreateDto.ColorIds is not null)
+            {
+                foreach (var colorId in productCreateDto.ColorIds.Distinct())
+                {
+                    product.ColorProducts.Add(new ColorProduct
+                    {
+                        ColorId = colorId
+                    });
+                }
+            }
+
+            // --- TagProducts ---
+            product.TagProducts = new List<TagProduct>();
+            if (productCreateDto.TagIds is not null)
+            {
+                foreach (var tagId in productCreateDto.TagIds.Distinct())
+                {
+                    product.TagProducts.Add(new TagProduct
+                    {
+                        TagId = tagId
+                    });
+                }
+            }
+
+            // --- Metadata ---
             product.CreatedAt = DateTime.UtcNow;
-            product.CreatedBy = "admin";                  // Bunlari AuthController yazanda silerseN !!!!!
+            product.CreatedBy = "admin"; // TODO: Replace with real user
             product.UpdatedAt = DateTime.UtcNow;
             product.UpdatedBy = "admin";
 
-
+            // --- Save to DB ---
             await _productRepository.CreateAsync(product);
             await _productRepository.SaveChangesAsync();
         }
 
-        private ProductImage CreateProductImage(string ImageUrl, bool isCover, Product product)
+        private ProductImage CreateProductImage(string imageUrl, bool isCover, Product product)
         {
             return new ProductImage
             {
-                ImageUrl = ImageUrl,
+                ImageUrl = imageUrl,
                 IsCover = isCover,
                 Product = product
             };
@@ -107,6 +151,7 @@ namespace Allup_Service.Service
 
             var existproduct = _productRepository.GetAll()
                          .Include(m=>m.Category)
+                         .Include(m=>m.Brands)
                          .Include(m=>m.ProductImages)
                          .FirstOrDefault(p => p.Id == id);
 
@@ -115,11 +160,15 @@ namespace Allup_Service.Service
                 throw new Exception("Product not found");
             }
 
-            if (productUpdateDto.CategoryId != existproduct.CategoryId)
+            if (productUpdateDto.CategoryId != existproduct.CategoryId || productUpdateDto.BrandId != existproduct.BrandId)
             {
                 if (!_context.Categories.Any(g => g.Id == productUpdateDto.CategoryId))
                 {
                     throw new Exception("Category not found");
+                }
+                if (!_context.Brands.Any(g => g.Id == productUpdateDto.BrandId))
+                {
+                    throw new Exception("Brand not found");
                 }
             }
 
@@ -172,6 +221,39 @@ namespace Allup_Service.Service
                 ProductImage image = new ProductImage() { IsCover = true, Product = existproduct, ImageUrl = filename };
                 existproduct.ProductImages.Add(image);
 
+            }
+
+            // Clear and update SizeProducts
+            existproduct.SizeProducts.Clear();
+            foreach (var sizeId in productUpdateDto.SizeIds.Distinct())
+            {
+                existproduct.SizeProducts.Add(new SizeProduct
+                {
+                    SizeId = sizeId,
+                    ProductId = existproduct.Id
+                });
+            }
+
+            // Clear and update ColorProducts
+            existproduct.ColorProducts.Clear();
+            foreach (var colorId in productUpdateDto.ColorIds.Distinct())
+            {
+                existproduct.ColorProducts.Add(new ColorProduct
+                {
+                    ColorId = colorId,
+                    ProductId = existproduct.Id
+                });
+            }
+
+            // Clear and update TagProducts
+            existproduct.TagProducts.Clear();
+            foreach (var tagId in productUpdateDto.TagIds.Distinct())
+            {
+                existproduct.TagProducts.Add(new TagProduct
+                {
+                    TagId = tagId,
+                    ProductId = existproduct.Id
+                });
             }
 
 

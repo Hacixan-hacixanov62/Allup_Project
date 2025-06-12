@@ -5,12 +5,15 @@ using Allup_Service.Dtos.BrandDtos;
 using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Service;
 using Allup_Service.Service.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Allup_Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,Superadmin")]
+
     public class BrandController : Controller
     {
         private readonly IBrandService _brandService;

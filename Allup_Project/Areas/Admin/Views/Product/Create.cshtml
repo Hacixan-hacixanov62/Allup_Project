@@ -1,15 +1,12 @@
 ﻿@using Allup_Core.Entities
 @using Allup_Service.Dtos.ProductDtos
 @model ProductCreateDto
-@{
-    ViewData["Title"] = "Create Product";
-}
 
 <br />
 <br />
 <div class="container">
     <div class="row mx-auto ">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post"  asp-action="Create" enctype="multipart/form-data">
             <div class="mb-3">
                 <label asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" aria-describedby="emailHelp">
@@ -53,6 +50,13 @@
                 <span asp-validation-for="IsFeatured" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Brand</label>
+                <select asp-for="BrandId" asp-items="@(new SelectList(ViewBag.Brands, nameof(Brand.Id), nameof(Brand.Name)))" class="form-control">
+                    <option disabled selected>Select Brand</option>
+                </select>
+                <span asp-validation-for="BrandId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="MainFile" for="exampleInputUsername1"></label>
                 <input class="form-control" id="exampleInputName" asp-for="MainFile" placeholder="Enter Main File">
                 <span asp-validation-for="MainFile" class="text-danger"></span>
@@ -69,20 +73,40 @@
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Tag</label>
+                <select asp-for="TagIds" asp-items="@(new SelectList(ViewBag.Tags, nameof(Tag.Id), nameof(Tag.Name)))" class="form-control">
+                    <option disabled selected>Select Tag</option>
+                </select>
+                <span asp-validation-for="TagIds" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Size</label>
+                <select asp-for="SizeIds" asp-items="@(new SelectList(ViewBag.Sizes, nameof(Size.Id), nameof(Size.Name)))" class="form-control">
+                    <option disabled selected>Select Size</option>
+                </select>
+                <span asp-validation-for="SizeIds" class="text-danger"></span>
+            </div> <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Color</label>
+                <select asp-for="ColorIds" asp-items="@(new SelectList(ViewBag.Colors, nameof(Color.Id), nameof(Color.Name)))" class="form-control">
+                    <option disabled selected>Select Color</option>
+                </select>
+                <span asp-validation-for="ColorIds" class="text-danger"></span>
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger">  </div>
             <button type="submit" class="btn btn-primary">Submit</button>
             <a class="btn btn-light" asp-action="Index">Cancel</a>
         </form>
     </div>
 </div>
-@* @section scripts {
-    @await Html.PartialAsync("_ValidationPartial")
+@section scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 
 }
 
 
 
- *@
+
 
 
 

@@ -1,4 +1,5 @@
 ﻿using Allup_Core.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Allup_DataAccess.DAL
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext: IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -26,6 +27,8 @@ namespace Allup_DataAccess.DAL
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<FeaturesBanner> FeaturesBanners { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
+
 
 
         // Many to Many

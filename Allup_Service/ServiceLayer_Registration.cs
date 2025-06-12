@@ -3,7 +3,11 @@ using Allup_DataAccess.Repositories.IRepositories;
 using Allup_Service.Profiles;
 using Allup_Service.Service;
 using Allup_Service.Service.IService;
+using Allup_Service.Validators.AppUserValidators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -26,11 +30,21 @@ namespace Allup_Service
                 opt.AddProfile(new MapperProfiles()); // bu usul bize eger bos constructor yoxdursa onda lazim olacaq
             });
 
+            services.AddHttpClient();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddHttpContextAccessor();
+
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining(typeof(LoginDtoValidators));
+
 
         } 
 
         private static void AddServices(IServiceCollection services)
         {
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IEmailService, EmailService>();
+
             services.AddScoped<ISliderService, SliderService>();
             services.AddScoped<ISliderRepository, SliderRepository>();
 

@@ -41,7 +41,19 @@ namespace Allup_Service.Dtos.ProductDtos
         public List<IFormFile> AdditionalFiles { get; set; } = new();
         public List<ProductImage>? ProductImages { get; set; }
         public List<int>? ProductImageIds { get; set; }
+
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
+
+        public int BrandId { get; set; }
+        public Brand? Brands { get; set; }
+
+        // Many to Many 
+        public List<TagProduct> TagProducts { get; set; }
+        public List<SizeProduct> SizeProducts { get; set; }
+        public List<ColorProduct> ColorProducts { get; set; }
+        public List<int> SizeIds { get; set; } = new();
+        public List<int> ColorIds { get; set; } = new();
+        public List<int> TagIds { get; set; } = new();
     }
 }

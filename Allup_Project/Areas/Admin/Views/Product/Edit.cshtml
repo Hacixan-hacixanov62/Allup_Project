@@ -50,7 +50,13 @@
                 <input asp-for="IsFeatured" class="form-Check" aria-describedby="emailHelp">
                 <span asp-validation-for="IsFeatured" class="text-danger"></span>
             </div>
-
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Brand</label>
+                <select asp-for="BrandId" asp-items="@(new SelectList(ViewBag.Brands, nameof(Brand.Id), nameof(Brand.Name)))" class="form-control">
+                    <option disabled selected>Select Brand</option>
+                </select>
+                <span asp-validation-for="BrandId" class="text-danger"></span>
+            </div>
 
             <img style="width: 100px; height: 100px;" class="primary-img"
                  src="@Model.MainFileUrl"
@@ -92,6 +98,26 @@
                     <option disabled selected>Select Category</option>
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Tag</label>
+                <select asp-for="TagIds" asp-items="@(new SelectList(ViewBag.Tags, nameof(Tag.Id), nameof(Tag.Name)))" class="form-control">
+                    <option disabled selected>Select Tag</option>
+                </select>
+                <span asp-validation-for="TagIds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Size</label>
+                <select asp-for="SizeIds" asp-items="@(new SelectList(ViewBag.Sizes, nameof(Size.Id), nameof(Size.Name)))" class="form-control">
+                    <option disabled selected>Select Size</option>
+                </select>
+                <span asp-validation-for="SizeIds" class="text-danger"></span>
+            </div> <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Color</label>
+                <select asp-for="ColorIds" asp-items="@(new SelectList(ViewBag.Colors, nameof(Color.Id), nameof(Color.Name)))" class="form-control">
+                    <option disabled selected>Select Color</option>
+                </select>
+                <span asp-validation-for="ColorIds" class="text-danger"></span>
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger">  </div>
             <button type="submit" class="btn btn-primary">Submit</button>

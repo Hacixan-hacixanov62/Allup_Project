@@ -4,6 +4,7 @@ using Allup_DataAccess.Helpers;
 using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Service.IService;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ using System.Threading.Tasks;
 namespace Allup_Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
+
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -25,21 +28,37 @@ namespace Allup_Project.Areas.Admin.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index(int page =1,int take =6)
+        public async Task<IActionResult> Index(int page =1,int take =6)
         {
-            var products = _context.Products
-                .Include(m=>m.Category)
-                .Include(m=>m.ProductImages)
-                .AsQueryable();
+            //var products = _context.Products
+            //    .Include(m=>m.Category)
+            //    .Include(m=>m.ProductImages)
+            //    .Include(m=>m.Brands)
+            //    .Include(m=>m.SizeProducts)
+            //    .ThenInclude(m=>m.Size)
+            //    .Include(m=>m.ColorProducts)
+            //    .ThenInclude(m=>m.Color)
+            //    .Include(m=>m.TagProducts)
+            //    .ThenInclude(m=>m.Tag)
+            //    .OrderByDescending(m => m.CreatedAt)                                        
+            //    .AsQueryable();
             
-            PaginatedList<Product> paginatedList = PaginatedList<Product>.Create(products, page,take);
-
-            return View(paginatedList);
+            //PaginatedList<Product> paginatedList = PaginatedList<Product>.Create(products, page,take);
+            var product = await _productService.GetAllAsync();
+            return View(product);
         }
 
-        public async Task<IActionResult> Create()
+        private async Task PopulateViewBags()
         {
             ViewBag.Categories = await _context.Categories.ToListAsync();
+            ViewBag.Brands = await _context.Brands.ToListAsync();
+            ViewBag.Sizes = await _context.Sizes.ToListAsync();
+            ViewBag.Colors = await _context.Colors.ToListAsync();
+            ViewBag.Tags = await _context.Tags.ToListAsync();
+        }
+        public async Task<IActionResult> Create()
+        {
+            await PopulateViewBags();
             return View();
         }
 
@@ -47,16 +66,42 @@ namespace Allup_Project.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductCreateDto productCreateDto)
         {
-            ViewBag.Categories = await _context.Categories.ToListAsync();
+            await PopulateViewBags();
+
             if (!ModelState.IsValid)
-            {
                 return View(productCreateDto);
-            }
 
             var isExistCategory = await _context.Categories.AnyAsync(x => x.Id == productCreateDto.CategoryId);
+            var isExistBrand = await _context.Brands.AnyAsync(x => x.Id == productCreateDto.BrandId);
+
             if (!isExistCategory)
             {
                 ModelState.AddModelError("CategoryId", "Category not found");
+                return View(productCreateDto);
+            }
+
+            if (!isExistBrand)
+            {
+                ModelState.AddModelError("BrandId", "Brand not found");
+                return View(productCreateDto);
+            }
+
+            var products = await _context.Products
+                .Include(p => p.SizeProducts)
+                .Include(p => p.ColorProducts)
+                .Include(p => p.TagProducts)
+                .ToListAsync();
+
+            var existingProduct = products.FirstOrDefault(p =>
+                p.Name == productCreateDto.Name
+                && p.SizeProducts.Select(sp => sp.SizeId).OrderBy(id => id).SequenceEqual((productCreateDto.SizeIds ?? new List<int>()).OrderBy(id => id))
+                && p.ColorProducts.Select(cp => cp.ColorId).OrderBy(id => id).SequenceEqual((productCreateDto.ColorIds ?? new List<int>()).OrderBy(id => id))
+                && p.TagProducts.Select(tp => tp.TagId).OrderBy(id => id).SequenceEqual((productCreateDto.TagIds ?? new List<int>()).OrderBy(id => id))
+            );
+
+            if (existingProduct != null)
+            {
+                ModelState.AddModelError("", "This product with selected sizes, colors and tags already exists");
                 return View(productCreateDto);
             }
 
@@ -71,10 +116,10 @@ namespace Allup_Project.Areas.Admin.Controllers
         }
 
 
+
         public async Task<IActionResult> Edit(int id) 
         {
             if (id < 1) return NotFound();
-            ViewBag.Categories = await _context.Categories.ToListAsync();
 
             var product = await _productService.DetailAsync(id);
 
@@ -83,11 +128,20 @@ namespace Allup_Project.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            await PopulateViewBags();
+
+
             ProductUpdateDto dto = _mapper.Map<ProductUpdateDto>(product);
 
             dto.ImagePaths = product.ProductImages.Where(x => !x.IsCover).Select(x => x.ImageUrl).ToList();
             dto.ImageIds = product.ProductImages.Where(x => !x.IsCover).Select(x => x.Id).ToList();
             dto.MainFileUrl = product.ProductImages.FirstOrDefault(x => x.IsCover)?.ImageUrl ?? "null";
+
+            // Many-to-Many üçün ID-ləri map et
+            dto.SizeIds = product.SizeProducts.Select(sp => sp.SizeId).ToList();
+            dto.ColorIds = product.ColorProducts.Select(cp => cp.ColorId).ToList();
+            dto.TagIds = product.TagProducts.Select(tp => tp.TagId).ToList();
+
             return View(dto);
         }
 
@@ -95,54 +149,44 @@ namespace Allup_Project.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ProductUpdateDto productUpdateDto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                await PopulateViewBags();
                 return View(productUpdateDto);
             }
 
-            var category = _context.Categories.FirstOrDefault(x => x.Id == productUpdateDto.CategoryId);
-            if (category == null)
+            var categoryExists = await _context.Categories.AnyAsync(x => x.Id == productUpdateDto.CategoryId);
+            if (!categoryExists)
             {
+                ModelState.AddModelError("CategoryId", "Category is not found");
+                await PopulateViewBags();
                 return View(productUpdateDto);
             }
-            ViewBag.Categories = await _context.Categories.ToListAsync();
+
+            var nameExists = await _context.Products.AnyAsync(x => x.Name == productUpdateDto.Name && x.Id != id);
+            if (nameExists)
+            {
+                ModelState.AddModelError("Name", "Product already exists");
+                await PopulateViewBags();
+                return View(productUpdateDto);
+            }
+
+            // Null yoxlaması many-to-many üçün
+            productUpdateDto.SizeIds ??= new();
+            productUpdateDto.ColorIds ??= new();
+            productUpdateDto.TagIds ??= new();
 
             try
             {
-
-                var existProduct = await _context.Products.Include(x => x.ProductImages).FirstOrDefaultAsync(x => x.Id == id);
-
-                if (existProduct is null)
-                {
-                    return NotFound();
-                }
-
-                var isExist = await _context.Products.AnyAsync(x => x.Name == productUpdateDto.Name && x.Id != id);
-                if (isExist)
-                {
-                    ModelState.AddModelError("Name", "Product already exists");
-                    return View(productUpdateDto);
-                }
-
-                var isExistCategory = await _context.Categories.AnyAsync(x => x.Id == productUpdateDto.CategoryId);
-                if (!isExistCategory)
-                {
-                    ModelState.AddModelError("CategoryId", "Category is not found");
-                    return View(productUpdateDto);
-                }
-              
-
                 await _productService.EditAsync(id, productUpdateDto);
                 return RedirectToAction("Index");
-
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
+                await PopulateViewBags();
                 return View(productUpdateDto);
             }
-
-
         }
 
         public IActionResult DeleteProductImage(int? id)

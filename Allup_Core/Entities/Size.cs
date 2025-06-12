@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace Allup_Core.Entities
 {
-    public class Size:BaseEntity
+    public class Size:BaseAuditableEntity
     {
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }= null!;
+        public List<Product> Products { get; set; }
+
     }
 }

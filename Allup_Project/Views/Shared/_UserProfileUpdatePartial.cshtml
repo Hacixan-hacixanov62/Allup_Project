@@ -1,0 +1,68 @@
+﻿@using Allup_Project.ViewModels.AuthVm
+@model UserProfileUpdateVM
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="single-form">
+                <label asp-for="FullName" class="required">FullName</label>
+                <input asp-for="FullName" />
+                <span class="text-danger" asp-validation-for="FullName"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="single-form">
+                <label asp-for="UserName" class="required">Username</label>
+                <input asp-for="UserName" />
+                <span class="text-danger" asp-validation-for="UserName"></span>
+            </div>
+        </div>
+        @* <div class="col-md-12">
+            <div class="single-form">
+                <input type="text" placeholder="Display Name">
+            </div>
+        </div> *@
+        <div class="col-md-12">
+            <div class="single-form">
+                <label asp-for="Email" class="required">Email</label>
+                <input asp-for="Email" />
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="single-form">
+                <h5 class="title">Password change</h5>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="single-form">
+                <label asp-for="CurrentPassword" class="required">CurrentPassword</label>
+                <input asp-for="CurrentPassword" />
+                <span class="text-danger" asp-validation-for="CurrentPassword"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="single-form">
+                <label asp-for="NewPassword" class="required">NewPassword</label>
+                <input asp-for="NewPassword" />
+                <span class="text-danger" asp-validation-for="NewPassword"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="single-form">
+                <label asp-for="ConfirmPassword" class="required">ConfirmPassword</label>
+                <input asp-for="ConfirmPassword" />
+                <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="single-form">
+                <button type="submit" class="main-btn main-btn-2">Save Change</button>
+            </div>
+        </div>
+    </div>
+        <div class="text-danger" asp-validation-summary="ModelOnly">
+        </div>
+
+</form>
+

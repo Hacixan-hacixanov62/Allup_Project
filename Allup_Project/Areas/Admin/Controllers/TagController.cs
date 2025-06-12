@@ -5,17 +5,20 @@ using Allup_Service.Dtos.BrandDtos;
 using Allup_Service.Dtos.TagDtos;
 using Allup_Service.Service;
 using Allup_Service.Service.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Allup_Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,Superadmin")]
+
     public class TagController : Controller
     {
         private readonly ITagService _tagService;
         private readonly AppDbContext _context;
-        public TagController(ITagService tagService, AppDbContext context = null)
+        public TagController(ITagService tagService, AppDbContext context)
         {
             _tagService = tagService;
             _context = context;

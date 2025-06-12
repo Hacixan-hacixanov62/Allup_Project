@@ -1,9 +1,12 @@
 ﻿using Allup_Core.Entities;
+using Allup_Service.Dtos.AuthDtos;
 using Allup_Service.Dtos.BannerDtos;
 using Allup_Service.Dtos.BrandDtos;
 using Allup_Service.Dtos.CategoryDtos;
+using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.FeaturesBannerDtos;
 using Allup_Service.Dtos.ProductDtos;
+using Allup_Service.Dtos.SizeDtos;
 using Allup_Service.Dtos.SliderDtos;
 using Allup_Service.Dtos.TagDtos;
 using AutoMapper;
@@ -56,7 +59,19 @@ namespace Allup_Service.Profiles
             CreateMap<Tag, TagUpdateDto>().ReverseMap();
             CreateMap<Tag, TagGetDto>().ReverseMap();
 
+            //Size Profiles
+            CreateMap<Size, SizeCreateDto>().ReverseMap();
+            CreateMap<Size, SizeUpdateDto>().ReverseMap();
+            CreateMap<Size, SizeGetDto>().ReverseMap();
 
+            //Color Profiles
+            CreateMap<Color, ColorCreateDto>().ReverseMap();
+            CreateMap<Color, ColorUpdateDto>().ReverseMap();
+            CreateMap<Color, ColorGetDto>().ReverseMap();
+
+            // AppUser Profiles
+            CreateMap<AppUser, RegisterDto>().ReverseMap();
+            CreateMap<AppUser, UserGetDto>().ReverseMap();
         }
     }
 }

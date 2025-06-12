@@ -1,6 +1,6 @@
 ﻿@using Allup_Core.Entities
 @using Allup_DataAccess.Helpers
-@model PaginatedList<Product>
+@model List<Product>
 @{
     ViewData["Title"] = "Index";
     // int count = (Model.CurrentPage - 1) * 2;
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-center">
+    @* <div class="row justify-content-center">
         <nav aria-label="...">
             <ul class="pagination">
                 <li class="page-item @(Model.HasPrevious ? "" : "disabled")">
@@ -81,7 +81,7 @@
                 </li>
             </ul>
         </nav>
-    </div>
+    </div> *@
 </div>
 
 

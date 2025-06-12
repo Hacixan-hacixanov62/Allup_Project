@@ -1,0 +1,26 @@
+﻿@using Allup_Service.Dtos.SizeDtos
+@model SizeCreateDto
+@{
+    ViewData["Title"] = "Create";
+}
+<br />
+<br />
+<div class="card">
+    <div class="card-body">
+        <form class="forms-sample" method="post" asp-action="Create" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="inputBlogTitle">Brand Name</label>
+                <input asp-for="Name" class="form-control" id="inputBlogTitle" placeholder="Title.." maxlength="100">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-lg-12" asp-validation-summary="ModelOnly"></div>
+            <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+            <a class="btn btn-light" asp-action="Index">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+}

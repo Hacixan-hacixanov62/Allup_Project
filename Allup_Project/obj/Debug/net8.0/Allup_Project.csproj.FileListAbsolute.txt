@@ -424,3 +424,8 @@ D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\refint\All
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\Allup_Project.pdb
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\Allup_Project.genruntimeconfig.cache
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\ref\Allup_Project.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
