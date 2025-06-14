@@ -1,10 +1,12 @@
 ﻿using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
 using Allup_Project.ViewModels.AuthVm;
+using Allup_Service.Service;
 using Allup_Service.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 
 namespace Allup_Project.Controllers
 {
@@ -15,13 +17,15 @@ namespace Allup_Project.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AppDbContext _context;
         private readonly IAuthService _authService;
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, AppDbContext context, IAuthService authService)
+        private readonly IEmailService _emailService;
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, AppDbContext context, IAuthService authService, IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _context = context;
             _authService = authService;
+            _emailService = emailService;
         }
 
         public IActionResult Register()
@@ -66,6 +70,17 @@ namespace Allup_Project.Controllers
             }
 
             await _userManager.AddToRoleAsync(appUser, "Member");
+            var token = await _userManager.GeneratePasswordResetTokenAsync(appUser);
+            var url = Url.Action("Login", "Account", new { email = appUser.Email, token = token }, Request.Scheme);
+
+
+            //create email
+            using StreamReader reader = new StreamReader("wwwroot/templete/emailConfirm.html");
+            var body = reader.ReadToEnd();
+            body = body.Replace("{{url}}", url);
+            body = body.Replace("{{username}}", appUser.UserName);
+            await _emailService.SendEmailAsync(new() { Body = body, Subject = "Confirm Email", ToEmail = appUser.Email });//yoxla
+            TempData["Success"] = "Email sended to" + appUser.Email;
 
             return RedirectToAction("Login");
         }
@@ -98,16 +113,20 @@ namespace Allup_Project.Controllers
             }
 
             var result = await _signInManager.PasswordSignInAsync(appUser, userLoginVm.Password, userLoginVm.RememberMe, true);
+            //if (!appUser.EmailConfirmed)
+            //{
+            //    ModelState.AddModelError("", "Invalid Email or Username ...");         ////Emaili confirm etmeden login ola bilmirsen Amma mende confimrde problem var
+            //    return View(userLoginVm);
+            //}
+            if (result.IsLockedOut)
+            {
+                ModelState.AddModelError("", "Account is lockOut ...");
+                return View(userLoginVm);
+            }
 
             if (!result.Succeeded)
             {
-
-                //if (result.IsLockedOut)
-                //{
-                //    ModelState.AddModelError("", "Account is lockOut ...");
-                //    return View(userLoginVm);
-                //}
-
+           
                 ModelState.AddModelError("", "Invalid username or email ...");
                 return View(userLoginVm);
 
@@ -118,7 +137,7 @@ namespace Allup_Project.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles ="Member")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -207,6 +226,116 @@ namespace Allup_Project.Controllers
 
 
         }
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordVm forgotPasswordVm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var user = await _userManager.FindByEmailAsync(forgotPasswordVm.Email);
+            if (user == null)//|| !await _userManager.IsInRoleAsync(user, "Member")
+            {
+                return RedirectToAction("notfound", "error");
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var url = Url.Action("ResetPassword", "Account", new { email = user.Email, token = token }, Request.Scheme);
+
+
+            //create email
+            using StreamReader reader = new StreamReader("wwwroot/templete/resetpassword.html");
+            var body = reader.ReadToEnd();
+            body = body.Replace("{{url}}", url);
+            body = body.Replace("{{username}}", user.UserName);
+            //  _emailService.SendEmail(user.Email, "ResetPassword", body);
+            await _emailService.SendEmailAsync(new() { Body = body, Subject = "ResetPassword", ToEmail = user.Email });//yoxla
+            TempData["Success"] = "Email sended to" + user.Email;
+            return View();
+
+        }
+
+        public async Task<IActionResult> VerifyEmail(string email, string token)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null || !await _userManager.IsInRoleAsync(user, "Member"))
+            {
+                return RedirectToAction("notfound", "error");
+            }
+            await _userManager.ConfirmEmailAsync(user, token);
+
+            return RedirectToAction("Login");
+        }
+
+
+        public async Task<IActionResult> VerifyPassword(string token, string email)
+        {
+            TempData["token"] = token;
+            TempData["email"] = email;
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return RedirectToAction("notfound", "error");
+            }
+            if (!(await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", token)))
+            {
+                return RedirectToAction("notfound", "error");
+            }
+
+            return RedirectToAction("ResetPassword");
+        }
+
+        public IActionResult ResetPassword(string token, string email)
+        {
+            if (token == null || email == null) return BadRequest();
+
+            var model = new ResetPasswordVM { Email = email, Token = token };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM resetPasswordVM)
+        {
+
+            TempData["token"] = resetPasswordVM.Token;
+            TempData["email"] = resetPasswordVM.Email;
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var user = await _userManager.FindByEmailAsync(resetPasswordVM.Email);
+            if (user == null || !await _userManager.IsInRoleAsync(user, "Member"))
+            {
+                return View();
+            }
+            if (!await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", resetPasswordVM.Token))
+            {
+                return RedirectToAction("notfound", "error");
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, resetPasswordVM.Token, resetPasswordVM.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View();
+            }
+
+
+            return RedirectToAction("Login");
+        }
+
 
 
     }

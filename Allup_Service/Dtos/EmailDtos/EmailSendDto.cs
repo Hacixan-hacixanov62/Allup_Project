@@ -1,6 +1,4 @@
-﻿
-
-using Allup_Service.Abstractions.Dtos;
+﻿using Allup_Service.Abstractions.Dtos;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 

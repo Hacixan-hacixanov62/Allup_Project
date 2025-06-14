@@ -1,5 +1,6 @@
 ﻿using Allup_Core.Entities;
 using Allup_Project.Areas.Admin.ViewModels.LoginVM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,10 +53,10 @@ namespace Allup_Project.Areas.Admin.Controllers
         public async Task<IActionResult> Login(AdminLoginVm adminLoginVm,string returnUrl)
         {
 
-            if (!ModelState.IsValid)
-            {
-                return View(adminLoginVm);
-            }
+            //if (!ModelState.IsValid)                // bunu gozden kecirersen
+            //{
+            //    return View(adminLoginVm);
+            //}
 
             var user = await _userManager.FindByNameAsync(adminLoginVm.UsreName);
             //if (user != null)
@@ -89,5 +90,11 @@ namespace Allup_Project.Areas.Admin.Controllers
             return Json(User.Identities);
         }
 
+        [Authorize(Roles = "Member")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("login", "account");
+        }
     }
 }

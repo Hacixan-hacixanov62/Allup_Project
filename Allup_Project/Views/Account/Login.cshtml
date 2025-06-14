@@ -29,6 +29,12 @@
                 <div class="login-register-wrapper mt-30">
                     <h4 class="allup-title">Login to Your Account</h4>
                     <form asp-action="Login" method="post">
+                        @if (TempData["Success"] != null)
+                        {
+                            <div class="alert alert-success">
+                                @TempData["Success"];
+                            </div>
+                        }
                         <div class="single-form">
                             <input asp-for="UserNameOrEmail" placeholder="Enter UserNameOrEmail" required />
                             <label asp-for="UserNameOrEmail">UserNameOrEmail</label>
@@ -52,7 +58,7 @@
                         </div>
                         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                     </form>
-                    <p class="mt-20"><a href="#">Lost your password?</a></p>
+                    <p class="mt-20"><a asp-action="ForgotPassword">Lost your password?</a></p>
                     <p class="mt-10">No account? <a asp-action="Register" >Create one here.</a></p>
                 </div>
             </div>
@@ -63,4 +69,12 @@
 <!--====== Login Part Ends ======-->
 @section scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $(document).ready(function (){
+            function removeSuccess() {
+                $(" .alert-success").remove();
+            }
+            siteTimeout(removeSuccess, 3000);
+        })
+    </script>
 }

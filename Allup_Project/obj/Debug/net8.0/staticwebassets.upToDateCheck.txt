@@ -5299,6 +5299,8 @@ wwwroot\assets\js\plugins\slick.min.js
 wwwroot\assets\js\vendor\jquery-1.12.4.min.js
 wwwroot\assets\js\vendor\modernizr-3.7.1.min.js
 wwwroot\assets\plugins\js\ajax-contact.js
+wwwroot\templete\emailConfirm.html
+wwwroot\templete\resetpassword.html
 wwwroot\Uploads\Banners\02a17247-e520-4a59-b52a-e32816e123a0banner-1.png
 wwwroot\Uploads\Banners\1bbaf349-603d-4ae6-8de1-f141fd5082eabanner-5.jpg
 wwwroot\Uploads\Banners\71b500df-bc3a-440b-a020-fc7e07d806a1banner-1.png

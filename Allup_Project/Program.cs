@@ -15,6 +15,12 @@ namespace Allup_Project
             var builder = WebApplication.CreateBuilder(args);
             var config = builder.Configuration;
 
+          //  builder.Services.AddControllersWithViews()
+          //      .AddNewtonsoftJson(options =>
+          //options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+          //);
+
+
             builder.Services.AddBusinessServices();
           //  builder.Services.AddBussniessRepository(builder.Configuration);
 
@@ -36,7 +42,7 @@ namespace Allup_Project
                 opt.Password.RequiredLength = 6;
                 opt.User.RequireUniqueEmail = true;
 
-                // opt.SignIn.RequireConfirmedEmail = true;
+                // opt.SignIn.RequireConfirmedEmail = true; // eger emaili confirm etmemisse login ola bilmez
 
                 opt.Lockout.MaxFailedAccessAttempts = 3; // cehd sohbeti Remmember !!!
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
