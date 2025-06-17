@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Allup_DataAccess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e86cfbf168493880e54f4dead40c780fb1a693e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2db7c61d88f214a7d6abc2f3dd7699f074bba49a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Allup_DataAccess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Allup_DataAccess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

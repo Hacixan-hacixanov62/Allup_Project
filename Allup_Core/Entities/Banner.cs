@@ -17,6 +17,8 @@ namespace Allup_Core.Entities
         [Required]
         [StringLength(200)]
         public string RedirectUrl { get; set; } = null!;
+        public string Title { get; set; } = null!;
+        public string Desc { get; set; } = null!;
         public string Image { get; set; }
         [NotMapped]
         [MaxSizeAttribute(2 * 1024 * 1024)]

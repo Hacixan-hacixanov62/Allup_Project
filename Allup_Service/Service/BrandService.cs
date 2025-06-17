@@ -4,10 +4,12 @@ using Allup_DataAccess.Repositories.IRepositories;
 using Allup_Service.Dtos.BrandDtos;
 using Allup_Service.Service.IService;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,21 +18,24 @@ namespace Allup_Service.Service
     public class BrandService : IBrandService
     {
         private readonly IBrandRepository _brandRepository;
-        private readonly IMapper mapper;
-        public BrandService(IBrandRepository brandRepository, IMapper mapper)
+        private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public BrandService(IBrandRepository brandRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _brandRepository = brandRepository;
-            this.mapper = mapper;
+            _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
         public async Task CreateAsync(BrandCreateDto brandCreateDto)
-        { 
-            Brand brand = mapper.Map<Brand>(brandCreateDto);
+        {
+            var usernsme = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
+            Brand brand = _mapper.Map<Brand>(brandCreateDto);
             brand.CreatedAt = DateTime.UtcNow;
-            brand.CreatedBy = "admin"; // This should be replaced with actual user info from authentication context
+            brand.CreatedBy = usernsme;
             brand.UpdatedAt = DateTime.UtcNow;
-            brand.UpdatedBy = "admin"; // This should be replaced with actual user info from authentication context
+            brand.UpdatedBy = usernsme;
 
             await _brandRepository.CreateAsync(brand);
             await _brandRepository.SaveChangesAsync();

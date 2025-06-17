@@ -5,7 +5,9 @@ using Allup_Service.Dtos.SizeDtos;
 using Allup_Service.Dtos.TagDtos;
 using Allup_Service.Service.IService;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Allup_Service.Service
 {
@@ -13,20 +15,23 @@ namespace Allup_Service.Service
     {
         private readonly ISizeRepository _sizeRepository;
         private readonly IMapper _mapper;
-        public SizeService(ISizeRepository sizeRepository, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public SizeService(ISizeRepository sizeRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _sizeRepository = sizeRepository;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
         public async Task CreateAsync(SizeCreateDto sizeCreateDto)
         {
+            var usernsme = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
             Size size = _mapper.Map<Size>(sizeCreateDto);
             size.CreatedAt = DateTime.UtcNow;
-            size.CreatedBy = "admin"; // This should be replaced with actual user info from authentication context
+            size.CreatedBy = usernsme;
             size.UpdatedAt = DateTime.UtcNow;
-            size.UpdatedBy = "admin"; // This should be replaced with actual user info from authentication context
+            size.UpdatedBy = usernsme;
             await _sizeRepository.CreateAsync(size);
             await _sizeRepository.SaveChangesAsync();
         }
@@ -61,6 +66,7 @@ namespace Allup_Service.Service
 
         public async Task EditAsync(int id, SizeUpdateDto sizeUpdateDto)
         {
+            var usernsme = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
             var size = await _sizeRepository.GetAll().FirstOrDefaultAsync(m => m.Id == id);
             if (size == null)
             {
@@ -69,9 +75,9 @@ namespace Allup_Service.Service
 
             size.Name = sizeUpdateDto.Name;
             size.UpdatedAt = DateTime.UtcNow;
-            size.UpdatedBy = "admin";           // This should be replaced with actual user info from authentication context
+            size.UpdatedBy = usernsme;
             size.CreatedAt = DateTime.UtcNow;
-            size.CreatedBy = "admin";
+            size.CreatedBy = usernsme;
 
             _sizeRepository.Update(size);
         }

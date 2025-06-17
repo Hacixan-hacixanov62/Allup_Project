@@ -66,8 +66,10 @@ namespace Allup_Project.Areas.Admin.Controllers
 
             var bannrUpdatedto = new BannerUpdateDto
             {
-               ImageUrl = banner.ImageUrl,
+               Image = banner.ImageUrl,
                RedirectUrl=banner.RedirectUrl,
+               Title = banner.Title,
+               Desc = banner.Desc,
             };
 
 

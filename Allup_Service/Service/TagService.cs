@@ -6,7 +6,9 @@ using Allup_Service.Dtos.BrandDtos;
 using Allup_Service.Dtos.TagDtos;
 using Allup_Service.Service.IService;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Allup_Service.Service
 {
@@ -14,20 +16,23 @@ namespace Allup_Service.Service
     {
         private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
-        public TagService(ITagRepository tagRepository, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public TagService(ITagRepository tagRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor = null)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
         public async Task CreateAsync(TagCreateDto tagCreateDto)
         {
-           Tag tag = _mapper.Map<Tag>(tagCreateDto);
+            var usernsme = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
+            Tag tag = _mapper.Map<Tag>(tagCreateDto);
             tag.CreatedAt = DateTime.UtcNow;
-            tag.CreatedBy = "admin"; // This should be replaced with actual user info from authentication context
+            tag.CreatedBy = usernsme;
             tag.UpdatedAt = DateTime.UtcNow;
-            tag.UpdatedBy = "admin"; // This should be replaced with actual user info from authentication context
+            tag.UpdatedBy = usernsme;
             await _tagRepository.CreateAsync(tag);
             await _tagRepository.SaveChangesAsync();
         }
@@ -61,6 +66,7 @@ namespace Allup_Service.Service
 
         public async Task EditAsync(int id, TagUpdateDto tagUpdateDto)
         {
+            var usernsme = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
             var brand = await _tagRepository.GetAll().FirstOrDefaultAsync(m => m.Id == id);
             if (brand == null)
             {
@@ -69,9 +75,9 @@ namespace Allup_Service.Service
 
             brand.Name = tagUpdateDto.Name;
             brand.UpdatedAt = DateTime.UtcNow;
-            brand.UpdatedBy = "admin";           // This should be replaced with actual user info from authentication context
+            brand.UpdatedBy =usernsme;        
             brand.CreatedAt = DateTime.UtcNow;
-            brand.CreatedBy = "admin";
+            brand.CreatedBy = usernsme;
 
             _tagRepository.Update(brand);
             await _tagRepository.SaveChangesAsync();

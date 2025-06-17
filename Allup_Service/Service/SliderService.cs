@@ -5,8 +5,6 @@ using Allup_Service.Service.IService;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using System.Globalization;
 
 
 namespace Allup_Service.Service
@@ -15,13 +13,11 @@ namespace Allup_Service.Service
     {   
         private readonly ISliderRepository _sliderRepository;
         private readonly IMapper _mapper;
-        private readonly ICloudinaryService _cloudinaryService;
         private readonly IWebHostEnvironment _env;
-        public SliderService(ISliderRepository sliderRepository, IMapper mapper, ICloudinaryService cloudinaryService, IWebHostEnvironment webHostEnvironment)
+        public SliderService(ISliderRepository sliderRepository, IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
             _sliderRepository = sliderRepository;
             _mapper = mapper;
-            _cloudinaryService = cloudinaryService;
             _env = webHostEnvironment;
         }
 
@@ -74,7 +70,7 @@ namespace Allup_Service.Service
                 throw new Exception("Slider not found");
             }
 
-            await _cloudinaryService.FileDeleteAsync(slider.Image);
+
             await _sliderRepository.Delete(slider); 
             await _sliderRepository.SaveChangesAsync();
         }

@@ -6,15 +6,12 @@ using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.FeaturesBannerDtos;
 using Allup_Service.Dtos.ProductDtos;
+using Allup_Service.Dtos.ReclamBannerDtos;
 using Allup_Service.Dtos.SizeDtos;
 using Allup_Service.Dtos.SliderDtos;
 using Allup_Service.Dtos.TagDtos;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Allup_Service.Profiles
 {
@@ -72,6 +69,11 @@ namespace Allup_Service.Profiles
             // AppUser Profiles
             CreateMap<AppUser, RegisterDto>().ReverseMap();
             CreateMap<AppUser, UserGetDto>().ReverseMap();
+
+            //ReclamBanner Profiles
+            CreateMap<ReclamBanner, ReclamBannerCreateDto>().ReverseMap();
+            CreateMap<ReclamBanner, ReclamBannerUpdateDto>().ReverseMap();
+            CreateMap<ReclamBanner, ReclamBannerDetailDto>().ReverseMap();
         }
     }
 }

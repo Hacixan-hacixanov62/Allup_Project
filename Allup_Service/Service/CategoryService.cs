@@ -6,8 +6,10 @@ using Allup_Service.Dtos.SliderDtos;
 using Allup_Service.Service.IService;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace Allup_Service.Service
 {
@@ -17,12 +19,14 @@ namespace Allup_Service.Service
         private readonly IMapper _mapper;
         private readonly ICloudinaryService _cloudinaryService;
         private readonly IWebHostEnvironment _env;
-        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, IWebHostEnvironment env, ICloudinaryService cloudinaryService)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, IWebHostEnvironment env, ICloudinaryService cloudinaryService, IHttpContextAccessor httpContextAccessor)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _env = env;
             _cloudinaryService = cloudinaryService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -56,11 +60,11 @@ namespace Allup_Service.Service
                 await categoryCreateDto.ImageFile.CopyToAsync(fileStream);
             }
 
-            Category category = _mapper.Map<Category>(categoryCreateDto);   
-
+            Category category = _mapper.Map<Category>(categoryCreateDto);
+            var usernsme = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
             category.ImageUrl = fileName;
-            category.CreatedBy = "admin";
-            category.UpdatedBy = "admin";
+            category.CreatedBy = usernsme;
+            category.UpdatedBy = usernsme;
             category.CreatedAt = DateTime.UtcNow;
             category.UpdatedAt = DateTime.UtcNow;
 
@@ -152,9 +156,12 @@ namespace Allup_Service.Service
                 category.ImageUrl = fileName;
             }
 
-           // Category updatedCategory = _mapper.Map<Category>(categoryUpdateDto);
-                category.Name = categoryUpdateDto.Name;
-                category.UpdatedAt = DateTime.UtcNow;
+            // Category updatedCategory = _mapper.Map<Category>(categoryUpdateDto);
+            var usernsme = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
+            category.Name = categoryUpdateDto.Name;
+            category.UpdatedAt = DateTime.UtcNow;
+            category.UpdatedBy = usernsme;
+            category.CreatedBy = usernsme;
 
             _categoryRepository.Update(category);
             await _categoryRepository.SaveChangesAsync();

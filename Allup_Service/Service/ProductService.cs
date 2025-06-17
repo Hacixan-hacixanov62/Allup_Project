@@ -7,11 +7,13 @@ using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Service.IService;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,14 +26,16 @@ namespace Allup_Service.Service
         private readonly IMapper _mapper;
         private readonly ICloudinaryService _cloudinaryService;
         private readonly AppDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductService(IProductRepository productRepository, IWebHostEnvironment env, IMapper mapper = null, ICloudinaryService cloudinaryService = null, AppDbContext context = null)
+        public ProductService(IProductRepository productRepository, IWebHostEnvironment env, IMapper mapper = null, ICloudinaryService cloudinaryService = null, AppDbContext context = null, IHttpContextAccessor httpContextAccessor = null)
         {
             _productRepository = productRepository;
             _env = env;
             _mapper = mapper;
             _cloudinaryService = cloudinaryService;
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task CreateAsync(ProductCreateDto productCreateDto)
         {
@@ -94,10 +98,14 @@ namespace Allup_Service.Service
             }
 
             // --- Metadata ---
+            var username = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
             product.CreatedAt = DateTime.UtcNow;
-            product.CreatedBy = "admin"; // TODO: Replace with real user
+            product.CreatedBy =username; // TODO: Replace with real user
             product.UpdatedAt = DateTime.UtcNow;
-            product.UpdatedBy = "admin";
+            product.UpdatedBy = username;
+            product.SalePrice = productCreateDto.SalePrice ;
+            product.DiscountPercent = productCreateDto.DiscountPercent;
+            product.CostPrice = productCreateDto.CostPrice;
 
             // --- Save to DB ---
             await _productRepository.CreateAsync(product);
@@ -129,8 +137,15 @@ namespace Allup_Service.Service
         public async Task<Product> DetailAsync(int id)
         {
             var product = await _productRepository.GetAll()
-                      .Include(m=>m.Category)
-                      .Include(m => m.ProductImages)
+                     .Include(m => m.Category)
+                .Include(m => m.ProductImages)
+                .Include(m => m.Brands)
+                .Include(m => m.SizeProducts)
+                .ThenInclude(m => m.Size)
+                .Include(m => m.ColorProducts)
+                .ThenInclude(m => m.Color)
+                .Include(m => m.TagProducts)
+                .ThenInclude(m => m.Tag)
                       .FirstOrDefaultAsync(p => p.Id == id);
             if (product == null)
             {
@@ -143,7 +158,10 @@ namespace Allup_Service.Service
 
         public async Task EditAsync(int id, ProductUpdateDto productUpdateDto)
         { 
-            var product = _productRepository.GetAll().FirstOrDefault(p => p.Id == id);
+            var product = _productRepository.GetAll().Include(p => p.SizeProducts)
+                                                         .Include(p => p.ColorProducts)
+                                                         .Include(p => p.TagProducts)
+                                                         .Include(p => p.ProductImages).FirstOrDefault(p => p.Id == id);
             if (product == null)
             {
                 throw new Exception("Product not found");

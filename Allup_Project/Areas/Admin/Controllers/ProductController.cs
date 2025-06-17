@@ -12,8 +12,7 @@ using System.Threading.Tasks;
 namespace Allup_Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
-
+    [Authorize(Roles ="Admin,Superadmin")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -68,8 +67,8 @@ namespace Allup_Project.Areas.Admin.Controllers
         {
             await PopulateViewBags();
 
-            if (!ModelState.IsValid)
-                return View(productCreateDto);
+            //if (!ModelState.IsValid)
+            //    return View(productCreateDto);
 
             var isExistCategory = await _context.Categories.AnyAsync(x => x.Id == productCreateDto.CategoryId);
             var isExistBrand = await _context.Brands.AnyAsync(x => x.Id == productCreateDto.BrandId);
@@ -138,13 +137,13 @@ namespace Allup_Project.Areas.Admin.Controllers
             dto.MainFileUrl = product.ProductImages.FirstOrDefault(x => x.IsCover)?.ImageUrl ?? "null";
 
             // Many-to-Many üçün ID-ləri map et
-            dto.SizeIds = product.SizeProducts.Select(sp => sp.SizeId).ToList();
-            dto.ColorIds = product.ColorProducts.Select(cp => cp.ColorId).ToList();
-            dto.TagIds = product.TagProducts.Select(tp => tp.TagId).ToList();
+            dto.SizeIds = product.SizeProducts?.Select(sp => sp.SizeId).ToList()?? new List<int>();
+            dto.ColorIds = product.ColorProducts?.Select(cp => cp.ColorId).ToList() ?? new List<int>();
+            dto.TagIds = product.TagProducts?.Select(tp => tp.TagId).ToList() ?? new List<int>();
 
             return View(dto);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ProductUpdateDto productUpdateDto)

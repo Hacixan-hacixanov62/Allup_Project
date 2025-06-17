@@ -7,11 +7,7 @@ using Allup_Service.Service.IService;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Allup_Service.Service
 {
@@ -87,11 +83,7 @@ namespace Allup_Service.Service
         {
             var banner = _bannerRepository.GetAll()
           .Where(s => s.Id == id)
-          .Select(s => new BannerGetDto
-          {
-              RedirectUrl = s.RedirectUrl,
-              ImageUrl = s.Image
-          })
+          .Select(m=> _mapper.Map<BannerGetDto>(m)) 
           .FirstOrDefault();
 
             if (banner == null)
@@ -148,6 +140,9 @@ namespace Allup_Service.Service
 
             banner.IsActivated = bannerUpdateDto.IsActivated;
             banner.RedirectUrl = bannerUpdateDto.RedirectUrl;
+            banner.Title = bannerUpdateDto.Title;
+            banner.Desc = bannerUpdateDto.Desc;
+
 
             _bannerRepository.Update(banner);
             await _bannerRepository.SaveChangesAsync();
@@ -162,6 +157,8 @@ namespace Allup_Service.Service
                 Id = s.Id,
                RedirectUrl = s.RedirectUrl,
                 Image = s.Image,
+                Title = s.Title,
+                Desc = s.Desc,
 
             }).ToList();
         }

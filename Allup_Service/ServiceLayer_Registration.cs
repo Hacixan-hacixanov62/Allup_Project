@@ -76,7 +76,8 @@ namespace Allup_Service
             services.AddScoped<IColorService, ColorService>();             
             services.AddScoped<IColorRepository, ColorRepository>();
 
-
+            services.AddScoped<IReclamBannerRepository, ReclamBannerRepository>();
+            services.AddScoped<IReclamBannerService, ReclamBannerService>();
 
         }
     }

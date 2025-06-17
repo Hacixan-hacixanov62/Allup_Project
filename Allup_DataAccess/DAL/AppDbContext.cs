@@ -28,7 +28,7 @@ namespace Allup_DataAccess.DAL
         public DbSet<Color> Colors { get; set; }
         public DbSet<FeaturesBanner> FeaturesBanners { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
-
+        public DbSet<ReclamBanner> ReclamBanners { get; set; }
 
 
         // Many to Many

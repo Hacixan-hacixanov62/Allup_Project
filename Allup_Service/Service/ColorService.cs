@@ -5,7 +5,9 @@ using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.TagDtos;
 using Allup_Service.Service.IService;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Allup_Service.Service
 {
@@ -13,18 +15,21 @@ namespace Allup_Service.Service
     {
         private readonly IColorRepository _colorRepository;
         private readonly IMapper _mapper;
-        public ColorService(IColorRepository colorRepository, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public ColorService(IColorRepository colorRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor = null)
         {
             _colorRepository = colorRepository;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task CreateAsync(ColorCreateDto sizeCreateDto)
         {
+            var usernsme = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
             Color tag = _mapper.Map<Color>(sizeCreateDto);
             tag.CreatedAt = DateTime.UtcNow;
-            tag.CreatedBy = "admin"; // This should be replaced with actual user info from authentication context
+            tag.CreatedBy = usernsme;
             tag.UpdatedAt = DateTime.UtcNow;
-            tag.UpdatedBy = "admin"; // This should be replaced with actual user info from authentication context
+            tag.UpdatedBy = usernsme;
             await _colorRepository.CreateAsync(tag);
             await _colorRepository.SaveChangesAsync();
         }
@@ -58,6 +63,7 @@ namespace Allup_Service.Service
 
         public async Task EditAsync(int id, ColorUpdateDto tagUpdateDto)
         {
+            var usernsme = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
             var brand = await _colorRepository.GetAll().FirstOrDefaultAsync(m => m.Id == id);
             if (brand == null)
             {
@@ -66,9 +72,9 @@ namespace Allup_Service.Service
 
             brand.Name = tagUpdateDto.Name;
             brand.UpdatedAt = DateTime.UtcNow;
-            brand.UpdatedBy = "admin";           // This should be replaced with actual user info from authentication context
+            brand.UpdatedBy = usernsme;
             brand.CreatedAt = DateTime.UtcNow;
-            brand.CreatedBy = "admin";
+            brand.CreatedBy = usernsme;
 
             _colorRepository.Update(brand);
             await _colorRepository.SaveChangesAsync();
