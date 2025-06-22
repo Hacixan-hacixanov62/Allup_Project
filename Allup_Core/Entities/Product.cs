@@ -20,10 +20,13 @@ namespace Allup_Core.Entities
         [StringLength(240)]
         public string Desc { get; set; }
         [Required]
-        public double CostPrice { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal CostPrice { get; set; }
         [Required]
-        public double SalePrice { get; set; }
-        public int DiscountPercent { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal SalePrice { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal DiscountPercent { get; set; }
         public int StockCount { get; set; }
         [Required]
         [StringLength(50)]
@@ -43,13 +46,14 @@ namespace Allup_Core.Entities
         [MaxSize(2 * 1024 * 1024)]
         [AllowedTypes("image/jpeg", "image/png")]
         public List<IFormFile>? ImageFiles { get; set; }
-        public List<ProductImage> ProductImages { get; set; }
         public List<int>? ProductImageIds { get; set; }
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
 
         public int BrandId { get; set; }
         public Brand? Brands { get; set; }
+
+        public List<ProductImage> ProductImages { get; set; }
 
         // Many to Many 
         public List<TagProduct> TagProducts { get; set; }

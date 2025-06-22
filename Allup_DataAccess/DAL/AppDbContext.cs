@@ -29,6 +29,7 @@ namespace Allup_DataAccess.DAL
         public DbSet<FeaturesBanner> FeaturesBanners { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ReclamBanner> ReclamBanners { get; set; }
+        public DbSet<CartItem> CartItems { get; set; } = null!;
 
 
         // Many to Many

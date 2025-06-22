@@ -20,6 +20,15 @@
                 <span class="text-danger" asp-validation-for="Desc"></span>
             </div>
             <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">CostPrice</label>
+                <input asp-for="CostPrice" class="form-control" aria-describedby="emailHelp">
+                <span asp-validation-for="CostPrice" class="text-danger"></span>
+            </div>   <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">SalePrice</label>
+                <input asp-for="SalePrice" class="form-control" aria-describedby="emailHelp">
+                <span asp-validation-for="SalePrice" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Discount</label>
                 <input asp-for="DiscountPercent" class="form-control" aria-describedby="emailHelp">
                 <span asp-validation-for="DiscountPercent" class="text-danger"></span>

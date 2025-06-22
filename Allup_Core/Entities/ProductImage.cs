@@ -11,7 +11,7 @@ namespace Allup_Core.Entities
     {
         public int ProductId { get; set; }
         public bool IsCover { get; set; } //true = uz qabigi, false = Hower , null = detail sekilleri
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = null!;
         public Product Product { get; set; }
     }
 }

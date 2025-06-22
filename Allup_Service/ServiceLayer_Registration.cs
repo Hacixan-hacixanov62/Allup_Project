@@ -79,6 +79,9 @@ namespace Allup_Service
             services.AddScoped<IReclamBannerRepository, ReclamBannerRepository>();
             services.AddScoped<IReclamBannerService, ReclamBannerService>();
 
+            services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<IBasketService, BasketService>();
+
         }
     }
 }

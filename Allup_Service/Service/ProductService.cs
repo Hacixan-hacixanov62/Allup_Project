@@ -28,7 +28,7 @@ namespace Allup_Service.Service
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductService(IProductRepository productRepository, IWebHostEnvironment env, IMapper mapper = null, ICloudinaryService cloudinaryService = null, AppDbContext context = null, IHttpContextAccessor httpContextAccessor = null)
+        public ProductService(IProductRepository productRepository, IWebHostEnvironment env, IMapper mapper , ICloudinaryService cloudinaryService , AppDbContext context , IHttpContextAccessor httpContextAccessor )
         {
             _productRepository = productRepository;
             _env = env;

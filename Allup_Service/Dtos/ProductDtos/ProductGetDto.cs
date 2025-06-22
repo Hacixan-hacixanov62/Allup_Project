@@ -1,5 +1,10 @@
 ﻿using Allup_Core.Attributes;
 using Allup_Core.Entities;
+using Allup_Service.Dtos.BrandDtos;
+using Allup_Service.Dtos.CategoryDtos;
+using Allup_Service.Dtos.ColorDtos;
+using Allup_Service.Dtos.SizeDtos;
+using Allup_Service.Dtos.TagDtos;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -13,6 +18,8 @@ namespace Allup_Service.Dtos.ProductDtos
 {
     public class ProductGetDto
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
@@ -20,10 +27,17 @@ namespace Allup_Service.Dtos.ProductDtos
         [StringLength(240)]
         public string Desc { get; set; }
         [Required]
-        public double CostPrice { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        [Range(0, double.MaxValue, ErrorMessage = "Price mənfi ola bilməz.")]
+        public decimal CostPrice { get; set; }
         [Required]
-        public double SalePrice { get; set; }
-        public int DiscountPercent { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        [Range(0, double.MaxValue, ErrorMessage = "Price mənfi ola bilməz.")]
+        public decimal SalePrice { get; set; }
+        [Required]
+        [Column(TypeName = "decimal(18,2)")]
+        [Range(0, 100, ErrorMessage = "Discount Duzgun daxil edin.")]
+        public decimal DiscountPercent { get; set; }
         public int StockCount { get; set; }
         [Required]
         [StringLength(50)]
@@ -43,9 +57,11 @@ namespace Allup_Service.Dtos.ProductDtos
         public List<IFormFile> AdditionalFiles { get; set; } = new();
         public List<ProductImage> ProductImages { get; set; }
         public List<int>? ProductImageIds { get; set; }
-        public int CategoryId { get; set; }
-        public Category? Category { get; set; }
 
+        public List<CategoryGetDto> Categories { get; set; } = null!;
+        public List<TagGetDto> Tags { get; set; } = null!;
+        public List<ColorGetDto> Colors { get; set; } = null!;
+        public List<SizeGetDto> Sizes { get; set; } = null!;
 
         public List<ProductGetDto> Products { get; set; } = [];
 

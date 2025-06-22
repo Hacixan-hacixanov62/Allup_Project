@@ -27,6 +27,9 @@ namespace Allup_Service.Profiles
             CreateMap<Category, CategoryCreateDto>().ReverseMap();
             CreateMap<Category, CategoryUpdateDto>().ReverseMap();
             CreateMap<Category, CategoryDetailDto>().ReverseMap();
+            CreateMap<Category , CategoryGetDto>()
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
+                .ReverseMap();
 
             //Product Profiles
             CreateMap<Product, ProductCreateDto>().ReverseMap();
@@ -45,6 +48,7 @@ namespace Allup_Service.Profiles
             CreateMap<Brand, BrandCreateDto>().ReverseMap();
             CreateMap<Brand, BrandUpdateDto>().ReverseMap();
             CreateMap<Brand, BrandDetailDto>().ReverseMap();
+            CreateMap<Brand, BrandGetDto>().ReverseMap();
 
             //FeaturesBanner Profiles
             CreateMap<FeaturesBanner, FeaturesBannerCreateDto>().ReverseMap();
