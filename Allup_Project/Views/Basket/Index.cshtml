@@ -1,0 +1,295 @@
+﻿@using Allup_Service.UI.Vm
+@model BasketVM
+@{
+    ViewData["Title"] = "Basket";
+}
+@{
+    Layout = "_Layout";
+}
+
+@{
+    decimal totalPrice = 0;
+
+    foreach (var item in Model.CartItems)
+    {
+        (totalPrice += item.Count * (item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100))).ToString("0.00");
+    }
+}
+
+
+<!--====== Breadcrumb Part Start ======-->
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item active">Cart</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+<!--====== Cart Part Start ======-->
+
+<section class="cart-page pt-10">
+    <div class="container-fluid custom-container">
+       @{
+            @if(Model.CartItems.Count > 0)
+            {
+                <div class="row">
+                    <div class="col-xl-8">
+                        <div class="shopping-cart mt-25">
+                            <h4 class="allup-title">Shopping Cart</h4>
+                            <form action="" class="woocommerce-cart-form">
+                                @*Bunu men elave etmisem*@
+                                <div class="shopping-cart-table table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="image">Image</th>
+                                                <th class="product">Product</th>
+                                                <th class="price">Price</th>
+                                                <th class="quantity">Quantity</th>
+                                                <th class="total">Total</th>
+                                                <th class="delete">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.CartItems)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div class="product-image">
+                                                            <img src="@item.Product.ProductImages.FirstOrDefault(m => m.IsCover)?.ImageUrl" alt="cart">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="product-title">
+                                                            <h4 class="title"><a asp-controller="Shop" asp-action="Detail" asp-route-id="@item.Product.Id">@item.Product.Desc</a></h4>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="product-price">
+                                                            @if (item.Product.DiscountPercent > 0)
+                                                            {
+                                                                <span class="price" id="unit-price-@item.ProductId">
+                                                                    $@((item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100)).ToString("0.00"))
+                                                                </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="price" id="unit-price-@item.ProductId">
+                                                                    $@item.Product.CostPrice.ToString("0.00")
+                                                                </span>
+                                                            }
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="product-quantity">
+                                                            <div class="quantity mt-15 d-flex">
+                                                                <button type="button" class="sub" onclick="decreaseCount(@item.ProductId)">
+                                                                    <i class="fal fa-minus"></i>
+                                                                </button>
+                                                                @* <input type="text" value="1" /> *@
+                                                                <span class="count" id="value-@item.ProductId">@item.Count</span>
+                                                                <button type="button" class="add" onclick="increaseCount(@item.ProductId)">
+                                                                    <i class="fal fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="product-total">
+                                                            <span class="BasketItemTotalPrice" id="total-price-@item.ProductId">
+                                                                €@((item.Count * (item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100))).ToString("0.00"))
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="product-delete">
+                                                            <a href="javascript:void(0);" onclick="RemoveToCart(@item.ProductId)" class="remove-from-carts" data-product-id="@item.Product.Id"><i class="fal fa-trash-alt"></i></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                            <div class="cart-btn text-right">
+                                <a class="main-btn" href="#">Update cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-6">
+                                <div class="cart-coupon mt-30">
+                                    <h5 class="title">Discount Coupon Code</h5>
+                                    <form action="#">
+                                        <div class="single-form coupon-form d-flex flex-wrap">
+                                            <input type="text" placeholder="Coupon Code">
+                                            <button class="main-btn">Apply Coupon</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-md-6">
+                                <div class="cart-total mt-30">
+                                    <div class="sub-total">
+                                        <div class="single-total">
+                                            <span class="cart-value">Subtotal</span>
+                                            <span class="cart-amount">€@totalPrice</span>
+                                        </div>
+                                        @* <div class="single-total">
+                                    <span class="cart-value">Shipping Cost</span>
+                                    <span class="cart-amount">€3.90</span>
+                                </div> *@
+                                    </div>
+                                    <div class="total">
+                                        <div class="single-total">
+                                            <span class="cart-value">Total (tax excl.)</span>
+                                            <span class="cart-amount">€@totalPrice</span>
+                                        </div>
+                                        @* <div class="single-total">
+                                    <span class="cart-value">Taxes</span>
+                                    <span class="cart-amount">€0.00</span>
+                                </div> *@
+                                    </div>
+                                    <div class="cart-total-btn text-right">
+                                        <form onsubmit="this.form.submit()" class="proceed-to-checkout">
+                                            <a class="main-btn" asp-action="Checkout" asp-controller="Basket">Proceed to Checkout</a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <h1 style="text-align:center;margin:10px auto;padding:100px">Basket is empty</h1>
+            }
+        }
+    </div>
+</section>
+
+<!--====== Cart Part Ends ======-->
+<!--====== Brand Part Start ======-->                                  <!--Demeli asagda Branda sekil yoxdu deye statik qalib Brandin Cruduna sekil artrandan sonra duzelt !!-->
+@* @foreach (var item in Model.Brands)
+{
+    <div class="col-lg-2">               
+        <div class="single-brand">
+            <a href="#">
+                <img src="@item.B" alt="brand">
+            </a>
+        </div> <!-- single brand -->
+    </div>
+} *@
+<div class="brand-area pt-80">
+    <div class="container-fluid custom-container">
+        <div class="row brand-active">
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-1.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-2.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-3.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-4.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-5.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-6.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-4.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</div>
+
+<!--====== Brand Part Ends ======-->
+<!--====== Features Banner Part Start ======-->
+
+<section class="features-banner-area pt-80 pb-100">
+    <div class="container-fluid custom-container">
+        <div class="features-banner-wrapper d-flex flex-wrap">
+            @foreach(var item in Model.FeaturesBanners)
+            {
+                  <div class="single-features-banner d-flex">
+                <div class="banner-icon">
+                    <img src="~/Uploads/FeaturesBanners/@item.ImageUrl" alt="Icon">
+                </div>
+                <div class="banner-content media-body">
+                    <h3 class="banner-title">@item.Title</h3>
+                    <p>@item.Desc</p>
+                </div>
+            </div> <!-- single features banner -->
+            }
+
+        </div> <!-- features banner wrapper -->
+    </div> <!-- container -->
+</section>
+
+<!--====== Features Banner Part Ends ======-->
+<!--====== Newsletter Part Start ======-->
+
+<section class="newsletter-area pt-100 pb-100 bg_cover" style="background-image: url(~/assets/images/bg-newletter.jpg)">
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-lg-8">
+                <div class="newsletter-content">
+                    <h2 class="newsletter-title">Subscribe our newsletter</h2>
+                    <p>allup is a powerful eCommerce HTML Template</p>
+
+                    <div class="newsletter-forn">
+                        <form action="#">
+                            <input type="text" placeholder="Your Email address">
+                            <button class="main-btn">Subscribe</button>
+                        </form>
+                    </div>
+                </div> <!-- newsletter content -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</section>
+
+<!--====== Newsletter Part Ends ======-->

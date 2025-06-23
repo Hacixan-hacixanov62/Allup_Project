@@ -25,6 +25,7 @@ namespace Allup_Core.Entities
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal SalePrice { get; set; }
+        [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal DiscountPercent { get; set; }
         public int StockCount { get; set; }

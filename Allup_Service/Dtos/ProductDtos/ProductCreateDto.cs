@@ -20,10 +20,14 @@ namespace Allup_Service.Dtos.ProductDtos
         [StringLength(240)]
         public string Desc { get; set; }
         [Required]
-        public double CostPrice { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal CostPrice { get; set; }
         [Required]
-        public double SalePrice { get; set; }
-        public int DiscountPercent { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal SalePrice { get; set; }
+        [Required]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal DiscountPercent { get; set; }
         public int StockCount { get; set; }
         [Required]
         [StringLength(50)]

@@ -336,8 +336,8 @@ namespace Allup_DataAccess.Migrations
                     b.Property<int?>("ColorId")
                         .HasColumnType("int");
 
-                    b.Property<double>("CostPrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("CostPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -351,8 +351,8 @@ namespace Allup_DataAccess.Migrations
                         .HasMaxLength(240)
                         .HasColumnType("nvarchar(240)");
 
-                    b.Property<int>("DiscountPercent")
-                        .HasColumnType("int");
+                    b.Property<decimal>("DiscountPercent")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsActivated")
                         .HasColumnType("bit");
@@ -382,8 +382,8 @@ namespace Allup_DataAccess.Migrations
                     b.Property<string>("ProductImageIds")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("SalePrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("SalePrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("SizeId")
                         .HasColumnType("int");
