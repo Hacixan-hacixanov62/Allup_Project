@@ -1,0 +1,121 @@
+﻿@using Allup_Core.Entities
+@using Allup_Service.Dtos.OrderDtos
+@model CheckoutDto
+
+@{
+    decimal totalPrice = Model.Total;
+    var cartItems = Model.BasketItems;
+}
+<!--====== Breadcrumb Part Start ======-->
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item active">Checkout</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+
+<form asp-action="Checkout" method="post" asp-controller="Basket">
+    <div class="billing-address mt-30">
+        <h4 class="allup-title">Billing Address</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="single-form">
+                    <label asp-for="Order.Name"></label>
+                    <input asp-for="Order.Name" class="form-control" />
+                    <span asp-validation-for="Order.Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="single-form">
+                    <label asp-for="Order.Surname"></label>
+                    <input asp-for="Order.Surname" class="form-control" />
+                    <span asp-validation-for="Order.Surname" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="single-form">
+                    <label asp-for="Order.Email"></label>
+                    <input asp-for="Order.Email" class="form-control" />
+                    <span asp-validation-for="Order.Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="single-form">
+                    <label asp-for="Order.PhoneNumber"></label>
+                    <input asp-for="Order.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="Order.PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="single-form">
+                    <label asp-for="Order.CompanyName"></label>
+                    <input asp-for="Order.CompanyName" class="form-control" />
+                    <span asp-validation-for="Order.CompanyName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="single-form">
+                    <label asp-for="Order.Street"></label>
+                    <input asp-for="Order.Street" class="form-control" />
+                    <span asp-validation-for="Order.Street" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="single-form">
+                    <label asp-for="Order.Apartment"></label>
+                    <input asp-for="Order.Apartment" class="form-control" />
+                    <span asp-validation-for="Order.Apartment" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="single-form">
+                    <label asp-for="Order.Town"></label>
+                    <input asp-for="Order.Town" class="form-control" />
+                    <span asp-validation-for="Order.Town" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="single-form">
+                    <label asp-for="Order.Country"></label>
+                    <input asp-for="Order.Country" class="form-control" />
+                    <span asp-validation-for="Order.Country" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="single-form">
+                    <label asp-for="Order.City"></label>
+                    <input asp-for="Order.City" class="form-control" />
+                    <span asp-validation-for="Order.City" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="checkout-total mt-30">
+        <h4 class="title">Cart Total <span>@totalPrice.ToString("0.00") AZN</span></h4>
+        @if (cartItems != null)
+        {
+            foreach (var item in cartItems)
+            {
+                var discountedPrice = item.Product.SalePrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100);
+                var lineTotal = item.Count * discountedPrice;
+                <p>@item.Product.Name × @item.Count - @lineTotal.ToString("0.00") AZN</p>
+            }
+        }
+    </div>
+
+    <div class="checkout-btn mt-4">
+        <button type="submit" class="main-btn main-btn-2">Place Order</button>
+    </div>
+</form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

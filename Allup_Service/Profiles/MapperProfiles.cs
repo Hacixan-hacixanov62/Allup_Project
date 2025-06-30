@@ -2,9 +2,12 @@
 using Allup_Service.Dtos.AuthDtos;
 using Allup_Service.Dtos.BannerDtos;
 using Allup_Service.Dtos.BrandDtos;
+using Allup_Service.Dtos.CartDtos;
 using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.FeaturesBannerDtos;
+using Allup_Service.Dtos.OrderDtos;
+using Allup_Service.Dtos.OrderItemDtos;
 using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Dtos.ReclamBannerDtos;
 using Allup_Service.Dtos.SizeDtos;
@@ -78,6 +81,26 @@ namespace Allup_Service.Profiles
             CreateMap<ReclamBanner, ReclamBannerCreateDto>().ReverseMap();
             CreateMap<ReclamBanner, ReclamBannerUpdateDto>().ReverseMap();
             CreateMap<ReclamBanner, ReclamBannerDetailDto>().ReverseMap();
+
+            //Basket Profiles
+            CreateMap<CartItem, CartItemCreateDto>().ReverseMap();
+            CreateMap<CartItem,CartItemDto>().ReverseMap();
+
+            //Order Profiles
+            CreateMap<Order, OrderCreateDto>().ReverseMap();
+            CreateMap<Order, OrderUpdateDto>().ReverseMap();
+            CreateMap<Order, OrderGetDto>()
+                .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems))
+                .ReverseMap();
+
+            CreateMap<AppUser, UserGetDto>().ReverseMap();
+
+            ///OrderItem Profiles
+            CreateMap<OrderItem, OrderItemCreateDto>().ReverseMap().ForMember(x => x.Product, x => x.Ignore()).ForMember(x => x.TotalPrice, x => x.MapFrom(x => x.Product.CostPrice));
+            CreateMap<OrderItem, OrderItemUpdateDto>().ReverseMap();
+            CreateMap<OrderItem, OrderItemGetDto>().ReverseMap();
+            CreateMap<OrderItemCreateDto, CartItemDto>().ReverseMap();
+            CreateMap<OrderItemGetDto, CartItemDto>().ReverseMap().ForMember(x => x.TotalPrice, x => x.MapFrom(x => x.Product.CostPrice));
         }
     }
 }

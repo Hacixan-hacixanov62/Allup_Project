@@ -3,6 +3,8 @@ using Allup_DataAccess.Repositories.IRepositories;
 using Allup_Service.Profiles;
 using Allup_Service.Service;
 using Allup_Service.Service.IService;
+using Allup_Service.UI.Services;
+using Allup_Service.UI.Services.IServices;
 using Allup_Service.Validators.AppUserValidators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -44,6 +46,7 @@ namespace Allup_Service
         {
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ILayoutService, LayoutService>();
 
             services.AddScoped<ISliderService, SliderService>();
             services.AddScoped<ISliderRepository, SliderRepository>();

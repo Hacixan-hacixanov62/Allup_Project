@@ -1,1 +1,241 @@
-﻿
+﻿@using Allup_Service.Dtos.CartDtos
+@model CartGetDto
+@{
+    Layout = "_Layout"; 
+}
+
+<!--====== Cart Part Start ======-->
+
+<section class="cart-page pt-10">
+    <div class="container-fluid custom-container">
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="shopping-cart mt-25">
+                    <h4 class="allup-title">Shopping Cart</h4>
+
+                    <div class="shopping-cart-table table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="image">Image</th>
+                                    <th class="product">Product</th>
+                                    <th class="price">Price</th>
+                                    <th class="quantity">Quantity</th>
+                                    <th class="total">Total</th>
+                                    <th class="delete">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model.Items)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="product-image">
+                                                <img src="@item.Product.MainFile" alt="cart">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-title">
+                                                <h4 class="title"><a href="single-product.html">@item.Product.Name</a></h4>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-price">
+                                                <span class="price">€@item.Product.CostPrice</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-quantity">
+                                                <div class="quantity mt-15 d-flex">
+                                                    <button type="button"
+                                                            class="increment-btn"
+                                                            data-id="@item.ProductId"
+                                                            data-price="@item.Product.CostPrice"
+                                                            data-url="@Url.Action("IncreaseToCart", "Basket", new { id = item.ProductId })">
+                                                        <i class="fal fa-plus"></i>
+                                                    </button>
+                                                    <!-- Məhsul sayı -->
+                                                    <span class="count" id="value-@item.ProductId">@item.Count</span>
+
+                                                    <button type="button"
+                                                            class="decrement-btn"
+                                                            data-id="@item.ProductId"
+                                                            data-price="@item.Product.CostPrice"
+                                                            data-url="@Url.Action("DecreaseToCart", "Basket", new { id = item.ProductId })">
+                                                        <i class="fal fa-minus"></i>
+                                                    </button>                                                  
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-total">
+                                                <span class="total-amount">€@((item.Product.CostPrice * item.Count).ToString("F2"))</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-delete">
+                                                <a href="@Url.Action("RemoveToCart", "Basket", new { id = item.ProductId })"
+                                                   class="remove-item"
+                                                   data-product-id="@item.ProductId">
+                                                    <i class="fal fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="cart-btn text-right">
+                        <a class="main-btn" href="#">Update cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="row">
+                    <div class="col-xl-12 col-md-6">
+                        <div class="cart-coupon mt-30">
+                            <h5 class="title">Discount Coupon Code</h5>
+                            <form action="#">
+                                <div class="single-form coupon-form d-flex flex-wrap">
+                                    <input type="text" placeholder="Coupon Code">
+                                    <button class="main-btn">Apply Coupon</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-6">
+                        <div class="cart-total mt-30">
+                            <div class="sub-total">
+                                <div class="single-total">
+                                    <span class="cart-value">Subtotal</span>
+                                    <span class="cart-amount">€@Model.Subtotal.ToString("F2")</span>
+                                </div>
+                                @* <div class="single-total">
+                                    <span class="cart-value">Shipping Cost</span>
+                                    <span class="cart-amount">€3.90</span>
+                                </div> *@
+                            </div>
+                            <div class="total">
+                                <div class="single-total">
+                                    <span class="cart-value">Total (tax excl.)</span>
+                                    <span class="cart-amount">€@Model.Total.ToString("F2")</span>
+                                </div>
+                                @* <div class="single-total">
+                                    <span class="cart-value">Taxes</span>
+                                    <span class="cart-amount">€0.00</span>
+                                </div> *@
+                            </div>
+                            <div class="cart-total-btn text-right">
+                                <a class="main-btn" asp-controller="Order" asp-action="Index">Proceed to Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--====== Cart Part Ends ======-->
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Məhsul sayını artırmaq
+            document.querySelectorAll(".increment-btn").forEach(button => {
+                button.addEventListener("click", async function (event) {
+                    event.preventDefault();
+
+                    const url = this.href; // Düymənin URL-sini al
+                    const productId = this.getAttribute("data-id"); // Məhsulun ID-sini al
+                    const price = parseFloat(this.getAttribute("data-price")); // Məhsul qiymətini al
+
+                    // Sorğu göndər
+                    await fetch(url, { method: "GET" }); // Sorğu göndər, amma cavabla işləmirik
+
+                    // Lokal olaraq məhsul sayı və subtotal yenilə
+                    const countElement = document.getElementById(value-${productId});
+                    const subtotalElement = document.getElementById(subtotal-${productId});
+
+                    const currentCount = parseInt(countElement.textContent) + 1; // Sayı artır
+                    countElement.textContent = currentCount;
+
+                    const newSubtotal = price * currentCount; // Yeni alt cəm
+                    subtotalElement.textContent = ₼${newSubtotal.toFixed(2)};
+
+                    // Ümumi toplamı yenilə
+                    updateTotal();
+                });
+            });
+
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelectorAll(".remove-item").forEach(button => {
+                    button.addEventListener("click", async function (event) {
+                        event.preventDefault();
+
+                        const url = this.getAttribute("href"); // Silmə sorğusunun URL-i
+                        const productId = this.getAttribute("data-product-id"); // Məhsul ID-si
+
+                        try {
+                            const response = await fetch(url, { method: "GET" });
+                            if (response.ok) {
+                                // Məhsulu UI-dan çıxar
+                                const productRow = this.closest("tr"); // Məhsulun satırını tap
+                                if (productRow) productRow.remove();
+
+                                // Ümumi toplamı yenilə
+                                updateTotal();
+                            } else {
+                                console.error("Silinmə zamanı səhv baş verdi.");
+                            }
+                        } catch (error) {
+                            console.error("Serverlə əlaqə zamanı səhv:", error);
+                        }
+                    });
+                });
+
+            // Məhsul sayını azaltmaq
+            document.querySelectorAll(".decrement-btn").forEach(button => {
+                button.addEventListener("click", async function (event) {
+                    event.preventDefault();
+
+                    const url = this.href; // Düymənin URL-sini al
+                    const productId = this.getAttribute("data-id"); // Məhsulun ID-sini al
+                    const price = parseFloat(this.getAttribute("data-price")); // Məhsul qiymətini al
+
+                    // Sorğu göndər
+                    await fetch(url, { method: "GET" }); // Sorğu göndər, amma cavabla işləmirik
+
+                    // Lokal olaraq məhsul sayı və subtotal yenilə
+                    const countElement = document.getElementById(value-${productId});
+                    const subtotalElement = document.getElementById(subtotal-${productId});
+
+                    const currentCount = parseInt(countElement.textContent);
+                    if (currentCount > 1) {
+                        const newCount = currentCount - 1;
+                        countElement.textContent = newCount;
+
+                        const newSubtotal = price * newCount; // Yeni alt cəm
+                        subtotalElement.textContent = ₼${newSubtotal.toFixed(2)};
+
+                        // Ümumi toplamı yenilə
+                        updateTotal();
+                    }
+                });
+            });
+
+            // Ümumi toplamı yeniləyən funksiya
+            function updateTotal() {
+                let total = 0;
+                document.querySelectorAll(".subtotal").forEach(subtotal => {
+                    total += parseFloat(subtotal.textContent.replace("₼", ""));
+                });
+                document.querySelector(".order-total strong .woocommerce-Price-amount").textContent = ₼${total.toFixed(2)};
+            }
+        });
+
+
+
+    </script>
+}

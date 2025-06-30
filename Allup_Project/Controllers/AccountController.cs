@@ -131,7 +131,7 @@ namespace Allup_Project.Controllers
                 return View(userLoginVm);
 
             }
-            HttpContext.Response.Cookies.Append("RestaurantCart", "");
+            HttpContext.Response.Cookies.Append("AllupCart", "");
 
             return returnUrl != null ? Redirect(returnUrl) : RedirectToAction("Index", "Home");
         }

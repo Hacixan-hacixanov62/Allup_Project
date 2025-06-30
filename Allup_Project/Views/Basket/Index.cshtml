@@ -56,66 +56,60 @@
                                                 <th class="delete">Delete</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            @foreach (var item in Model.CartItems)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        <div class="product-image">
-                                                            <img src="@item.Product.ProductImages.FirstOrDefault(m => m.IsCover)?.ImageUrl" alt="cart">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-title">
-                                                            <h4 class="title"><a asp-controller="Shop" asp-action="Detail" asp-route-id="@item.Product.Id">@item.Product.Desc</a></h4>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-price">
-                                                            @if (item.Product.DiscountPercent > 0)
-                                                            {
-                                                                <span class="price" id="unit-price-@item.ProductId">
-                                                                    $@((item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100)).ToString("0.00"))
-                                                                </span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="price" id="unit-price-@item.ProductId">
-                                                                    $@item.Product.CostPrice.ToString("0.00")
-                                                                </span>
-                                                            }
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-quantity">
-                                                            <div class="quantity mt-15 d-flex">
-                                                                <button type="button" class="sub" onclick="decreaseCount(@item.ProductId)">
-                                                                    <i class="fal fa-minus"></i>
-                                                                </button>
-                                                                @* <input type="text" value="1" /> *@
-                                                                <span class="count" id="value-@item.ProductId">@item.Count</span>
-                                                                <button type="button" class="add" onclick="increaseCount(@item.ProductId)">
-                                                                    <i class="fal fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-total">
-                                                            <span class="BasketItemTotalPrice" id="total-price-@item.ProductId">
-                                                                €@((item.Count * (item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100))).ToString("0.00"))
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-delete">
-                                                            <a href="javascript:void(0);" onclick="RemoveToCart(@item.ProductId)" class="remove-from-carts" data-product-id="@item.Product.Id"><i class="fal fa-trash-alt"></i></a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            }
+                                     <tbody id="baskett">
+    @foreach (var item in Model.CartItems)
+    {
+        <tr>
+            <td>
+                <div class="product-image">
+                    <img src="@item.Product.ProductImages.FirstOrDefault(m => m.IsCover)?.ImageUrl" alt="cart">
+                </div>
+            </td>
+            <td>
+                <div class="product-title">
+                    <h4 class="title">
+                        <a asp-controller="Shop" asp-action="Detail" asp-route-id="@item.Product.Id">@item.Product.Desc</a>
+                    </h4>
+                </div>
+            </td>
+            <td>
+                <div class="product-price">
+                    <span class="price" id="unit-price-@item.ProductId">
+                        $@((item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100)).ToString("0.00"))
+                    </span>
+                </div>
+            </td>
+            <td>
+                <div class="product-quantity">
+                    <div class="quantity mt-15 d-flex">
+                        <button type="button" class="sub" onclick="decreaseCount(@item.ProductId)">
+                            <i class="fal fa-minus"></i>
+                        </button>
+                        <span class="count" id="value-@item.ProductId">@item.Count</span>
+                        <button type="button" class="add" onclick="increaseCount(@item.ProductId)">
+                            <i class="fal fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="product-total">
+                    <span class="BasketItemTotalPrice" id="total-price-@item.ProductId">
+                        $@((item.Count * (item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100))).ToString("0.00"))
+                    </span>
+                </div>
+            </td>
+            <td>
+                <div class="product-delete">
+                    <a href="javascript:void(0);" onclick="RemoveToCart(@item.ProductId)" class="remove-from-carts" data-product-id="@item.Product.Id">
+                        <i class="fal fa-trash-alt"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
+</tbody>
 
-                                        </tbody>
                                     </table>
                                 </div>
                             </form>
@@ -142,7 +136,7 @@
                                     <div class="sub-total">
                                         <div class="single-total">
                                             <span class="cart-value">Subtotal</span>
-                                            <span class="cart-amount">€@totalPrice</span>
+                                            <span class="cart-amount" id="subtotal-amount">€@totalPrice</span>
                                         </div>
                                         @* <div class="single-total">
                                     <span class="cart-value">Shipping Cost</span>
@@ -152,7 +146,7 @@
                                     <div class="total">
                                         <div class="single-total">
                                             <span class="cart-value">Total (tax excl.)</span>
-                                            <span class="cart-amount">€@totalPrice</span>
+                                            <span class="cart-amount" id="total-amount">€@totalPrice</span>
                                         </div>
                                         @* <div class="single-total">
                                     <span class="cart-value">Taxes</span>
@@ -293,3 +287,157 @@
 </section>
 
 <!--====== Newsletter Part Ends ======-->
+
+
+
+@section Scripts
+{
+    <script>
+        function updateRowTotal(productId, newCount) {
+            const unitPriceSpan = document.getElementById(`unit-price-${productId}`);
+            const totalPriceSpan = document.getElementById(`total-price-${productId}`);
+
+            if (!unitPriceSpan || !totalPriceSpan) return;
+
+            let unitPrice = parseFloat(unitPriceSpan.innerText.replace('$', ''));
+            let newTotal = (unitPrice * newCount).toFixed(2);
+
+            totalPriceSpan.innerText = `$${newTotal}`;
+        }
+
+        function increaseCount(productId) {
+            fetch(`/Basket/AddToCart?id=${productId}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': getAntiForgeryToken()
+                }
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Artırma uğursuz oldu.');
+
+                    const countSpan = document.getElementById(`value-${productId}`);
+                    if (countSpan) {
+                        let count = parseInt(countSpan.innerText);
+                        count++;
+                        countSpan.innerText = count;
+                        updateRowTotal(productId, count);
+                    }
+                    return fetch('/Basket/GetBasket');
+                })
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById("baskett").innerHTML = html;
+
+                    return fetch('/Basket/getCountBasket');
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("basketCount").innerText = data.count;
+                    document.getElementById("smallcount").innerText = data.count;
+
+                    return fetch('/Basket/GetDecimalSubTotalAsync');
+                })
+                .then(res => res.json())
+                .then(total => {
+                    document.getElementById("subtotal-amount").innerText = `$${total.total.toFixed(2)}`;
+                    document.getElementById("total-amount").innerText = `$${total.total.toFixed(2)}`;
+                    document.getElementById("totals").innerText = `$${total.total.toFixed(2)}`;
+                })
+                .catch(error => {
+                    console.error('Artırma xətası:', error);
+                });
+        }
+
+        function decreaseCount(productId) {
+            const countSpan = document.getElementById(`value-${productId}`);
+            if (!countSpan) return;
+
+            let currentCount = parseInt(countSpan.innerText);
+            if (currentCount <= 1) return;
+
+            fetch(`/Basket/DecreaseToCart?id=${productId}`, {
+                method: 'GET'
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Azaltma alınmadı");
+
+                    currentCount--;
+                    countSpan.innerText = currentCount;
+                    updateRowTotal(productId, currentCount);
+
+                    return fetch('/Basket/GetBasket');
+                })
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById("baskett").innerHTML = html;
+
+                    return fetch('/Basket/getCountBasket');
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("basketCount").innerText = data.count;
+                    document.getElementById("smallcount").innerText = data.count;
+
+                    return fetch('/Basket/GetDecimalSubTotalAsync');
+                })
+                .then(res => res.json())
+                .then(total => {
+                    document.getElementById("subtotal-amount").innerText = `$${total.total.toFixed(2)}`;
+                    document.getElementById("total-amount").innerText = `$${total.total.toFixed(2)}`;
+                    document.getElementById("totals").innerText = `$${total.total.toFixed(2)}`;
+                })
+                .catch(err => console.error("Azaltma xətası:", err));
+        }
+
+        function RemoveToCart(productId) {
+            fetch(`/Basket/RemoveToCart?id=${productId}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': getAntiForgeryToken()
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const el = document.querySelector(`a[data-product-id='${productId}']`);
+                        if (el) {
+                            const row = el.closest('tr');
+                            if (row) row.remove();
+                        }
+
+                        return fetch('/Basket/GetBasket');
+                    } else {
+                        throw new Error('Səbətdən silinmə uğursuz oldu');
+                    }
+                })
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById("baskett").innerHTML = html;
+
+                    return fetch('/Basket/getCountBasket');
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("basketCount").innerText = data.count;
+                    document.getElementById("smallcount").innerText = data.count;
+
+                    return fetch('/Basket/GetDecimalSubTotalAsync');
+                })
+                .then(res => res.json())
+                .then(total => {
+                    document.getElementById("subtotal-amount").innerText = `$${total.total.toFixed(2)}`;
+                    document.getElementById("total-amount").innerText = `$${total.total.toFixed(2)}`;
+                    document.getElementById("totals").innerText = `$${total.total.toFixed(2)}`;
+                })
+                .catch(err => {
+                    console.error('Fetch error:', err);
+                });
+        }
+
+        function getAntiForgeryToken() {
+            const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+            return tokenInput ? tokenInput.value : '';
+        }
+    </script>
+}
+
+

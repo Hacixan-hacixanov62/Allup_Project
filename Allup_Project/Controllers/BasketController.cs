@@ -1,7 +1,9 @@
 ﻿using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
+using Allup_Service.Dtos.OrderDtos;
 using Allup_Service.Service.IService;
 using Allup_Service.UI.Vm;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -153,5 +155,110 @@ namespace Allup_Project.Controllers
                 count = temCount
             });
         }
+
+
+        // CheckOut Page in BasketController ===================================================
+
+        [Authorize]
+        public async Task<IActionResult> CheckOut()
+        {
+            var basketItems = await GetBasketAsync();
+
+            decimal total = basketItems.Sum(x => x.Product.CostPrice * x.Count);
+
+            var vm = new CheckoutDto
+            {
+                BasketItems = basketItems,
+                Total = total,
+                Order = new OrderCreateDto()
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Checkout(CheckoutDto vm)
+        {
+            var dto = vm.Order;
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId is null)
+                return Unauthorized();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user is null)
+                return BadRequest();
+
+            var basketItems = await GetBasketAsync();
+            decimal total = basketItems.Sum(b => b.Product.CostPrice * b.Count);
+
+
+
+            //// Stripe-in kodd hissesi
+            ////========================================================================================
+
+            //var optionCust = new CustomerCreateOptions
+            //{
+            //    Email = dto.stripeEmail,
+            //    Name = user.FullName,
+            //    Phone = "994 051 516"
+            //};
+            //var serviceCust = new CustomerService();
+            //Customer customer = serviceCust.Create(optionCust);
+
+            //total = total * 100;
+            //var optionsCharge = new ChargeCreateOptions  // Odenisin Melumatlari saxlanilir
+            //{
+
+            //    Amount = (long)total, //Dollari cente cevirir
+            //    Currency = "USD",
+            //    Description = "Dannys Restourant Order",
+            //    Source = dto.stripeToken,
+            //    ReceiptEmail = "hajikhanih@code.edu.az"
+
+
+            //};
+            //var serviceCharge = new ChargeService();
+            //Charge charge = serviceCharge.Create(optionsCharge);
+
+            ////===========================================================================
+            Order order = new()
+            {
+                AppUser = user,
+                Status = false,
+                OrderItems = new List<OrderItem>(),
+                PhoneNumber = dto.PhoneNumber,
+                City = dto.City,
+                Apartment = dto.Apartment,
+                Street = dto.Street,
+                Email = dto.Email,
+                Name = dto.Name,
+                Surname = dto.Surname,
+                CompanyName = dto.CompanyName,
+                Town = dto.Town,
+                Country = dto.Country
+            };
+
+            foreach (var bItem in basketItems)
+            {
+                OrderItem orderItem = new()
+                {
+                    Order = order,
+                    Product = bItem.Product,
+                    Count = bItem.Count,
+                    TotalPrice = bItem.Product.CostPrice
+                };
+                order.OrderItems.Add(orderItem);
+                _context.CartItems.Remove(bItem);
+            }
+
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", new { orderId = order.Id });
+        }
+
     }
 }

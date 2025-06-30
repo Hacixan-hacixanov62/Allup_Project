@@ -46,6 +46,7 @@ namespace Allup_Service.Dtos.ProductDtos
         public bool IsBestSeller { get; set; }
         public bool IsFeatured { get; set; }
 
+        public string MainFileImage { get; set; } = null!;
         public string MainFileUrl { get; set; } = null!;
         [NotMapped]
         [MaxSizeAttribute(2 * 1024 * 1024)]

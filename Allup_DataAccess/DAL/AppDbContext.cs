@@ -30,6 +30,9 @@ namespace Allup_DataAccess.DAL
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ReclamBanner> ReclamBanners { get; set; }
         public DbSet<CartItem> CartItems { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<OrderItem> OrderItems { get; set; } = null!;
+
 
 
         // Many to Many

@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Allup_DataAccess\Allup_DataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UI\Services\" />
-  </ItemGroup>
-
 </Project>
