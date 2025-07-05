@@ -1,22 +1,26 @@
 ﻿using Allup_Core.Entities;
+using Allup_DataAccess.Interceptors;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Allup_DataAccess.DAL
 {
     public class AppDbContext: IdentityDbContext<AppUser>
     {
-        public AppDbContext(DbContextOptions options) : base(options)
+        private readonly BaseEntityInterceptor _interceptor;
+
+
+        public AppDbContext(DbContextOptions<AppDbContext> options, BaseEntityInterceptor interceptor) : base(options)
         {
+            _interceptor = interceptor;
         }
         
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.AddInterceptors(_interceptor);
+        }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
@@ -32,7 +36,7 @@ namespace Allup_DataAccess.DAL
         public DbSet<CartItem> CartItems { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
-
+        public DbSet<Payment> Payments { get; set; } = null!;
 
 
         // Many to Many

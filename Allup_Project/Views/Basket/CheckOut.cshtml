@@ -3,8 +3,17 @@
 @model CheckoutDto
 
 @{
-    decimal totalPrice = Model.Total;
+    decimal totalPrice = 0;
     var cartItems = Model.BasketItems;
+
+    if (cartItems != null)
+    {
+        foreach (var item in cartItems)
+        {
+            var discountedPrice = item.Product.SalePrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100);
+            totalPrice += item.Count * discountedPrice;
+        }
+    }
 }
 <!--====== Breadcrumb Part Start ======-->
 
@@ -21,101 +30,225 @@
 
 <!--====== Breadcrumb Part Ends ======-->
 
-<form asp-action="Checkout" method="post" asp-controller="Basket">
-    <div class="billing-address mt-30">
-        <h4 class="allup-title">Billing Address</h4>
+
+<!--====== Checkout Part Start ======-->
+
+<section class="checkout-area pt-10">
+    <div class="container-fluid custom-container">
         <div class="row">
-            <div class="col-md-6">
-                <div class="single-form">
-                    <label asp-for="Order.Name"></label>
-                    <input asp-for="Order.Name" class="form-control" />
-                    <span asp-validation-for="Order.Name" class="text-danger"></span>
+            <div class="col-xl-8 col-lg-7">
+                <div class="checkout-form">
+                    <form asp-action="Checkout" method="post" asp-controller="Basket">
+                        <div class="billing-address mt-30">
+                            <h4 class="allup-title">Billing Address</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label asp-for="Order.Name"></label>
+                                        <input asp-for="Order.Name" class="form-control" />
+                                        <span asp-validation-for="Order.Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label asp-for="Order.Surname"></label>
+                                        <input asp-for="Order.Surname" class="form-control" />
+                                        <span asp-validation-for="Order.Surname" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label asp-for="Order.Email"></label>
+                                        <input asp-for="Order.Email" class="form-control" />
+                                        <span asp-validation-for="Order.Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label asp-for="Order.PhoneNumber"></label>
+                                        <input asp-for="Order.PhoneNumber" class="form-control" />
+                                        <span asp-validation-for="Order.PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="single-form">
+                                        <label asp-for="Order.CompanyName"></label>
+                                        <input asp-for="Order.CompanyName" class="form-control" />
+                                        <span asp-validation-for="Order.CompanyName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="single-form">
+                                        <label asp-for="Order.Street"></label>
+                                        <input asp-for="Order.Street" class="form-control" />
+                                        <span asp-validation-for="Order.Street" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label asp-for="Order.Apartment"></label>
+                                        <input asp-for="Order.Apartment" class="form-control" />
+                                        <span asp-validation-for="Order.Apartment" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label asp-for="Order.Town"></label>
+                                        <input asp-for="Order.Town" class="form-control" />
+                                        <span asp-validation-for="Order.Town" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label asp-for="Order.Country"></label>
+                                        <input asp-for="Order.Country" class="form-control" />
+                                        <span asp-validation-for="Order.Country" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label asp-for="Order.City"></label>
+                                        <input asp-for="Order.City" class="form-control" />
+                                        <span asp-validation-for="Order.City" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout-checkbox">
+                            <ul>
+                                <li>
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" id="account">
+                                        <label for="account"></label>
+                                        <p>Create an Account? </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" id="address" data-shipping>
+                                        <label for="address"></label>
+                                        <p>Ship to Different Address </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="single-form">
-                    <label asp-for="Order.Surname"></label>
-                    <input asp-for="Order.Surname" class="form-control" />
-                    <span asp-validation-for="Order.Surname" class="text-danger"></span>
+            <div class="col-xl-4 col-lg-5">
+                <div class="checkout-total-wrapper mt-30">
+                    <h4 class="allup-title">Cart Total</h4>
+                    <div class="checkout-total mt-30">
+                        <h4 class="title">Product  <span>Total</span></h4>
+                        <ul>
+                            @foreach(var basketItem in Model.BasketItems)
+                            {
+                                var discountedPrice = basketItem.Product.SalePrice - (basketItem.Product.SalePrice * basketItem.Product.DiscountPercent / 100);
+                                var totalItemPrice = basketItem.Count * discountedPrice;
+
+                                <li>
+                                    <p class="total-value">@basketItem.Product.Name X @basketItem.Count </p>
+                                    <p class="total-amount">€@totalItemPrice.ToString("0.00")</p>
+                                </li>
+
+                            }
+                        </ul>
+                        <div class="checkout-total-sub">
+                            <p class="total-value">Sub Total</p>
+                            <p class="total-amount">€@totalPrice.ToString("0.00")</p>
+                        </div>
+                        <div class="checkout-total-sub">
+                            <p class="total-value">Shipping Fee </p>
+                            <p class="total-amount">€00.00</p>
+                        </div>
+                        <h4 class="title mt-15">Product  <span>€@totalPrice.ToString("0.00")</span></h4>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="single-form">
-                    <label asp-for="Order.Email"></label>
-                    <input asp-for="Order.Email" class="form-control" />
-                    <span asp-validation-for="Order.Email" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="single-form">
-                    <label asp-for="Order.PhoneNumber"></label>
-                    <input asp-for="Order.PhoneNumber" class="form-control" />
-                    <span asp-validation-for="Order.PhoneNumber" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="single-form">
-                    <label asp-for="Order.CompanyName"></label>
-                    <input asp-for="Order.CompanyName" class="form-control" />
-                    <span asp-validation-for="Order.CompanyName" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="single-form">
-                    <label asp-for="Order.Street"></label>
-                    <input asp-for="Order.Street" class="form-control" />
-                    <span asp-validation-for="Order.Street" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="single-form">
-                    <label asp-for="Order.Apartment"></label>
-                    <input asp-for="Order.Apartment" class="form-control" />
-                    <span asp-validation-for="Order.Apartment" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="single-form">
-                    <label asp-for="Order.Town"></label>
-                    <input asp-for="Order.Town" class="form-control" />
-                    <span asp-validation-for="Order.Town" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="single-form">
-                    <label asp-for="Order.Country"></label>
-                    <input asp-for="Order.Country" class="form-control" />
-                    <span asp-validation-for="Order.Country" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="single-form">
-                    <label asp-for="Order.City"></label>
-                    <input asp-for="Order.City" class="form-control" />
-                    <span asp-validation-for="Order.City" class="text-danger"></span>
+
+                @* <div class="checkout-payment-wrapper mt-30">
+                    <h4 class="allup-title">Payment Method</h4>
+                    <div class="checkout-payment mt-30">
+                        <ul>
+                            <li>
+                                <div class="single-payment">
+                                    <div class="payment-radio">
+                                        <input type="radio" name="radio" id="check" checked="checked">
+                                        <label for="check"><span></span> Check Payment</label>
+
+                                        <div class="payment-details">
+                                            <p>Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="single-payment">
+                                    <div class="payment-radio">
+                                        <input type="radio" name="radio" id="bank">
+                                        <label for="bank"><span></span> Direct Bank Transfer</label>
+
+                                        <div class="payment-details">
+                                            <p>Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="single-payment">
+                                    <div class="payment-radio">
+                                        <input type="radio" name="radio" id="cash">
+                                        <label for="cash"><span></span> Cash on Delivery</label>
+
+                                        <div class="payment-details">
+                                            <p>Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="single-payment">
+                                    <div class="payment-radio">
+                                        <input type="radio" name="radio" id="paypal">
+                                        <label for="paypal"><span></span> Paypal</label>
+
+                                        <div class="payment-details">
+                                            <p>Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="single-payment">
+                                    <div class="payment-radio">
+                                        <input type="radio" name="radio" id="payoneer">
+                                        <label for="payoneer"><span></span> Payoneer</label>
+
+                                        <div class="payment-details">
+                                            <p>Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" id="accept">
+                                    <label for="accept"></label>
+                                    <p>I’ve read and accept the terms & conditions</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div> *@
+
+                <div class="checkout-btn">
+                    <a asp-controller="Payment" asp-action="CheckOut" class="main-btn main-btn-2">Place Order</a>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <div class="checkout-total mt-30">
-        <h4 class="title">Cart Total <span>@totalPrice.ToString("0.00") AZN</span></h4>
-        @if (cartItems != null)
-        {
-            foreach (var item in cartItems)
-            {
-                var discountedPrice = item.Product.SalePrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100);
-                var lineTotal = item.Count * discountedPrice;
-                <p>@item.Product.Name × @item.Count - @lineTotal.ToString("0.00") AZN</p>
-            }
-        }
-    </div>
-
-    <div class="checkout-btn mt-4">
-        <button type="submit" class="main-btn main-btn-2">Place Order</button>
-    </div>
-</form>
-
+<!--====== Checkout Part Ends ======-->
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

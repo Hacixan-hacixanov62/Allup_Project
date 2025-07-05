@@ -24,6 +24,7 @@ namespace Allup_Core.Entities
         public string? CompanyName { get; set; }
         public string? Country { get; set; } 
         public string? Town { get; set; }
+        public bool IsPaid { get; set; }
         public string Street { get; set; } = null!;
         [Required]
         [MaxLength(30)]

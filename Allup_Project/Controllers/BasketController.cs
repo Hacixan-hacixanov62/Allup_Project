@@ -29,7 +29,7 @@ namespace Allup_Project.Controllers
         public async Task<IActionResult> Index()
         {
             var featuresBanners = await _context.FeaturesBanners.ToListAsync();
-            var cartItems = await GetBasketAsync();
+            var cartItems = await _basketService.GetBasketAsync();
             BasketVM basketVM = new BasketVM
             {
                 FeaturesBanners = featuresBanners,
@@ -48,7 +48,7 @@ namespace Allup_Project.Controllers
         {
             await _basketService.AddToCartAsync(id, count);
 
-            var basket = await GetBasketAsync();
+            var basket = await _basketService.GetBasketAsync();
 
             return PartialView("_BasketModalPartial", basket);
         }
@@ -85,7 +85,7 @@ namespace Allup_Project.Controllers
         {
             decimal total = 0;
 
-            var basketItems = await GetBasketAsync();
+            var basketItems = await _basketService.GetBasketAsync();
 
             foreach (var item in basketItems)
             {
@@ -108,37 +108,7 @@ namespace Allup_Project.Controllers
                 total = total
             });
         }
-        private async Task<List<CartItem>> GetBasketAsync()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                var basketItems = await _context.CartItems.Include(x => x.Product).ThenInclude(x => x.ProductImages).Where(x => x.AppUserId == userId).ToListAsync();
-                return basketItems;
-            }
-
-            var basktItms = _getBasket();
-            foreach (var item in basktItms)
-            {
-                var product = await _context.Products.Include(x => x.ProductImages).FirstOrDefaultAsync(x => x.Id == item.ProductId);
-                item.Product = product;
-
-
-            }
-
-            return basktItms;
-        }
-        private List<CartItem> _getBasket()
-        {
-            List<CartItem> basketItems = new();
-            if (Request.Cookies["AllupCart"] != null)
-            {
-                basketItems = JsonConvert.DeserializeObject<List<CartItem>>(Request.Cookies["AllupCart"]) ?? new();
-            }
-
-            return basketItems;
-        }
+   
 
         public IActionResult GetBasket()
         {
@@ -162,8 +132,8 @@ namespace Allup_Project.Controllers
         [Authorize]
         public async Task<IActionResult> CheckOut()
         {
-            var basketItems = await GetBasketAsync();
-
+            var basketItems = await _basketService.GetBasketAsync();
+             
             decimal total = basketItems.Sum(x => x.Product.CostPrice * x.Count);
 
             var vm = new CheckoutDto
@@ -191,7 +161,7 @@ namespace Allup_Project.Controllers
             if (user is null)
                 return BadRequest();
 
-            var basketItems = await GetBasketAsync();
+            var basketItems = await _basketService.GetBasketAsync();
             decimal total = basketItems.Sum(b => b.Product.CostPrice * b.Count);
 
 

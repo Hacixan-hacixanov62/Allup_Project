@@ -1,5 +1,6 @@
 ﻿
 
+using Allup_Core.Entities;
 using Allup_Service.Dtos.CartDtos;
 
 namespace Allup_Service.Service.IService
@@ -18,5 +19,7 @@ namespace Allup_Service.Service.IService
         Task DeleteBasket(int id);
         Task<CartGetDto> GetCartAsync();
         Task<int> GetIntAsync();
+        // Task<List<CartDetailDto>> GetBasketDatasAsync();
+        Task<List<CartItem>> GetBasketAsync();
     }
 }

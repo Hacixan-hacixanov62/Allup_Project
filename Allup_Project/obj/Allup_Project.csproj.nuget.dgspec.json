@@ -135,6 +135,10 @@
               "target": "Package",
               "version": "[1.27.5, )"
             },
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.13, )"
@@ -247,6 +251,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[8.0.7, )"
+            },
+            "Stripe.net": {
+              "target": "Package",
+              "version": "[48.2.0, )"
             }
           },
           "imports": [

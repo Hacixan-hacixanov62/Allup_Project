@@ -85,6 +85,8 @@ namespace Allup_Service.Profiles
             //Basket Profiles
             CreateMap<CartItem, CartItemCreateDto>().ReverseMap();
             CreateMap<CartItem,CartItemDto>().ReverseMap();
+            CreateMap<CartItem, CartGetDto>().ReverseMap();
+            CreateMap<CartItem,CartDetailDto>().ReverseMap();
 
             //Order Profiles
             CreateMap<Order, OrderCreateDto>().ReverseMap();

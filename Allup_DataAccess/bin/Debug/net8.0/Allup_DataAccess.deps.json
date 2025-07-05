@@ -10,6 +10,7 @@
         "dependencies": {
           "Allup_Core": "1.0.0",
           "CloudinaryDotNet": "1.27.5",
+          "Microsoft.AspNetCore.Http.Abstractions": "2.3.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.13",
           "Microsoft.EntityFrameworkCore.Design": "8.0.12",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.12",
@@ -26,7 +27,7 @@
           "System.Diagnostics.DiagnosticSource": "6.0.1",
           "System.Memory.Data": "1.0.2",
           "System.Numerics.Vectors": "4.5.0",
-          "System.Text.Encodings.Web": "6.0.0",
+          "System.Text.Encodings.Web": "8.0.0",
           "System.Text.Json": "4.7.2",
           "System.Threading.Tasks.Extensions": "4.5.4"
         },
@@ -91,6 +92,18 @@
           "lib/net8.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1325.6610"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Http.Abstractions/2.3.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": "5.0.17",
+          "System.Text.Encodings.Web": "8.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.dll": {
+            "assemblyVersion": "2.3.0.0",
+            "fileVersion": "2.3.0.25014"
           }
         }
       },
@@ -362,7 +375,7 @@
           "System.Security.Cryptography.Cng": "5.0.0",
           "System.Security.Principal.Windows": "5.0.0",
           "System.Text.Encoding.CodePages": "6.0.0",
-          "System.Text.Encodings.Web": "6.0.0"
+          "System.Text.Encodings.Web": "8.0.0"
         },
         "runtime": {
           "lib/net6.0/Microsoft.Data.SqlClient.dll": {
@@ -647,7 +660,7 @@
         "dependencies": {
           "Microsoft.IdentityModel.Tokens": "6.35.0",
           "System.Text.Encoding": "4.3.0",
-          "System.Text.Encodings.Web": "6.0.0",
+          "System.Text.Encodings.Web": "8.0.0",
           "System.Text.Json": "4.7.2"
         },
         "runtime": {
@@ -1038,7 +1051,7 @@
       "System.Memory/4.5.4": {},
       "System.Memory.Data/1.0.2": {
         "dependencies": {
-          "System.Text.Encodings.Web": "6.0.0",
+          "System.Text.Encodings.Web": "8.0.0",
           "System.Text.Json": "4.7.2"
         },
         "runtime": {
@@ -1330,11 +1343,7 @@
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
       },
-      "System.Text.Encodings.Web/6.0.0": {
-        "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
-        }
-      },
+      "System.Text.Encodings.Web/8.0.0": {},
       "System.Text.Json/4.7.2": {},
       "System.Text.RegularExpressions/4.3.1": {
         "dependencies": {
@@ -1436,6 +1445,13 @@
       "sha512": "sha512-hxqUOifq+9aDxhla0KzOtFKuJ92RazTLig21WwXzeIOqmvLndPWVebqZBez3UR6KnLtS6OT/IUUsJ9h70WO4wA==",
       "path": "microsoft.aspnetcore.cryptography.keyderivation/8.0.13",
       "hashPath": "microsoft.aspnetcore.cryptography.keyderivation.8.0.13.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Http.Abstractions/2.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-39r9PPrjA6s0blyFv5qarckjNkaHRA5B+3b53ybuGGNTXEj1/DStQJ4NWjFL6QTRQpL9zt7nDyKxZdJOlcnq+Q==",
+      "path": "microsoft.aspnetcore.http.abstractions/2.3.0",
+      "hashPath": "microsoft.aspnetcore.http.abstractions.2.3.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Http.Features/5.0.17": {
       "type": "package",
@@ -2235,12 +2251,12 @@
       "path": "system.text.encoding.codepages/6.0.0",
       "hashPath": "system.text.encoding.codepages.6.0.0.nupkg.sha512"
     },
-    "System.Text.Encodings.Web/6.0.0": {
+    "System.Text.Encodings.Web/8.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Vg8eB5Tawm1IFqj4TVK1czJX89rhFxJo9ELqc/Eiq0eXy13RK00eubyU6TJE6y+GQXjyV5gSfiewDUZjQgSE0w==",
-      "path": "system.text.encodings.web/6.0.0",
-      "hashPath": "system.text.encodings.web.6.0.0.nupkg.sha512"
+      "sha512": "sha512-yev/k9GHAEGx2Rg3/tU6MQh4HGBXJs70y7j1LaM1i/ER9po+6nnQ6RRqTJn1E7Xu0fbIFK80Nh5EoODxrbxwBQ==",
+      "path": "system.text.encodings.web/8.0.0",
+      "hashPath": "system.text.encodings.web.8.0.0.nupkg.sha512"
     },
     "System.Text.Json/4.7.2": {
       "type": "package",

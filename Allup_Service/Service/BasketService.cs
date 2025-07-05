@@ -1,12 +1,13 @@
-﻿
-using Allup_Core.Entities;
+﻿using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
 using Allup_DataAccess.Repositories.IRepositories;
 using Allup_Service.Dtos.CartDtos;
 using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Exceptions;
 using Allup_Service.Service.IService;
+using Allup_Service.UI.Vm;
 using AutoMapper;
+using CloudinaryDotNet.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -378,6 +379,42 @@ namespace Allup_Service.Service
             }
         }
 
+
+        public async Task<List<CartItem>> GetBasketAsync()
+        {
+            if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var basketItems = await _context.CartItems.Include(x => x.Product).ThenInclude(x => x.ProductImages).Where(x => x.AppUserId == userId).ToListAsync();
+                return basketItems;
+            }
+
+            var basktItms = _getBasket();
+            foreach (var item in basktItms)
+            {
+                var product = await _context.Products.Include(x => x.ProductImages).FirstOrDefaultAsync(x => x.Id == item.ProductId);
+                item.Product = product;
+
+
+            }
+
+            return basktItms;
+        }
+
+        public List<CartItem> _getBasket()
+        {
+            List<CartItem> basketItems = new();
+            if (_httpContextAccessor.HttpContext.Request.Cookies["AllupCart"] != null)
+            {
+                basketItems = JsonConvert.DeserializeObject<List<CartItem>>(_httpContextAccessor.HttpContext.Request.Cookies["AllupCart"]) ?? new();
+            }
+
+            return basketItems;
+        }
+
+
+
         public Task EditBasketItem(int id, int count)
         {
             throw new NotImplementedException();
@@ -490,6 +527,7 @@ namespace Allup_Service.Service
         {
             return _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
         }
+
 
     }
 }

@@ -1,9 +1,11 @@
 using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
+using Allup_DataAccess.Interceptors;
 using Allup_Service;
 using Allup_Service.Profiles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.Reflection;
 
 namespace Allup_Project
@@ -50,6 +52,12 @@ namespace Allup_Project
 
 
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("StripeSettings"));
+
+            StripeConfiguration.ApiKey = builder.Configuration["StripeSettings:SecretKey"];
+
+            builder.Services.AddScoped<BaseEntityInterceptor>();
 
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

@@ -41,7 +41,7 @@ namespace Allup_Service
 
 
         } 
-
+        
         private static void AddServices(IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
@@ -84,6 +84,8 @@ namespace Allup_Service
 
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IBasketService, BasketService>();
+
+            //services.AddScoped<IPaymentService, PaymentService>();
 
         }
     }
