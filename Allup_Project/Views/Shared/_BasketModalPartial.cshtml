@@ -1,4 +1,5 @@
 ﻿@using Allup_Service.Dtos.CartDtos
+@using Allup_Service.UI.Vm
 @model CartGetDto
 @{
     Layout = "_Layout"; 
@@ -31,7 +32,7 @@
                                     <tr>
                                         <td>
                                             <div class="product-image">
-                                                <img src="@item.Product.MainFile" alt="cart">
+                                                <img src="@item.Product.ProductImages.FirstOrDefault(m => m.IsCover)?.ImageUrl" alt="cart">
                                             </div>
                                         </td>
                                         <td>
@@ -85,54 +86,10 @@
                                 }
                             </tbody>
                         </table>
-                    </div>
-                    <div class="cart-btn text-right">
-                        <a class="main-btn" href="#">Update cart</a>
-                    </div>
+                    </div>                 
                 </div>
             </div>
-            <div class="col-xl-4">
-                <div class="row">
-                    <div class="col-xl-12 col-md-6">
-                        <div class="cart-coupon mt-30">
-                            <h5 class="title">Discount Coupon Code</h5>
-                            <form action="#">
-                                <div class="single-form coupon-form d-flex flex-wrap">
-                                    <input type="text" placeholder="Coupon Code">
-                                    <button class="main-btn">Apply Coupon</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-xl-12 col-md-6">
-                        <div class="cart-total mt-30">
-                            <div class="sub-total">
-                                <div class="single-total">
-                                    <span class="cart-value">Subtotal</span>
-                                    <span class="cart-amount">€@Model.Subtotal.ToString("F2")</span>
-                                </div>
-                                @* <div class="single-total">
-                                    <span class="cart-value">Shipping Cost</span>
-                                    <span class="cart-amount">€3.90</span>
-                                </div> *@
-                            </div>
-                            <div class="total">
-                                <div class="single-total">
-                                    <span class="cart-value">Total (tax excl.)</span>
-                                    <span class="cart-amount">€@Model.Total.ToString("F2")</span>
-                                </div>
-                                @* <div class="single-total">
-                                    <span class="cart-value">Taxes</span>
-                                    <span class="cart-amount">€0.00</span>
-                                </div> *@
-                            </div>
-                            <div class="cart-total-btn text-right">
-                                <a class="main-btn" asp-controller="Order" asp-action="Index">Proceed to Checkout</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
 </section>

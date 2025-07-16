@@ -47,11 +47,10 @@
                         <div class="tags d-flex">
                             <span class="tag-title">Tags:</span>
                             <ul class="tag-list media-body">
-                            @* @foreach (var item in Model.Tags)
+                            @foreach (var item in Model.Product.Tags)
                             {
                                 <li><a href="#">@item.Name</a></li>
-                            }                        *@
-                            <li><a href="#">@Model.Product.Tags</a></li>
+                            }                       
                             </ul>
                         </div>
                         <h2 class="product-title">New Balance Fresh Foam LAZR v1 Sport eu accumsan massa facilisis</h2>
@@ -86,7 +85,7 @@
                         </div>
                             <div class="single-info">
                                 <span class="title">Brand :</span>
-                                <span class="value"><a href="#">@Model.Brands</a></span>
+                                <span class="value"><a href="#">@Model.Product.Brand.Name</a></span>
                             </div>
                             <div class="single-info">
                                 <span class="title"> Product Code :</span>

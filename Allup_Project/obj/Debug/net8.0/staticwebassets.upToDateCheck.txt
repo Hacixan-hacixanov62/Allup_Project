@@ -5296,6 +5296,7 @@ wwwroot\assets\js\plugins\jquery.countdown.min.js
 wwwroot\assets\js\plugins\jquery-ui.min.js
 wwwroot\assets\js\plugins\popper.min.js
 wwwroot\assets\js\plugins\slick.min.js
+wwwroot\assets\js\shop\sorts.js
 wwwroot\assets\js\vendor\jquery-1.12.4.min.js
 wwwroot\assets\js\vendor\modernizr-3.7.1.min.js
 wwwroot\assets\plugins\js\ajax-contact.js

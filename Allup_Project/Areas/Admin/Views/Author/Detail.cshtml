@@ -1,0 +1,40 @@
+﻿@using Allup_Core.Entities
+@model Author
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<br />
+<br />
+<div class="card m-auto w-75">
+    <div class="card-body">
+        <h4 class="card-title">Author Detailed View</h4>
+        <div class="d-flex">
+            <div class="d-flex align-items-center text-muted font-weight-light">
+                <i class="mdi mdi-clock icon-sm me-2"></i>
+                @*   <p><b>Cerated date:</b> @Model.CreatedDate</p> *@
+            </div>
+        </div>
+        <div class="d-flex mt-5 align-items-top">
+            <div class="mb-0 flex-grow">
+
+                <p><b>Name:</b> @Model.Name</p>
+                <p><b>SurName:</b> @Model.Surname</p>
+                <p><b>Desc:</b> @Model.Description</p>
+                <p><b>Biographia:</b> @Model.Biographia</p>
+
+            </div>
+            @* <div class="row2" style="gap:30px;">
+                @foreach (var item in M)
+                {
+                    <div class="col-2">
+                        <img style="width:200px;" src="@Model.ProductImages.FirstOrDefault(x=>!x.IsMain)?.Url" />
+                    </div>
+                }
+            </div> *@
+            <div class="col">
+                <a class="btn btn-gradient-primary me-2" asp-action="index">Go Back</a>
+            </div>
+        </div>
+    </div>
+</div>

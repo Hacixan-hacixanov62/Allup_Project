@@ -56,8 +56,8 @@
                                                 <th class="delete">Delete</th>
                                             </tr>
                                         </thead>
-                                     <tbody id="baskett">
-    @foreach (var item in Model.CartItems)
+                                     <tbody id="baskett">                                
+                                      @foreach (var item in Model.CartItems)                @*      @await Html.PartialAsync("_BasketModalPartial", Model.CartItems))*@
     {
         <tr>
             <td>
@@ -389,7 +389,11 @@
                 .catch(err => console.error("Azaltma xətası:", err));
         }
 
-        function RemoveToCart(productId) {
+       
+    </script>
+
+    <script>
+         function RemoveToCart(productId) {
             fetch(`/Basket/RemoveToCart?id=${productId}`, {
                 method: 'POST',
                 headers: {
@@ -436,7 +440,95 @@
         function getAntiForgeryToken() {
             const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
             return tokenInput ? tokenInput.value : '';
-        }
+        }   
+    </script>
+
+    <!--==================================Asagdakilari hele tam funksionalliqla yazilmayib==========================================================-->
+    <script>
+
+
+
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const countInputs = document.querySelectorAll('.countInput');
+            const BasketItemCounter = document.querySelector('.BasketItemCounter');
+            const BasketItemPrice = document.querySelector('.BasketItemPrice');
+            const TotalPriceOutputs = document.querySelectorAll('.BasketItemTotalPrice');
+
+            if (BasketItemPrice) {
+                let priceString = BasketItemPrice.innerHTML;
+                let basketCount = parseInt(BasketItemCounter ? BasketItemCounter.innerHTML : 0);
+                let price = parseFloat(priceString.slice(1)) || 0;
+
+                countInputs.forEach((input, i) => {
+                    input.addEventListener('input', async (e) => {
+                        let newCount = parseInt(e.target.value);
+                        if (isNaN(newCount) || newCount <= 0) {
+                            input.value = 1;
+                            newCount = 1;
+                        }
+
+                        let productPrice = parseFloat(input.dataset.price);
+                        let oldCount = parseInt(input.dataset.count);
+
+                        if (oldCount > newCount) {
+                            let range = oldCount - newCount;
+                            basketCount -= range;
+                        } else {
+                            let range = newCount - oldCount;
+                            basketCount += range;
+                        }
+
+                        input.dataset.count = newCount;
+                        BasketItemCounter.innerHTML = basketCount;
+
+                        price += (newCount - oldCount) * productPrice;
+                        BasketItemPrice.innerHTML = `$${price.toFixed(2)}`;
+
+                        let total = productPrice * newCount;
+                        TotalPriceOutputs[i].innerHTML = `$${total.toFixed(2)}`;
+
+                        // Update the server with the new count
+                        await fetch(`/Basket/EditBasketItem/${input.dataset.id}?count=${newCount}`);
+
+                        input.blur();
+                    });
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Məhsul sayını artırmaq
+            document.querySelectorAll(".increment-btn").forEach(button => {
+                button.addEventListener("click", async function (event) {
+                    event.preventDefault();
+
+                    const url = this.href; // Düymənin URL-sini al
+                    const productId = this.getAttribute("data-id"); // Məhsulun ID-sini al
+                    const price = parseFloat(this.getAttribute("data-price")); // Məhsul qiymətini al
+
+                    // Sorğu göndər
+                    await fetch(url, { method: "GET" }); // Sorğu göndər, amma cavabla işləmirik
+
+                    // Lokal olaraq məhsul sayı və subtotal yenilə
+                    const countElement = document.getElementById(value - ${ productId });
+                    const subtotalElement = document.getElementById(subtotal - ${ productId });
+
+                    const currentCount = parseInt(countElement.textContent) + 1; // Sayı artır
+                    countElement.textContent = currentCount;
+
+                    const newSubtotal = price * currentCount; // Yeni alt cəm
+                    subtotalElement.textContent = ₼${ newSubtotal.toFixed(2) };
+
+                    // Ümumi toplamı yenilə
+                    updateTotal();
+                });
+            });
+
+
+
     </script>
 }
 

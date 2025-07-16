@@ -1,7 +1,9 @@
 ﻿using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
 using Allup_Service.Dtos.CartDtos;
+using Allup_Service.Service;
 using Allup_Service.Service.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -14,15 +16,16 @@ namespace Allup_Project.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<AppUser> _userManager;
-
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEmailService _emailService;
         private readonly IBasketService _basketService;
-        public PaymentController(AppDbContext context, UserManager<AppUser> userManager, IEmailService emailService, IBasketService basketService)
+        public PaymentController(AppDbContext context, UserManager<AppUser> userManager, IEmailService emailService, IBasketService basketService, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _userManager = userManager;
             _emailService = emailService;
             _basketService = basketService;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<IActionResult> Checkout()
         {
@@ -39,12 +42,13 @@ namespace Allup_Project.Controllers
                 return RedirectToAction("Index", "Basket");
             }
 
-            var domain = "https://localhost:5112/";
+
+            var domain = "http://localhost:5112/";
 
             var options = new SessionCreateOptions
             {
-                SuccessUrl = domain + "payment/success",
-                CancelUrl = domain + "payment/failed",
+                SuccessUrl = domain + "Payment/Success",
+                CancelUrl = domain + "Payment/failed",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
             };
@@ -76,7 +80,7 @@ namespace Allup_Project.Controllers
 
         public async Task<IActionResult> Success()
         {
-            var basketCookie = Request.Cookies["AllupCart"];
+            var basketCookie = Request.Cookies[BasketService.BASKET_KEY];
 
             if (string.IsNullOrEmpty(basketCookie))
             {
@@ -85,18 +89,19 @@ namespace Allup_Project.Controllers
 
             var basketItems = JsonConvert.DeserializeObject<List<CartGetDto>>(basketCookie);
 
-            Response.Cookies.Delete("AllupCart");
+            if (basketItems == null || !basketItems.Any())
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-            // Email göndərmə zamanı xəta baş verərsə, ödəniş prosesinə təsir etməsin
+            // Silinməsi
+            Response.Cookies.Delete(BasketService.BASKET_KEY);
+
             try
             {
                 await SendSuccessEmailAsync(basketItems);
             }
-            catch (Exception ex)
-            {
-                // Log the error but continue with success page
-                // _logger.LogError(ex, "Email göndərmə zamanı xəta baş verdi");
-            }
+            catch { }
 
             return RedirectToAction("Index", "Home", new { payment = "success" });
         }

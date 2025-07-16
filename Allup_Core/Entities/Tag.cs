@@ -13,6 +13,6 @@ namespace Allup_Core.Entities
         [Required]
         [MaxLength(100)]
         public string Name { get; set; } = null!;
-        public List<Product> Products { get; set; }
+        public List<Product> Products { get; set; } =null!;
     }
 }

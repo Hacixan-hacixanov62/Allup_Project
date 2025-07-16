@@ -11,7 +11,7 @@ namespace Allup_Project.Controllers
 
         public HomeController(AppDbContext context)
         {
-            _context = context;
+            _context = context; 
         }
 
         public async Task<IActionResult> Index()

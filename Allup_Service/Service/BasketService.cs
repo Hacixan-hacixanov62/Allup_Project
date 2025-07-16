@@ -2,6 +2,7 @@
 using Allup_DataAccess.DAL;
 using Allup_DataAccess.Repositories.IRepositories;
 using Allup_Service.Dtos.CartDtos;
+using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Exceptions;
 using Allup_Service.Service.IService;
@@ -11,6 +12,7 @@ using CloudinaryDotNet.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace Allup_Service.Service
@@ -22,7 +24,7 @@ namespace Allup_Service.Service
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IProductService _productService;
         private readonly AppDbContext _context;
-        private const string BASKET_KEY = "AllupCart";
+        public const string BASKET_KEY = "AllupCart";
         public BasketService(IMapper mapper, IHttpContextAccessor httpContextAccessor, IBasketRepository basketRepository, IProductService productService, AppDbContext context)
         {
             _mapper = mapper;
@@ -254,7 +256,7 @@ namespace Allup_Service.Service
 
                 var items = _context.CartItems
                     .Include(x => x.Product)
-                    .ThenInclude(x => x.ProductImages.Where(x => x.IsCover == true))
+                    .ThenInclude(x => x.ProductImages.Where(x => x.IsCover == true)) // .ThenInclude(x => x.Product.ColorProducts)
                     .Where(x => x.AppUserId == userId).ToList();
 
                 foreach (var bi in items)
@@ -316,9 +318,14 @@ namespace Allup_Service.Service
                             Product = new ProductGetDto
                             {
                                 Id = product.Id,
-                                Name = product.Name,
-                                SalePrice = product.SalePrice,
+                                Name = product.Name,                                       
+                                SalePrice = product.SalePrice,                             
                                 MainFileUrl = product.ProductImages.FirstOrDefault(x => x.IsCover == true)?.ImageUrl,
+                                //Colors = product.ColorProducts.Select(cp => new ColorGetDto
+                                //{
+                                //    Id = cp.Color.Id,
+                                //    Name = cp.Color.Name
+                                //}).ToList(),
                             }
                         };
 
@@ -335,7 +342,7 @@ namespace Allup_Service.Service
                 }
 
 
-
+             
             }
 
             return cartGetDto;

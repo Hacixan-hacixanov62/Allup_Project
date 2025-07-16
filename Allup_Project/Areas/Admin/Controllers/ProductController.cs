@@ -2,10 +2,12 @@
 using Allup_DataAccess.DAL;
 using Allup_DataAccess.Helpers;
 using Allup_Service.Dtos.ProductDtos;
+using Allup_Service.Service;
 using Allup_Service.Service.IService;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -17,38 +19,37 @@ namespace Allup_Project.Areas.Admin.Controllers
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
+        private readonly IBrandService _brandService;
+        private readonly IColorService _colorService;
+        private readonly ITagService _tagService;
+        private readonly ISizeService _sizeService;
         private readonly IMapper _mapper;
         private readonly AppDbContext _context;
-        public ProductController(ICategoryService categoryService, IProductService productService, AppDbContext context, IMapper mapper)
+        public ProductController(ICategoryService categoryService, IProductService productService, AppDbContext context, IMapper mapper, ISizeService sizeService , ITagService tagService , IColorService colorService , IBrandService brandService )
         {
             _categoryService = categoryService;
             _productService = productService;
             _context = context;
             _mapper = mapper;
+            _sizeService = sizeService;
+            _tagService = tagService;
+            _colorService = colorService;
+            _brandService = brandService;
         }
 
         public async Task<IActionResult> Index(int page =1,int take =6)
         {
-            //var products = _context.Products
-            //    .Include(m=>m.Category)
-            //    .Include(m=>m.ProductImages)
-            //    .Include(m=>m.Brands)
-            //    .Include(m=>m.SizeProducts)
-            //    .ThenInclude(m=>m.Size)
-            //    .Include(m=>m.ColorProducts)
-            //    .ThenInclude(m=>m.Color)
-            //    .Include(m=>m.TagProducts)
-            //    .ThenInclude(m=>m.Tag)
-            //    .OrderByDescending(m => m.CreatedAt)                                        
-            //    .AsQueryable();
-            
-            //PaginatedList<Product> paginatedList = PaginatedList<Product>.Create(products, page,take);
+
             var product = await _productService.GetAllAsync();
             return View(product);
         }
 
         private async Task PopulateViewBags()
         {
+        //    ViewBag.Brands = new SelectList(await _brandService.GetAllAsync(), "Id", "Name");
+        //    ViewBag.Categories = new SelectList(await _categoryService.GetAllAsync(), "Id", "Name");
+        //    ViewBag.Colors = new MultiSelectList(await _colorService.GetAllAsync(), "Id", "Name");
+        //    ViewBag.Tags = new MultiSelectList(await _tagService.GetAllAsync(), "Id", "Name");
             ViewBag.Categories = await _context.Categories.ToListAsync();
             ViewBag.Brands = await _context.Brands.ToListAsync();
             ViewBag.Sizes = await _context.Sizes.ToListAsync();

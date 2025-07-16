@@ -56,9 +56,9 @@ namespace Allup_Service.Dtos.ProductDtos
         [MaxSizeAttribute(2 * 1024 * 1024)]
         [AllowedTypes("image/jpeg", "image/png")]
         public List<IFormFile> AdditionalFiles { get; set; } = new();
+        public BrandGetDto Brand { get; set; } = null!;
         public List<ProductImage> ProductImages { get; set; }
         public List<int>? ProductImageIds { get; set; }
-
         public List<CategoryGetDto> Categories { get; set; } = null!;
         public List<TagGetDto> Tags { get; set; } = null!;
         public List<ColorGetDto> Colors { get; set; } = null!;

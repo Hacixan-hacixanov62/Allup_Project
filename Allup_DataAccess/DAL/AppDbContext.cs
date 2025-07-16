@@ -37,6 +37,9 @@ namespace Allup_DataAccess.DAL
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
         public DbSet<Payment> Payments { get; set; } = null!;
+        public DbSet<Author> Authors { get; set; } = null!;
+        public DbSet<Blog> Blogs { get; set; } = null!;
+
 
 
         // Many to Many

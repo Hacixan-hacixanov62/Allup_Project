@@ -1,6 +1,8 @@
 ﻿using Allup_Core.Entities;
 using Allup_Service.Dtos.AuthDtos;
+using Allup_Service.Dtos.AuthorDtos;
 using Allup_Service.Dtos.BannerDtos;
+using Allup_Service.Dtos.BlogDtos;
 using Allup_Service.Dtos.BrandDtos;
 using Allup_Service.Dtos.CartDtos;
 using Allup_Service.Dtos.CategoryDtos;
@@ -40,7 +42,9 @@ namespace Allup_Service.Profiles
             CreateMap<Product, ProductGetDto>()
  .ForMember(dest => dest.MainFileUrl, opt => opt.MapFrom(src =>
      src.ProductImages.FirstOrDefault(img => img.IsCover).ImageUrl))
+ .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brands))
  .ReverseMap();
+           
 
             //Banner Profiles
             CreateMap<Banner, BannerCreateDto>().ReverseMap();
@@ -103,6 +107,14 @@ namespace Allup_Service.Profiles
             CreateMap<OrderItem, OrderItemGetDto>().ReverseMap();
             CreateMap<OrderItemCreateDto, CartItemDto>().ReverseMap();
             CreateMap<OrderItemGetDto, CartItemDto>().ReverseMap().ForMember(x => x.TotalPrice, x => x.MapFrom(x => x.Product.CostPrice));
+
+            //Author Porfiles
+            CreateMap<Author, AuthorCreateDto>().ReverseMap();
+            CreateMap<Author, AuthorUpdateDto>().ReverseMap();
+
+            //Blog Profiles
+            CreateMap<Blog, BlogCreateDto>().ReverseMap();
+            CreateMap<Blog, BlogUpdateDto>().ReverseMap();
         }
     }
 }

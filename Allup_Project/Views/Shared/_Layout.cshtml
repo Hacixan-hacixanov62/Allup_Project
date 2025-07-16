@@ -367,10 +367,9 @@
                         <div class="col-lg-9 position-static">
                             <div class="header-horizontal-menu">
                                 <ul class="menu-content">
-                                    <li class="active"><a href="#">Home <i class="fal fa-chevron-down"></i></a>
+                                    <li class="active"><a asp-controller="Home" asp-action="Index">Home <i class="fal fa-chevron-down"></i></a>
                                         <ul class="sub-menu">
-                                            <li><a href="index.html">Home 01</a></li>
-                                            <li><a href="index-2.html">Home 02</a></li>
+                                            <li><a asp-controller="Home" asp-action="Index"l">Home 02</a></li>
                                             <li><a href="index-3.html">Home 03</a></li>
                                             <li><a href="index-4.html">Home 04</a></li>
                                         </ul>
@@ -388,7 +387,7 @@
                                             <li><a href="register.html">Register</a></li>
                                         </ul>
                                     </li>
-                                    <li class="position-static"><a href="#">Shop <i class="fal fa-chevron-down"></i></a>
+                                    <li class="position-static"><a asp-controller="Shop" asp-action="Index">Shop <i class="fal fa-chevron-down"></i></a>
                                         <ul class="mega-sub-menu d-flex flex-wrap">
                                             <li>
                                                 <a class="menu-title" href="#">Shop Grid</a>
@@ -402,7 +401,7 @@
                                             <li>
                                                 <a class="menu-title" href="#">Shop List</a>
                                                 <ul class="submenu-item">
-                                                    <li><a href="shop-list.html">Shop List</a></li>
+                                                    <li><a asp-controller="Shop" asp-action="Index">Shop List</a></li>
                                                     <li><a href="shop-list-left-sidebar.html">Shop List Left sidebar</a></li>
                                                     <li><a href="shop-list-right-sidebar.html">Shop List Right sidebar</a></li>
                                                 </ul>

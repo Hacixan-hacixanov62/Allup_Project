@@ -53,9 +53,9 @@ namespace Allup_Service.Dtos.ProductDtos
         public Brand? Brands { get; set; }
 
         // Many to Many 
-        public List<TagProduct> TagProducts { get; set; }
-        public List<SizeProduct> SizeProducts { get; set; }
-        public List<ColorProduct> ColorProducts { get; set; }
+        public List<TagProduct> TagProducts { get; set; } = new();
+        public List<SizeProduct> SizeProducts { get; set; } = new();
+        public List<ColorProduct> ColorProducts { get; set; } = new();
         public List<int> SizeIds { get; set; } = new();
         public List<int> ColorIds { get; set; } = new();
         public List<int> TagIds { get; set; } = new();

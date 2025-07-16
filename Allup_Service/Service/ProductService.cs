@@ -3,7 +3,10 @@ using Allup_DataAccess.DAL;
 using Allup_DataAccess.Helpers;
 using Allup_DataAccess.Repositories.IRepositories;
 using Allup_Service.Dtos.CategoryDtos;
+using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.ProductDtos;
+using Allup_Service.Dtos.SizeDtos;
+using Allup_Service.Dtos.TagDtos;
 using Allup_Service.Service.IService;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
@@ -59,43 +62,62 @@ namespace Allup_Service.Service
             }
 
             // --- SizeProducts ---
-            product.SizeProducts = new List<SizeProduct>();
-            if (productCreateDto.SizeIds is not null)
+            //product.SizeProducts = new List<SizeProduct>();
+            //if (productCreateDto.SizeIds is not null)
+            //{
+            //    foreach (var sizeId in productCreateDto.SizeIds.Distinct())
+            //    {
+            //        product.SizeProducts.Add(new SizeProduct
+            //        {
+            //            SizeId = sizeId
+            //        });
+            //    }
+            //}
+
+            product.SizeProducts = productCreateDto.SizeIds.Select(sizeId => new SizeProduct   // .Distinct() bu methodan istifade ede bilersen tekraralari silmek ucun
             {
-                foreach (var sizeId in productCreateDto.SizeIds.Distinct())
-                {
-                    product.SizeProducts.Add(new SizeProduct
-                    {
-                        SizeId = sizeId
-                    });
-                }
-            }
+                SizeId = sizeId,
+                Product = product
+            }).ToList();
 
             // --- ColorProducts ---
-            product.ColorProducts = new List<ColorProduct>();
-            if (productCreateDto.ColorIds is not null)
+            //product.ColorProducts = new List<ColorProduct>();
+            //if (productCreateDto.ColorIds is not null)
+            //{
+            //    foreach (var colorId in productCreateDto.ColorIds.Distinct())
+            //    {
+            //        product.ColorProducts.Add(new ColorProduct
+            //        {
+            //            ColorId = colorId
+            //        });
+            //    }
+            //}
+
+            product.ColorProducts = productCreateDto.ColorIds.Select(colorId => new ColorProduct // .Distinct() bu methodan istifade ede bilersen tekraralari silmek ucun
             {
-                foreach (var colorId in productCreateDto.ColorIds.Distinct())
-                {
-                    product.ColorProducts.Add(new ColorProduct
-                    {
-                        ColorId = colorId
-                    });
-                }
-            }
+                ColorId = colorId,
+                Product =product
+            }).ToList();
 
             // --- TagProducts ---
-            product.TagProducts = new List<TagProduct>();
-            if (productCreateDto.TagIds is not null)
+
+            //product.TagProducts = new List<TagProduct>();
+            //if (productCreateDto.TagIds is not null)
+            //{
+            //    foreach (var tagId in productCreateDto.TagIds.Distinct())
+            //    {
+            //        product.TagProducts.Add(new TagProduct
+            //        {
+            //            TagId = tagId
+            //        });
+            //    }
+            //}
+
+            product.TagProducts = productCreateDto.TagIds.Select(tagId => new TagProduct // .Distinct() bu methodan istifade ede bilersen tekraralari silmek ucun
             {
-                foreach (var tagId in productCreateDto.TagIds.Distinct())
-                {
-                    product.TagProducts.Add(new TagProduct
-                    {
-                        TagId = tagId
-                    });
-                }
-            }
+                TagId = tagId,
+                Product = product
+            }).ToList();
 
             // --- Metadata ---
             var username = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
@@ -283,23 +305,200 @@ namespace Allup_Service.Service
 
         public async Task<List<Product>> GetAllAsync()
         {
-            var products =await _productRepository.GetAll(include : x=>x.Include(m=>m.ProductImages)).ToListAsync();
+            var products =await _productRepository.GetAll(include : x=>x
+                                                      .Include(m => m.Category)
+                                                     .Include(m=>m.ProductImages)
+                                                     .Include(m => m.Brands)
+                                                     .Include(m => m.TagProducts).ThenInclude(tp => tp.Tag)
+                                                     .Include(m => m.ColorProducts).ThenInclude(cp => cp.Color)
+                                                    .Include(m => m.SizeProducts).ThenInclude(sp => sp.Size)
+                                                  )
+                                                  .ToListAsync();
             return products;
         }
 
         public async Task<ProductGetDto> GetByIdAsync(int productId)
         {
-            var product = await _productRepository.GetAsync(x => x.Id == productId,
-                                                      x => x.Include(p => p.ProductImages));
+            var product = await _productRepository.GetAsync(m => m.Id == productId,
+                                                      m => m.Include(p => p.ProductImages)
+                                                      .Include(m => m.Category)
+                                                     .Include(m => m.ProductImages)
+                                                     .Include(m => m.Brands)
+                                                     .Include(m => m.TagProducts).ThenInclude(tp => tp.Tag)
+                                                     .Include(m => m.ColorProducts).ThenInclude(cp => cp.Color)
+                                                    .Include(m => m.SizeProducts).ThenInclude(sp => sp.Size)
+                                                       );
             if (product == null) return null;
 
             var dto = _mapper.Map<ProductGetDto>(product);
+
+            dto.Tags = product.TagProducts.Select(tp => new TagGetDto
+            {
+                Id = tp.Tag.Id,
+                Name = tp.Tag.Name
+            }).ToList();
+
+            dto.Colors = product.ColorProducts.Select(cp => new ColorGetDto
+            {
+                Id = cp.Color.Id,
+                Name = cp.Color.Name
+            }).ToList();
+
+            dto.Sizes = product.SizeProducts.Select(sp => new SizeGetDto
+            {
+                Id = sp.Size.Id,
+                Name = sp.Size.Name
+            }).ToList();
+
+            
+
             return dto;
+
         }
 
         public async Task<bool> IsExistAsync(int id)
         {
             return await _productRepository.IsExistAsync(p => p.Id == id);
         }
+
+        public async Task<List<Product>> SearchProductsAsync(string query)
+        {
+            IQueryable<Product> products = _context.Products.Include(p => p.Category);
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                query = query.ToLower();
+
+                products = products.Where(p =>
+                    p.Name.ToLower().Contains(query) ||
+                    p.Category.Name.ToLower().Contains(query));
+            }
+
+            return await products.ToListAsync();
+        }
+
+        public Task<ICollection<ProductGetDto>> SortAsync(string sortKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ICollection<ProductGetDto>> FilterAsync(string? categoryName, string? brandName, string? tagName)
+        {
+            IQueryable<Product> query = _context.Products
+               .Include(p => p.Category)
+               .Include(p => p.Brands)
+               .Include(p => p.TagProducts).ThenInclude(pt => pt.Tag)
+               .Include(p => p.SizeProducts).ThenInclude(sp => sp.Size)
+               .Include(p => p.ColorProducts).ThenInclude(cp => cp.Color)
+               .Include(p => p.ProductImages)
+               .AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(categoryName))
+            {
+                categoryName = categoryName.Trim();
+                // Case-insensitive comparison əlavə edin
+                query = query.Where(p => p.Category != null &&
+                           EF.Functions.Like(p.Category.Name, categoryName));
+
+            }
+
+            if (!string.IsNullOrWhiteSpace(brandName))
+            {
+                brandName = brandName.Trim();
+                // Case-insensitive comparison əlavə edin
+                query = query.Where(p => p.Brands != null &&
+                                   p.Brands.Name.ToLower() == brandName.ToLower());
+            }
+
+            if (!string.IsNullOrWhiteSpace(tagName))
+            {
+                tagName = tagName.Trim();
+                // Case-insensitive comparison əlavə edin
+                query = query.Where(p => p.TagProducts.Any(pt => pt.Tag != null &&
+                                   pt.Tag.Name.ToLower() == tagName.ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(tagName))
+            {
+                tagName = tagName.Trim();
+                // Case-insensitive comparison əlavə edin
+                query = query.Where(p => p.SizeProducts.Any(pt => pt.Size != null &&
+                                   pt.Size.Name.ToLower() == tagName.ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(tagName))
+            {
+                tagName = tagName.Trim();
+                // Case-insensitive comparison əlavə edin
+                query = query.Where(p => p.ColorProducts.Any(pt => pt.Color != null &&
+                                   pt.Color.Name.ToLower() == tagName.ToLower()));
+            }
+
+            var filteredProducts = await query.ToListAsync();
+            return _mapper.Map<ICollection<ProductGetDto>>(filteredProducts);
+        }
+
+        public async Task<List<ProductGetDto>> GetProductAsync(int skip, int take)
+        {
+            try
+            {
+                var products = await _context.Products
+                    .Include(p => p.Category)
+                    .Include(p => p.Brands)
+                    .OrderByDescending(p => p.CreatedAt)
+                    .Skip(skip)
+                    .Take(take)
+                    .Select(p => new ProductGetDto
+                    {
+                        Id = p.Id,
+                        Name = p.Name ?? "",
+                        Desc =p.Desc,
+                        CostPrice = p.CostPrice,
+                        SalePrice = p.SalePrice,
+                        DiscountPercent = p.DiscountPercent
+                        //Brand =p.Brands !=null ? p.Brands.Name : "" ,
+                        
+                    })
+                    .ToListAsync();
+
+                return products;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"GetProductsAsync Error: {ex.Message}");
+                return new List<ProductGetDto>();
+            }
+        }
+
+        public async Task<int> GetTotalProductCountAsync()
+        {
+            try
+            {
+                return await _context.Products.CountAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"GetTotalProductCountAsync Error: {ex.Message}");
+                return 0;
+            }
+        }
+
+        public async Task<List<ProductGetDto>> FilterByPriceAsync(decimal min, decimal max)
+        {
+            var products = await _context.Products
+               .Where(p => p.CostPrice >= min && p.CostPrice <= max)
+                 .Where(p => p.SalePrice >= min && p.SalePrice <= max)
+               .Include(p => p.Brands)
+               .Include(p => p.Category)
+                .Include(p => p.TagProducts).ThenInclude(tp => tp.Tag)
+                .Include(p => p.SizeProducts).ThenInclude(sp => sp.Size)
+                .Include(p => p.ColorProducts).ThenInclude(cp => cp.Color)
+               .Include(p => p.ProductImages)
+               .AsNoTracking()
+               .ToListAsync();
+
+            return _mapper.Map<List<ProductGetDto>>(products);
+        }
+
     }
 }
