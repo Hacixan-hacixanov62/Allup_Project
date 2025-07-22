@@ -1,14 +1,13 @@
 ﻿using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
-using Allup_Service.Dtos.CartDtos;
 using Allup_Service.Service;
 using Allup_Service.Service.IService;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Stripe.Checkout;
+using System.Security.Claims;
 
 namespace Allup_Project.Controllers
 {
@@ -47,7 +46,7 @@ namespace Allup_Project.Controllers
 
             var options = new SessionCreateOptions
             {
-                SuccessUrl = domain + "Payment/Success",
+                SuccessUrl = domain + "Payment/Success?session_id={CHECKOUT_SESSION_ID}",
                 CancelUrl = domain + "Payment/failed",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
@@ -77,36 +76,76 @@ namespace Allup_Project.Controllers
             return new StatusCodeResult(303);
         }
 
-
-        public async Task<IActionResult> Success()
+        public async Task<IActionResult> Success(string session_id)
         {
-            var basketCookie = Request.Cookies[BasketService.BASKET_KEY];
-
-            if (string.IsNullOrEmpty(basketCookie))
+            if (string.IsNullOrEmpty(session_id))
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            var basketItems = JsonConvert.DeserializeObject<List<CartGetDto>>(basketCookie);
+            var service = new SessionService();
+            var session = await service.GetAsync(session_id);
+
+            if (session == null || session.PaymentStatus != "paid")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            List<CartItem> basketItems;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                basketItems = await _context.CartItems
+                    .Include(x => x.Product)
+                    .ThenInclude(x => x.ProductImages)
+                    .Where(x => x.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    .ToListAsync();
+            }
+            else
+            {
+                // Anonim istifadəçi üçün cookie-dən al
+                var basketCookie = Request.Cookies[BasketService.BASKET_KEY];
+                if (string.IsNullOrEmpty(basketCookie))
+                {
+                    // Cookie yoxdursa boş cart qəbul et
+                    return RedirectToAction("Index", "Home");
+                }
+
+                basketItems = JsonConvert.DeserializeObject<List<CartItem>>(basketCookie);
+
+                // Məhsulları DB-dən yüklə
+                foreach (var item in basketItems)
+                {
+                    item.Product = await _context.Products
+                        .Include(x => x.ProductImages)
+                        .FirstOrDefaultAsync(x => x.Id == item.ProductId);
+                }
+            }
 
             if (basketItems == null || !basketItems.Any())
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            // Silinməsi
+            await SendSuccessEmailAsync(basketItems);
+
+            // Cart-u təmizlə: cookie və DB cart (login olanlar üçün)
             Response.Cookies.Delete(BasketService.BASKET_KEY);
 
-            try
+            if (User.Identity.IsAuthenticated)
             {
-                await SendSuccessEmailAsync(basketItems);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userCartItems = await _context.CartItems.Where(x => x.AppUserId == userId).ToListAsync();
+                _context.CartItems.RemoveRange(userCartItems);
+                await _context.SaveChangesAsync();
             }
-            catch { }
+
 
             return RedirectToAction("Index", "Home", new { payment = "success" });
         }
+       
 
-        private async Task SendSuccessEmailAsync(List<CartGetDto> basketItems)
+        private async Task SendSuccessEmailAsync(List<CartItem> basketItems)
         {
             var user = await _userManager.GetUserAsync(User);
 
@@ -203,7 +242,7 @@ namespace Allup_Project.Controllers
                             <tr>
                                 <td>{item.Product.Name}</td>
                                 <td>{item.Count}</td>
-                                <td>${item:F2}</td>
+                                <td>${item.Count *item.Product.SalePrice}</td>
                             </tr>";
             }
 

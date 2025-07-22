@@ -61,5 +61,7 @@ namespace Allup_Core.Entities
         public List<SizeProduct> SizeProducts { get; set; }
         public List<ColorProduct> ColorProducts { get; set; }
 
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
     }
 }

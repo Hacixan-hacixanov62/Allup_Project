@@ -20,10 +20,12 @@ namespace Allup_Service.Dtos.BlogDtos
         [StringLength(maximumLength: 500)]
         public string MaxDescription { get; set; } = null!;
         public int AuthorId { get; set; }
+        public int TagId { get; set; }
+        public int CategoryId { get; set; }
         [NotMapped]
         [MaxSizeAttribute(2 * 1024 * 1024)]
         [AllowedTypes("image/jpeg", "image/png")]
         public IFormFile Image { get; set; } = null!;
-        public List<int> TopicIds { get; set; } = new();
+       // public List<int> TopicIds { get; set; } = new();
     }
 }

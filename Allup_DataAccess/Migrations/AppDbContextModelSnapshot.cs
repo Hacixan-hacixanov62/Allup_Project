@@ -145,7 +145,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Banner", b =>
@@ -178,7 +178,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Banners");
+                    b.ToTable("Banners", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Blog", b =>
@@ -190,6 +190,9 @@ namespace Allup_DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -219,6 +222,9 @@ namespace Allup_DataAccess.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -235,7 +241,11 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Blogs");
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Brand", b =>
@@ -273,7 +283,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.CartItem", b =>
@@ -300,7 +310,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartItems");
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Category", b =>
@@ -342,7 +352,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Color", b =>
@@ -380,7 +390,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colors");
+                    b.ToTable("Colors", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.ColorProduct", b =>
@@ -403,7 +413,91 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ColorProducts");
+                    b.ToTable("ColorProducts", (string)null);
+                });
+
+            modelBuilder.Entity("Allup_Core.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActivated")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Comments", (string)null);
+                });
+
+            modelBuilder.Entity("Allup_Core.Entities.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.FeaturesBanner", b =>
@@ -430,7 +524,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FeaturesBanners");
+                    b.ToTable("FeaturesBanners", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Order", b =>
@@ -518,7 +612,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.OrderItem", b =>
@@ -567,7 +661,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Payment", b =>
@@ -625,7 +719,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Product", b =>
@@ -722,7 +816,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.ProductImage", b =>
@@ -747,7 +841,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.ReclamBanner", b =>
@@ -789,7 +883,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ReclamBanners");
+                    b.ToTable("ReclamBanners", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Size", b =>
@@ -827,7 +921,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sizes");
+                    b.ToTable("Sizes", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.SizeProduct", b =>
@@ -850,7 +944,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("SizeProducts");
+                    b.ToTable("SizeProducts", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Slider", b =>
@@ -877,7 +971,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sliders");
+                    b.ToTable("Sliders", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Tag", b =>
@@ -915,7 +1009,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.TagProduct", b =>
@@ -938,7 +1032,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("TagProducts");
+                    b.ToTable("TagProducts", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1082,7 +1176,23 @@ namespace Allup_DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Allup_Core.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Allup_Core.Entities.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Author");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.CartItem", b =>
@@ -1119,6 +1229,27 @@ namespace Allup_DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Color");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Allup_Core.Entities.Comment", b =>
+                {
+                    b.HasOne("Allup_Core.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("Allup_Core.Entities.Comment", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+
+                    b.HasOne("Allup_Core.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Parent");
 
                     b.Navigation("Product");
                 });

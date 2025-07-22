@@ -1,7 +1,9 @@
 ﻿using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Dtos.ColorDtos;
+using Allup_Service.Dtos.CommentDtos;
 using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Dtos.SizeDtos;
+using Allup_Service.Extensions;
 using Allup_Service.Service.IService;
 using Allup_Service.UI.Dtos;
 using AutoMapper;
@@ -16,17 +18,19 @@ namespace Allup_Project.Controllers
         private readonly IMapper _mapper;
         private readonly ISizeService _sizeService;
         private readonly IColorService _colorService;
+        private readonly ICommentService _commentService;
 
-        public ShopController(IProductService productService, ICategoryService categoryService, IMapper mapper, ISizeService sizeService, IColorService colorService)
+        public ShopController(IProductService productService, ICategoryService categoryService, IMapper mapper, ISizeService sizeService, IColorService colorService, ICommentService commentService)
         {
             _productService = productService;
             _categoryService = categoryService;
             _mapper = mapper;
             _sizeService = sizeService;
             _colorService = colorService;
+            _commentService = commentService;
         }
 
-        public async Task<IActionResult> Index(string sortOrder, List<int> sizeIds, List<int> colorIds, decimal? minPrice, decimal? maxPrice)
+        public async Task<IActionResult> Index(string sortOrder, List<int> sizeIds, List<int> colorIds, int? minPrice =null, int? maxPrice =null, int page = 1, int pageSize = 9)
         {
             var products = await _productService.GetAllAsync();
             var categories = await _categoryService.GetAllAsync();
@@ -81,10 +85,28 @@ namespace Allup_Project.Controllers
 
             ViewData["SelectedSort"] = sortOrder;
 
+            // Pagination
+            int totalCount = products.Count;
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+
+            var pagedProducts = products
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
             var productDtos = _mapper.Map<List<ProductGetDto>>(products);
             var categoryDtos = _mapper.Map<List<CategoryGetDto>>(categories);
             var sizeDtos = _mapper.Map<List<SizeGetDto>>(sizes);
-            var colorDtos = _mapper.Map<List<ColorGetDto>>(colors);
+            var colorDtos = _mapper.Map<List<ColorGetDto>>(colors);    
+
+            var minDbPrice = products.Min(p => p.SalePrice); //CostPrice yerine SalePrice istifadə edirik, çünki bu qiymət endirimli qiymətdir
+            var maxDbPrice = products.Max(p => p.SalePrice); 
+
+            ViewBag.MinDbPrice = minDbPrice;
+            ViewBag.MaxDbPrice = maxDbPrice;
+
             var shopDto = new ShopDto
             {
                 Products = productDtos,
@@ -94,16 +116,14 @@ namespace Allup_Project.Controllers
                 SelectedSize = sizeIds,
                 SelectedColor = colorIds,
                 SelectedMinPrice = minPrice,
-                SelectedMaxPrice = maxPrice
+                SelectedMaxPrice = maxPrice,
+                Index = page,
+                Size = pageSize,
+                Count = totalCount,
+                Pages = totalPages,
+                HasPrevious = page > 1,
+                HasNext = page < totalPages
             };
-
-
-            var minDbPrice = products.Min(p => p.SalePrice);
-            var maxDbPrice = products.Max(p => p.SalePrice);
-
-            ViewBag.MinDbPrice = minDbPrice;
-            ViewBag.MaxDbPrice = maxDbPrice;
-
 
             // Əgər AJAX requestdirsə, sadəcə məhsulları json qaytar , Shopdaki produclari refressiz isletmek uzundur
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
@@ -214,6 +234,43 @@ namespace Allup_Project.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateComment(CommentCreateDto dto)
+        {
+            var result = await _commentService.CreateAsync(dto, ModelState);
+
+            string returnUrl = Request.GetReturnUrl();
+
+            var comment = await _commentService.GetComment(dto.ProductId);
+            return PartialView("_CommentListPartial", comment);
+        }
+
+        [HttpPost]
+        //[Authorize]
+        public async Task<IActionResult> ReplyComment(CommentReplyDto dto)
+        {
+
+            var result = await _commentService.CreateReplyAsync(dto, ModelState);
+
+            string returnUrl = Request.GetReturnUrl();
+
+            return Redirect(returnUrl);
+        }
+
+
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            await _commentService.DeleteAsync(id);
+
+            string returnUrl = Request.GetReturnUrl();
+
+            return Redirect(returnUrl);
+        }
+
 
 
     }

@@ -25,6 +25,7 @@ namespace Allup_Service.Dtos.BlogDtos
         [AllowedTypes("image/jpeg", "image/png")]
         public IFormFile? Image { get; set; }
         public string? ImageUrl { get; set; }
-        public List<int> TopicIds { get; set; } = new();
+        public int TagId { get; set; }
+
     }
 }

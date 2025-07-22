@@ -18,7 +18,7 @@ namespace Allup_Service.Dtos.BannerDtos
         [Required]
         [StringLength(100)]
         public string Desc { get; set; } = null!;
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; }=null!;
         [NotMapped]
         [MaxSizeAttribute(2 * 1024 * 1024)]
         [AllowedTypes("image/jpeg", "image/png")]

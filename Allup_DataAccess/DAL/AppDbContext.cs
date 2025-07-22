@@ -27,7 +27,6 @@ namespace Allup_DataAccess.DAL
         public DbSet<Product> Products { get; set; }
         public DbSet<Banner> Banners { get; set; }
         public DbSet<Brand> Brands { get; set; }
-        public DbSet<Tag> Tags { get; set; }
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<FeaturesBanner> FeaturesBanners { get; set; }
@@ -39,8 +38,11 @@ namespace Allup_DataAccess.DAL
         public DbSet<Payment> Payments { get; set; } = null!;
         public DbSet<Author> Authors { get; set; } = null!;
         public DbSet<Blog> Blogs { get; set; } = null!;
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
-
+        
 
         // Many to Many
         public DbSet<TagProduct> TagProducts { get; set; }
@@ -51,6 +53,14 @@ namespace Allup_DataAccess.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
+
+            //modelBuilder.Entity<Product>()
+            //           .HasOne(p => p.Ingredient)
+            //           .WithMany()
+            //           .HasForeignKey(p => p.IngredientId)
+            //           .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

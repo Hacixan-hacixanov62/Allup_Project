@@ -2,7 +2,6 @@
 using Allup_DataAccess.DAL;
 using Allup_DataAccess.Helpers;
 using Allup_DataAccess.Repositories.IRepositories;
-using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Dtos.SizeDtos;
@@ -12,13 +11,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Allup_Service.Service
 {

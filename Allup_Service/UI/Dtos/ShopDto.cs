@@ -1,4 +1,5 @@
 ﻿
+using Allup_DataAccess.Helpers;
 using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.ProductDtos;
@@ -7,7 +8,7 @@ using Allup_Service.Dtos.TagDtos;
 
 namespace Allup_Service.UI.Dtos
 {
-    public class ShopDto
+    public class ShopDto:ShopPaginateDto
     {
         public List<ProductGetDto> Products { get; set; } = new();
         public List<CategoryGetDto> Categories { get; set; } = new();
@@ -21,6 +22,10 @@ namespace Allup_Service.UI.Dtos
 
         public List<int>? SelectedSize { get; set; }
 
+        public int Size { get; set; }
+        public int Count { get; set; }
+        public int Pages { get; set; }
+
 
         public decimal MinPrice { get; set; }
 
@@ -29,5 +34,6 @@ namespace Allup_Service.UI.Dtos
         public decimal? SelectedMinPrice { get; set; }
 
         public decimal? SelectedMaxPrice { get; set; }
+
     }
 }

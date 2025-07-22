@@ -7,6 +7,7 @@ using Allup_Service.Dtos.BrandDtos;
 using Allup_Service.Dtos.CartDtos;
 using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Dtos.ColorDtos;
+using Allup_Service.Dtos.CommentDtos;
 using Allup_Service.Dtos.FeaturesBannerDtos;
 using Allup_Service.Dtos.OrderDtos;
 using Allup_Service.Dtos.OrderItemDtos;
@@ -115,6 +116,14 @@ namespace Allup_Service.Profiles
             //Blog Profiles
             CreateMap<Blog, BlogCreateDto>().ReverseMap();
             CreateMap<Blog, BlogUpdateDto>().ReverseMap();
+
+            //Comment Profiles
+            CreateMap<Comment, CommentCreateDto>().ReverseMap();
+            CreateMap<Comment, CommentUpdateDto>().ReverseMap();
+            CreateMap<Comment, CommentGetDto>()
+                .ForMember(dest => dest.AppUser, opt => opt.MapFrom(src => src.AppUser))
+                .ReverseMap();
+            CreateMap<Comment, CommentReplyDto>().ReverseMap();
         }
     }
 }

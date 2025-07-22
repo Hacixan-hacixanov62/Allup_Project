@@ -64,7 +64,7 @@ namespace Allup_Service.Service
 
         public async Task<Blog> DetailAsync(int id)
         {
-            var blog = await _blogRepository.GetAsync(id, include: x => x.Include(c => c.Author));
+            var blog = await _blogRepository.GetAsync(id, include: x => x.Include(c => c.Author).Include(m=>m.Tag).Include(m=>m.Category));
 
             await _blogRepository.SaveChangesAsync();
             if (blog == null)
@@ -76,7 +76,7 @@ namespace Allup_Service.Service
 
         public async Task EditAsync(int id, BlogUpdateDto blogUpdateDto)
         {
-            var blog = await _blogRepository.GetAsync(id, include: x => x.Include(c => c.Author));
+            var blog = await _blogRepository.GetAsync(id, include: x => x.Include(c => c.Author).Include(m=>m.Tag).Include(m=>m.Category));
 
             if (blog == null)
                 throw new Exception("Blog tapılmadı");
@@ -115,14 +115,16 @@ namespace Allup_Service.Service
         public async Task<List<Blog>> GetAllAsync()
         {
             return await _blogRepository.GetAll()
-                             .Include(c => c.Author)                           
+                             .Include(c => c.Author)       
+                             .Include(c => c.Tag)
+                              .Include(c => c.Category)
                              .ToListAsync();
 
         }
 
         public Task<bool> IsExistAsync(int id)
         {
-            throw new NotImplementedException();
+            return _blogRepository.IsExistAsync(m => m.Id == id);
         }
     }
 }

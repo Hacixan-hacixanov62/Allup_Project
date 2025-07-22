@@ -112,8 +112,6 @@ namespace Allup_Service.Service
             return category;
         }
 
-
-
         public async Task EditAsync(int id, CategoryUpdateDto categoryUpdateDto)
         {
             var category = _categoryRepository.GetAll().FirstOrDefault(c => c.Id == id);

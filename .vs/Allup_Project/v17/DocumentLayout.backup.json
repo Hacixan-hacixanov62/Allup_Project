@@ -3,36 +3,28 @@
   "WorkspaceRootPath": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\areas\\admin\\controllers\\authorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\areas\\admin\\controllers\\authorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\views\\shop\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\views\\shop\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\areas\\admin\\controllers\\brandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\areas\\admin\\controllers\\brandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_service\\ui\\dtos\\shopdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|solutionrelative:allup_service\\ui\\dtos\\shopdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\views\\shared\\_commentlistpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\views\\shared\\_commentlistpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\controllers\\basketcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\controllers\\basketcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_service\\dtos\\commentdtos\\commentcreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|solutionrelative:allup_service\\dtos\\commentdtos\\commentcreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_service\\service\\commentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|solutionrelative:allup_service\\service\\commentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_service\\service\\basketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|solutionrelative:allup_service\\service\\basketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\views\\basket\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\views\\basket\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_service\\service\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E7586AA-4D73-449A-8832-6DFE0C1F0D6F}|Allup_Service\\Allup_Service.csproj|solutionrelative:allup_service\\service\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|d:\\asp.net task (pb-202)\\allup_project\\allup_project\\controllers\\shopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC29B795-F4C5-46FD-957A-2FF6AABEA0CB}|Allup_Project\\Allup_Project.csproj|solutionrelative:allup_project\\controllers\\shopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,114 +34,88 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ShopDetailDto.cs",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\UI\\Dtos\\ShopDetailDto.cs",
+              "RelativeDocumentMoniker": "Allup_Service\\UI\\Dtos\\ShopDetailDto.cs",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\UI\\Dtos\\ShopDetailDto.cs*",
+              "RelativeToolTip": "Allup_Service\\UI\\Dtos\\ShopDetailDto.cs*",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAnwBEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T15:28:48.671Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CommentCreateDto.cs",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Dtos\\CommentDtos\\CommentCreateDto.cs",
+              "RelativeDocumentMoniker": "Allup_Service\\Dtos\\CommentDtos\\CommentCreateDto.cs",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Dtos\\CommentDtos\\CommentCreateDto.cs",
+              "RelativeToolTip": "Allup_Service\\Dtos\\CommentDtos\\CommentCreateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T15:26:04.847Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CommentService.cs",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Service\\CommentService.cs",
+              "RelativeDocumentMoniker": "Allup_Service\\Service\\CommentService.cs",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Service\\CommentService.cs*",
+              "RelativeToolTip": "Allup_Service\\Service\\CommentService.cs*",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAAwIcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T15:23:17.407Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BrandController.cs",
-              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Areas\\Admin\\Controllers\\BrandController.cs",
-              "RelativeDocumentMoniker": "Allup_Project\\Areas\\Admin\\Controllers\\BrandController.cs",
-              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Areas\\Admin\\Controllers\\BrandController.cs",
-              "RelativeToolTip": "Allup_Project\\Areas\\Admin\\Controllers\\BrandController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T14:27:21.992Z",
+              "DocumentIndex": 2,
+              "Title": "_CommentListPartial.cshtml",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Views\\Shared\\_CommentListPartial.cshtml",
+              "RelativeDocumentMoniker": "Allup_Project\\Views\\Shared\\_CommentListPartial.cshtml",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Views\\Shared\\_CommentListPartial.cshtml",
+              "RelativeToolTip": "Allup_Project\\Views\\Shared\\_CommentListPartial.cshtml",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-22T14:53:54.052Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AuthorController.cs",
-              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Areas\\Admin\\Controllers\\AuthorController.cs",
-              "RelativeDocumentMoniker": "Allup_Project\\Areas\\Admin\\Controllers\\AuthorController.cs",
-              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Areas\\Admin\\Controllers\\AuthorController.cs",
-              "RelativeToolTip": "Allup_Project\\Areas\\Admin\\Controllers\\AuthorController.cs",
-              "ViewState": "AgIAAGEAAAAAAAAAAAAqwHgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T14:27:17.075Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BlogController.cs",
-              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\BlogController.cs",
-              "RelativeDocumentMoniker": "Allup_Project\\Controllers\\BlogController.cs",
-              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\BlogController.cs",
-              "RelativeToolTip": "Allup_Project\\Controllers\\BlogController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T13:51:51.829Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "BasketController.cs",
-              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\BasketController.cs",
-              "RelativeDocumentMoniker": "Allup_Project\\Controllers\\BasketController.cs",
-              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\BasketController.cs",
-              "RelativeToolTip": "Allup_Project\\Controllers\\BasketController.cs",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAQwHkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T13:03:30.135Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CheckOut.cshtml",
-              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Views\\Basket\\CheckOut.cshtml",
-              "RelativeDocumentMoniker": "Allup_Project\\Views\\Basket\\CheckOut.cshtml",
-              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Views\\Basket\\CheckOut.cshtml",
-              "RelativeToolTip": "Allup_Project\\Views\\Basket\\CheckOut.cshtml",
-              "ViewState": "AgIAANkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "Detail.cshtml",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Views\\Shop\\Detail.cshtml",
+              "RelativeDocumentMoniker": "Allup_Project\\Views\\Shop\\Detail.cshtml",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Views\\Shop\\Detail.cshtml*",
+              "RelativeToolTip": "Allup_Project\\Views\\Shop\\Detail.cshtml*",
+              "ViewState": "AgIAAL4AAAAAAAAAAAAYwMwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-16T11:51:20.641Z",
+              "WhenOpened": "2025-07-22T14:48:03.694Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "BasketService.cs",
-              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Service\\BasketService.cs",
-              "RelativeDocumentMoniker": "Allup_Service\\Service\\BasketService.cs",
-              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Service\\BasketService.cs",
-              "RelativeToolTip": "Allup_Service\\Service\\BasketService.cs",
-              "ViewState": "AgIAAHkBAAAAAAAAAAAYwJkBAAAIAAAAAAAAAA==",
+              "Title": "ShopController.cs",
+              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\ShopController.cs",
+              "RelativeDocumentMoniker": "Allup_Project\\Controllers\\ShopController.cs",
+              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\ShopController.cs",
+              "RelativeToolTip": "Allup_Project\\Controllers\\ShopController.cs",
+              "ViewState": "AgIAAPIAAAAAAAAAAAAQwO4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T11:49:14.553Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PaymentController.cs",
-              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\PaymentController.cs",
-              "RelativeDocumentMoniker": "Allup_Project\\Controllers\\PaymentController.cs",
-              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Project\\Controllers\\PaymentController.cs",
-              "RelativeToolTip": "Allup_Project\\Controllers\\PaymentController.cs",
-              "ViewState": "AgIAAJIAAAAAAAAAAAAowJsAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T11:49:14.568Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ProductService.cs",
-              "DocumentMoniker": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Service\\ProductService.cs",
-              "RelativeDocumentMoniker": "Allup_Service\\Service\\ProductService.cs",
-              "ToolTip": "D:\\Asp.Net Task (PB-202)\\Allup_Project\\Allup_Service\\Service\\ProductService.cs",
-              "RelativeToolTip": "Allup_Service\\Service\\ProductService.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAACMAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-15T11:23:46Z",
+              "WhenOpened": "2025-07-22T13:54:21.851Z",
               "EditorCaption": ""
             }
           ]

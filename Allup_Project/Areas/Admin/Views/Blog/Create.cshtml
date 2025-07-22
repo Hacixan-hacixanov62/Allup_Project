@@ -1,0 +1,68 @@
+﻿@using Allup_Service.Dtos.BlogDtos
+@model BlogCreateDto
+
+
+<br />
+<br />
+<div class="container">
+    <div class="row mx-auto ">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Title" for="exampleInputUsername1">Title</label>
+                <input type="text" class="form-control" id="exampleInputTitle" asp-for="Title" placeholder="Title">
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinDescription" for="exampleInputSubtitle">Short Description</label>
+                <input type="text" class="form-control" id="exampleInputShortDescription" placeholder="MinDescription" asp-for="MinDescription">
+                <span asp-validation-for="MinDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxDescription" for="exampleInputSubtitle">Long Description</label>
+                <input type="text" class="form-control" id="exampleInputDescription" placeholder="MaxDescription" asp-for="MaxDescription">
+                <span asp-validation-for="MaxDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" for="exampleInputUsername1"></label>
+                <input class="form-control" id="exampleInputName" asp-for="Image" placeholder="Enter Image" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Topic</label>
+                <select asp-for="TopicIds" asp-items="@ViewBag.Topics" class="form-control">
+                    <option disabled selected>Select Topics</option>
+                </select>
+                <span asp-validation-for="TopicIds" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Author</label>
+                <select asp-for="AuthorId" asp-items="@ViewBag.Authors" class="form-control">
+                    <option disabled selected>Select Author</option>
+                </select>
+                <span asp-validation-for="AuthorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Category</label>
+                <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-control">
+                    <option disabled selected>Select Category</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label"> Tag</label>
+                <select asp-for="TagId" asp-items="@ViewBag.Tags" class="form-control">
+                    <option disabled selected>Select Tag</option>
+                </select>
+                <span asp-validation-for="TagId" class="text-danger"></span>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger">  </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger">  </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-light" asp-action="Index">Cancel</a>
+        </form>
+    </div>
+</div>
+@section scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+}

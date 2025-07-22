@@ -1,0 +1,66 @@
+﻿@using Allup_Service.Dtos.BlogDtos
+@model BlogUpdateDto
+
+<br />
+<br />
+<br />
+<form method="post" asp-action="Edit" class="category" style="width: 100%" enctype="multipart/form-data">
+    <div class="content-wrapper" style=" height:100vh ;overflow:scroll">
+        <div class="page-header">
+            <h3 class="page-title">Blog Update</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-6 grid-margin stretch-card" style=" width:100%">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" class="forms-sample">
+                            <div class="form-group">
+                                <label asp-for="Title" for="exampleInputUsername1">Title</label>
+                                <input type="text" class="form-control" id="exampleInputTitle" asp-for="Title" placeholder="Title">
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="MinDescription" for="exampleInputSubtitle">Short Description</label>
+                                <input type="text" class="form-control" id="exampleInputShortDescription" placeholder="Surname" asp-for="MinDescription">
+                                <span asp-validation-for="MinDescription" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="MaxDescription" for="exampleInputSubtitle">Long Description</label>
+                                <input type="text" class="form-control" id="exampleInputDescription" placeholder="Description" asp-for="MaxDescription">
+                                <span asp-validation-for="MaxDescription" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1" class="form-label">Select Authors</label>
+                                <select asp-for="AuthorId" asp-items="@ViewBag.Authors" class="form-control">
+                                    <option disabled selected>Select Topic</option>
+                                </select>
+                                <span asp-validation-for="AuthorId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1" class="form-label"> Tag</label>
+                                <select asp-for="TagId" asp-items="@ViewBag.Tags" class="form-control">
+                                    <option disabled selected>Select Tag</option>
+                                </select>
+                                <span asp-validation-for="TagId" class="text-danger"></span>
+                            </div>
+                            <img style="width: 100px; height: 100px;" class="primary-img"
+                                 src="@Model.ImageUrl"
+                                 alt="Product Images" />
+                            <input asp-for="ImageUrl" type="hidden" value="@Model.ImageUrl " />
+
+                            <div class="form-group">
+                                <label asp-for="Image" for="exampleInputUsername1"></label>
+                                <input class="form-control" id="exampleInputName" asp-for="Image" placeholder="Enter Image">
+                                <span asp-validation-for="Image" class="text-danger"></span>
+                            </div>
+                            <div asp-validation-summary="ModelOnly" class="text-danger">  </div>
+                            <button type="submit" class="btn btn-primary me-2">Submit</button>
+                            <button class="btn btn-dark" asp-action="Index">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

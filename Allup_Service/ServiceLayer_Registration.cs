@@ -93,6 +93,11 @@ namespace Allup_Service
 
             //services.AddScoped<IPaymentService, PaymentService>();
 
+            services.AddScoped<IContactService, ContactService>();
+
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<ICommentService, CommentService>();
+
         }
     }
 }

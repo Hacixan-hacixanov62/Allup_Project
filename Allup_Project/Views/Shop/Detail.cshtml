@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
+
 
     <div class="breadcrumb-area">
         <div class="container-fluid custom-container">
@@ -193,132 +195,73 @@
                         <p> @Model.Product.Desc</p>
                     </div> <!-- Description -->
                 </div>
-                <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
-                    <div class="product-rating-content">
-                        <div class="average-rating">
-                            <h4 class="rating-overall">4.5 <span>(Overall)</span></h4>
-                            <p>Based on 9 Comments</p>
-                        </div>
-                        <div class="rating-list d-flex flex-wrap">
-                            <div class="single-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <span>(5)</span>
-                            </div>
-                            <div class="single-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <span>(3)</span>
-                            </div>
-                            <div class="single-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <span>(1)</span>
-                            </div>
-                            <div class="single-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <span>(0)</span>
-                            </div>
-                            <div class="single-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <span>(0)</span>
-                            </div>
-                        </div>
-                        @* <div class="rating-items">
-                            @foreach (var item in Model.Reviews.Where(x=>x.ProductId == Model.Product.Id))
-                           {
-                               <div class="single-rating-item">
-                                <div class="rating-author d-flex flex-wrap">
-                                    <h4 class="author-name">@item.SenderName</h4>
-                                    <ul class="rating-star">
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><span>(5)</span></li>
-                                    </ul>
-                                </div>
-                                <p>@item.SendText</p>
-                            </div>
-                           }
-                        </div> *@
-                        
-                        <div class="rating-form">
-                            <h4 class="form-title">Add your Comments</h4>
-                            
-                            @* <form method="post" asp-action="addcomment">
-                                <input type="hidden" name="productId" value="@Model.Product.Id"/>
+            <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                <div class="product-rating-content">
+
+                    @await Html.PartialAsync("_CommentListPartial", Model.Comments)
+
+                    <div class="rating-form">
+                        <h4 class="form-title">Add your Comments</h4>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <form id="commentForm" asp-action="CreateComment" method="post">
+                                <input type="hidden" asp-for="CommentCreateDto.ProductId" value="@Model.Product.Id" />
+
                                 <div class="rating-star d-flex">
-                                     <span class="title">Rating:</span>
-                                    <ul>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
+                                    <label asp-for="CommentCreateDto.Rating">Rating</label>
+                                    <select asp-for="CommentCreateDto.Rating" class="form-control">
+                                        <option value="1">1 Star</option>
+                                        <option value="2">2 Star</option>
+                                        <option value="3">3 Star</option>
+                                        <option value="4">4 Star</option>
+                                        <option value="5">5 Star</option>
+                                    </select>
+                                    <span asp-validation-for="CommentCreateDto.Rating" class="text-danger"></span>
                                 </div>
+
                                 <div class="row">
-                                    @if (User.Identity.IsAuthenticated)
-                                {
-                                    
-                                    <div class="col-md-12">
-                                        <div class="single-form">
-                                            <label asp-for="@Model.Review.SenderName">Your Review:</label>
-                                            <textarea asp-for="@Model.Review.SendText" placeholder="Write a review"></textarea>
-                                        </div>
-                                    </div>
-                                   
-                                }
-                                else
-                                {
                                     <div class="col-md-6">
                                         <div class="single-form">
-                                            <label asp-for="@Model.Review.SenderName" >Name:</label>
-                                            <input asp-for="@Model.Review.SenderName" placeholder="Name">
+                                            <label asp-for="CommentCreateDto.Name">Name:</label>
+                                            <input asp-for="CommentCreateDto.Name" class="form-control" />
+                                            <span asp-validation-for="CommentCreateDto.Name" class="text-danger"></span>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="single-form">
-                                            <label asp-for="@Model.Review.SenderName">Email:</label>
-                                            <input asp-for="@Model.Review.SenderEmail" placeholder="Email">
+                                            <label asp-for="CommentCreateDto.Email">Email:</label>
+                                            <input asp-for="CommentCreateDto.Email" class="form-control" />
+                                            <span asp-validation-for="CommentCreateDto.Email" class="text-danger"></span>
                                         </div>
                                     </div>
+
                                     <div class="col-md-12">
                                         <div class="single-form">
-                                            <label asp-for="@Model.Review.SenderName">Your Review:</label>
-                                            <textarea asp-for="@Model.Review.SendText" placeholder="Write a review"></textarea>
+                                            <label asp-for="CommentCreateDto.Text">Your Review:</label>
+                                            <textarea asp-for="CommentCreateDto.Text" class="form-control" placeholder="Write a review"></textarea>
+                                            <span asp-validation-for="CommentCreateDto.Text" class="text-danger"></span>
                                         </div>
                                     </div>
-                                }
+
                                     <div class="col-md-12">
                                         <div class="single-form">
-                                            <button type="submit" class="main-btn">Add Review</button>
+                                            <button class="main-btn" type="submit">Add Review</button>
                                         </div>
                                     </div>
-                            </div>
-                            </form> *@
-                        </div>
-                    </div> <!-- Rating Content -->
-                </div>
+                                </div>
+                            </form>
+                        }
+                        else
+                        {
+                            <p>Please <a asp-controller="Account" asp-action="Login">log in</a> to leave a comment.</p>
+                        }
+
+                    </div>
+                </div> <!-- Rating Content -->
+            </div>
+
             </div> <!-- tab-content -->
         </div> <!-- container -->
     </section>
@@ -886,3 +829,29 @@
     </section>
 
     <!--====== Features Banner Part Ends ======-->
+
+
+
+@section scripts{
+    <script>
+        document.getElementById('commentForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('/Shop/CreateComment', {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Error submitting comment");
+                    return res.text();
+                })
+                .then(html => {
+                    document.getElementById('commentSection').innerHTML = html;
+                    this.reset(); // Formu təmizlə
+                })
+                .catch(err => console.error(err));
+        });
+    </script>
+}
