@@ -1,4 +1,5 @@
 ﻿using Allup_Core.Entities;
+using Allup_Core.Enums;
 using Allup_DataAccess.DAL;
 using Allup_Service.Service;
 using Allup_Service.Service.IService;
@@ -40,7 +41,7 @@ namespace Allup_Project.Controllers
             {
                 return RedirectToAction("Index", "Basket");
             }
-
+            ///
 
             var domain = "http://localhost:5112/";
 
@@ -76,6 +77,76 @@ namespace Allup_Project.Controllers
             return new StatusCodeResult(303);
         }
 
+        #region SuccessAction
+        //public async Task<IActionResult> Success(string session_id)
+        //{
+        //    if (string.IsNullOrEmpty(session_id))
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+
+        //    var service = new SessionService();
+        //    var session = await service.GetAsync(session_id);
+
+        //    if (session == null || session.PaymentStatus != "paid")
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+
+        //    List<CartItem> basketItems;
+
+        //    if (User.Identity.IsAuthenticated)
+        //    {
+        //        basketItems = await _context.CartItems
+        //            .Include(x => x.Product)
+        //            .ThenInclude(x => x.ProductImages)
+        //            .Where(x => x.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+        //            .ToListAsync();
+        //    }
+        //    else
+        //    {
+        //        // Anonim istifadəçi üçün cookie-dən al
+        //        var basketCookie = Request.Cookies[BasketService.BASKET_KEY];
+        //        if (string.IsNullOrEmpty(basketCookie))
+        //        {
+        //            // Cookie yoxdursa boş cart qəbul et
+        //            return RedirectToAction("Index", "Home");
+        //        }
+
+        //        basketItems = JsonConvert.DeserializeObject<List<CartItem>>(basketCookie);
+
+        //        // Məhsulları DB-dən yüklə
+        //        foreach (var item in basketItems)
+        //        {
+        //            item.Product = await _context.Products
+        //                .Include(x => x.ProductImages)
+        //                .FirstOrDefaultAsync(x => x.Id == item.ProductId);
+        //        }
+        //    }
+
+        //    if (basketItems == null || !basketItems.Any())
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+
+        //    await SendSuccessEmailAsync(basketItems);
+
+        //    // Cart-u təmizlə: cookie və DB cart (login olanlar üçün)
+        //    Response.Cookies.Delete(BasketService.BASKET_KEY);
+
+        //    if (User.Identity.IsAuthenticated)
+        //    {
+        //        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //        var userCartItems = await _context.CartItems.Where(x => x.AppUserId == userId).ToListAsync();
+        //        _context.CartItems.RemoveRange(userCartItems);
+        //        await _context.SaveChangesAsync();
+        //    }
+
+
+        //    return RedirectToAction("Index", "Home", new { payment = "success" });
+        //}
+        #endregion
+
         public async Task<IActionResult> Success(string session_id)
         {
             if (string.IsNullOrEmpty(session_id))
@@ -92,28 +163,27 @@ namespace Allup_Project.Controllers
             }
 
             List<CartItem> basketItems;
+            string? userId = null;
 
             if (User.Identity.IsAuthenticated)
             {
+                userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 basketItems = await _context.CartItems
                     .Include(x => x.Product)
                     .ThenInclude(x => x.ProductImages)
-                    .Where(x => x.AppUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    .Where(x => x.AppUserId == userId)
                     .ToListAsync();
             }
             else
             {
-                // Anonim istifadəçi üçün cookie-dən al
                 var basketCookie = Request.Cookies[BasketService.BASKET_KEY];
                 if (string.IsNullOrEmpty(basketCookie))
                 {
-                    // Cookie yoxdursa boş cart qəbul et
                     return RedirectToAction("Index", "Home");
                 }
 
                 basketItems = JsonConvert.DeserializeObject<List<CartItem>>(basketCookie);
 
-                // Məhsulları DB-dən yüklə
                 foreach (var item in basketItems)
                 {
                     item.Product = await _context.Products
@@ -127,23 +197,50 @@ namespace Allup_Project.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var newOrder = new Order
+            {
+                AppUserId = userId,
+                Name = "Olivia Norman", 
+                Surname = "Douglas",
+                City = "Omnis qui reprehen",
+                Street = "Officia sint reiciendis ex quisquam",
+                PhoneNumber = "+1 (516) 828-9812",
+                Email = user.Email, 
+                Apartment = "Id fugit aut numquam dolor in magni laudantium ea exert",
+                CompanyName = "Mccarthy Riddle Traders",
+                Town = "Fugit eum corrupti ",
+                Country = "Nostrum suscipit est",
+                IsPaid = true,
+                OrderStatus = OrderStatus.Pending,
+                Status = true,
+                IsCanceled = false,
+                OrderItems = basketItems.Select(item => new OrderItem
+                {
+                    ProductId = item.ProductId,
+                    TotalPrice = item.Count * item.Product.SalePrice,
+                    Count = item.Count
+                }).ToList()
+            };
+
+            await _context.Orders.AddAsync(newOrder);
+            await _context.SaveChangesAsync();
+
             await SendSuccessEmailAsync(basketItems);
 
-            // Cart-u təmizlə: cookie və DB cart (login olanlar üçün)
-            Response.Cookies.Delete(BasketService.BASKET_KEY);
 
-            if (User.Identity.IsAuthenticated)
+            Response.Cookies.Delete(BasketService.BASKET_KEY);
+            if (userId != null)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var userCartItems = await _context.CartItems.Where(x => x.AppUserId == userId).ToListAsync();
                 _context.CartItems.RemoveRange(userCartItems);
                 await _context.SaveChangesAsync();
             }
 
-
             return RedirectToAction("Index", "Home", new { payment = "success" });
         }
-       
+
 
         private async Task SendSuccessEmailAsync(List<CartItem> basketItems)
         {

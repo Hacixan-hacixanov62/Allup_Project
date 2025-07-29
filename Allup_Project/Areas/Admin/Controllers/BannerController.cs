@@ -7,6 +7,7 @@ using Allup_Service.Service;
 using Allup_Service.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 
 namespace Allup_Project.Areas.Admin.Controllers
@@ -24,7 +25,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             _bannerService = bannerService;
             _context = context;
         }
-
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         public async Task<IActionResult> Index(int page=1,int take=4)
         {
             var banners = await _bannerService.GetAllAsync();
@@ -101,7 +102,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         [HttpGet("admin/banner/detail")]
         public async Task<IActionResult> Detail(int id)
         {

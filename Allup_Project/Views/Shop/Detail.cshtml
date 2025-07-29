@@ -198,7 +198,9 @@
             <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                 <div class="product-rating-content">
 
-                    @await Html.PartialAsync("_CommentListPartial", Model.Comments)
+                    <div id="commentSection">
+                        @await Html.PartialAsync("_CommentListPartial", Model.Comments)
+                    </div>
 
                     <div class="rating-form">
                         <h4 class="form-title">Add your Comments</h4>
@@ -235,7 +237,7 @@
                                             <input asp-for="CommentCreateDto.Email" class="form-control" />
                                             <span asp-validation-for="CommentCreateDto.Email" class="text-danger"></span>
                                         </div>
-                                    </div>
+                                     </div>
 
                                     <div class="col-md-12">
                                         <div class="single-form">

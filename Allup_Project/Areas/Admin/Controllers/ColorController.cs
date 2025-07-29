@@ -7,6 +7,7 @@ using Allup_Service.Service;
 using Allup_Service.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 
 namespace Allup_Project.Areas.Admin.Controllers
@@ -23,6 +24,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             _colorService = colorService;
             _context = context;
         }
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         public IActionResult Index(int page = 1, int take = 4)
         {
             var tags = _context.Colors.Include(m => m.Products).ThenInclude(m => m.ColorProducts).OrderByDescending(m => m.CreatedAt).AsQueryable();
@@ -88,6 +90,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         [HttpGet("admin/Color/Detail")]
         public async Task<IActionResult> Detail(int id)
         {

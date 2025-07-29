@@ -98,6 +98,11 @@ namespace Allup_Service
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ICommentService, CommentService>();
 
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderService, OrderService>();
+
+            services.AddScoped<IWishListRepository, WishListRepository>();
+            services.AddScoped<IWishListService, WishListService>();
         }
     }
 }

@@ -1,6 +1,9 @@
-﻿@using Allup_Project.ViewModels.AuthVm
+﻿@using Allup_Core.Enums
+@using Allup_Project.ViewModels.AuthVm
 @model UserProfileVM
-
+@{
+    int orderCount = 1;
+}
 
 
 <!--====== Breadcrumb Part Start ======-->
@@ -64,20 +67,61 @@
                                             <th class="no">No</th>
                                             <th class="name">Name</th>
                                             <th class="date">Date</th>
-                                            <th class="status">Status</th>
-                                            <th class="total">Total</th>
+                                            <th class="status">Country</th>
+                                            <th class="total">Status</th>
                                             <th class="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Mostarizing Oil</td>
-                                            <td>Aug 22, 2020</td>
-                                            <td>Pending</td>
-                                            <td>$100</td>
-                                            <td><a href="#">View</a></td>
-                                        </tr>                                  
+                                        @for (int i = 0; i < Model.Orders.Count; i++)
+                                        {
+                                            var orderitem = Model.Orders[i];
+
+                                            var orderItem2 = Model.Orders[i].OrderItems;
+                                            <tr>
+                                                <td>@orderCount</td>
+                                                <td>@orderitem.AppUser.UserName</td>
+                                                <td>@orderitem.CreatedAt</td>
+                                                <td>@orderitem.Country</td>
+                                                <td>@orderitem.Status</td> 
+                                                <td>
+                                                    @if (orderitem.OrderStatus == OrderStatus.Pending)
+                                                    {
+                                                        <a asp-action="cancel" asp-controller="basket" asp-route-orderId="@orderitem.Id" class="btn ">Cancel</a>
+
+                                                    }
+                                                    <a asp-action="getorderItems" asp-controller="basket" asp-route-orderId="@orderitem.Id" class="btn getorderItems">View</a>
+
+                                                </td>
+
+
+                                            </tr>
+
+
+
+                                        }
+                                       @*  @foreach (var item in Model.Orders)
+                                        {
+                                            <tr>
+                                                <td>@orderCount</td>
+                                                <td>@item.AppUser.UserName</td>
+                                                <td>@item.CreatedAt</td>
+                                                <td>@item.Status</td>
+                                                @*  <td>$@item.TotalPrice.ToString("0.00")</td> 
+                                                <td>
+                                                    @if (item.OrderStatus == OrderStatus.Pending)
+                                                    {
+                                                        <a asp-action="cancel" asp-controller="basket" asp-route-orderId="@item.Id" class="btn ">Cancel</a>
+
+                                                    }
+                                                    <a asp-action="getorderItems" asp-controller="basket" asp-route-orderId="@item.Id" class="btn getorderItems">View</a>
+
+                                                </td>
+                                                @orderCount++;
+
+                                            </tr>
+                                        
+                                         }  *@                                 
                                     </tbody>
                                 </table>
                             </div>

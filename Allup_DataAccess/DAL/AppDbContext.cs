@@ -41,8 +41,10 @@ namespace Allup_DataAccess.DAL
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<WishList> WishLists { get; set; }
+        public DbSet<WishListProduct> WishListProducts { get; set; }
 
-        
+
 
         // Many to Many
         public DbSet<TagProduct> TagProducts { get; set; }

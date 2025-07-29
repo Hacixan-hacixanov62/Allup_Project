@@ -1,0 +1,185 @@
+﻿@using Allup_Core.Entities
+@model List<Order>
+@{
+    ViewData["Title"] = "Index";
+    // int count = (Model.CurrentPage - 1) * 2;
+}
+@{
+    int count = 1;
+}
+
+
+
+<br />
+<br />
+<h1 class="text-center my-4">Orders</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card shadow">
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Id</th>
+                                    <th>Username</th>
+                                    <th>Status</th>
+                                    <th>Ordered Time</th>
+                                    <th colspan="4" class="text-center">Operations</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in Model)
+                                {
+                                    <tr>
+                                        <td>@(count++)</td>
+                                        <td>@order.Id</td>
+                                        <td>@order.AppUser.UserName</td>
+                                        <td>
+                                            @if (order.IsCanceled)
+                                            {
+                                                <span class="btn btn-danger btn-sm statusOutput cancelOutput">Is canceled</span>
+                                            }
+                                            else if (order.Status == true)
+                                            {
+                                                <span class="btn btn-success btn-sm statusOutput">Delivered</span>
+                                            }
+                                            else if (order.Status == false)
+                                            {
+                                                <span class="btn btn-secondary btn-sm statusOutput">Is ordered</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="btn btn-warning btn-sm statusOutput">On the way</span>
+                                            }
+                                        </td>
+                                        <td>@order.CreatedAt.ToShortDateString()</td>
+
+                                        <td>
+                                            <a class="btn btn-outline-secondary btn-sm prevBtn"
+                                               data-status="@order.Status"
+                                               data-iscancel="@order.IsCanceled"
+                                               asp-action="Prev"
+                                               asp-route-id="@order.Id">Prev</a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-outline-primary btn-sm nextBtn"
+                                               data-status="@order.Status"
+                                               data-iscancel="@order.IsCanceled"
+                                               asp-action="Next"
+                                               asp-route-id="@order.Id">Next</a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm @(order.IsCanceled ? "btn-primary" : "btn-danger") cancelRepairBtn"
+                                               data-isCancel="@order.IsCanceled"
+                                               asp-action="CancelOrRepair"
+                                               asp-route-id="@order.Id">
+                                                @(order.IsCanceled ? "Repair Order" : "Cancel Order")
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-success btn-sm"
+                                               asp-action="Detail"
+                                               asp-route-id="@order.Id">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                                    <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)">Previous</a>
+                                </li>
+                                @for (int i = 1; i <= ViewBag.PageCount; i++)
+                                {
+                                    <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                                    </li>
+                                }
+                                <li class="page-item @(ViewBag.CurrentPage == ViewBag.PageCount ? "disabled" : "")">
+                                    <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    const prevButtons = document.querySelectorAll('.prevBtn');
+    const nextButtons = document.querySelectorAll('.nextBtn');
+
+    const statusButtons = document.querySelectorAll('.statusOutput');
+
+    prevButtons.forEach((btn, i) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            if (btn.dataset.iscancel=="False") {
+
+            if (btn.dataset.status != 'False') {
+
+                const response = fetch(btn.href)
+                if (btn.dataset.status == 'True') {
+                    statusButtons[i].classList.remove('btn-success')
+                    statusButtons[i].classList.add('btn-warning')
+                    statusButtons[i].innerHTML = 'On the way'
+                    btn.dataset.status = "null"
+                    nextButtons[i].dataset.status = 'null'
+                }
+                else {
+                    statusButtons[i].classList.remove('btn-warning')
+                    statusButtons[i].classList.add('btn-secondary')
+                    statusButtons[i].innerHTML = 'Is ordered'
+                    btn.dataset.status = "False";
+                    nextButtons[i].dataset.status = "False";
+                }
+            }
+            }
+
+        })
+    })
+
+
+    nextButtons.forEach((btn, i) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            if (btn.dataset.iscancel=="False") {
+
+            if (btn.dataset.status != 'True') {
+
+                const response = fetch(btn.href)
+                if (btn.dataset.status == 'False') {
+                    statusButtons[i].classList.remove('btn-secondary')
+                    statusButtons[i].classList.add('btn-warning')
+                    statusButtons[i].innerHTML = 'On the way'
+                    btn.dataset.status = "null"
+                    prevButtons[i].dataset.status = 'null'
+                }
+                else {
+                    statusButtons[i].classList.remove('btn-warning')
+                    statusButtons[i].classList.add('btn-success')
+                    statusButtons[i].innerHTML = 'Delivered'
+                    btn.dataset.status = "True"
+                    prevButtons[i].dataset.status = 'True'
+                }
+            }
+
+            }
+        })
+    })</script>

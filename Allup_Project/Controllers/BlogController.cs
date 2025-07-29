@@ -22,7 +22,7 @@ namespace Allup_Project.Controllers
         public async Task<IActionResult> Index(int? authorId)
         {
             var categories = await _categoryService.GetAllAsync();
-            var blogs= await _blogService.GetAllAsync();
+            var blogs = await _blogService.GetAllAsync();
 
             BlogVM blogVM = new BlogVM
             {
@@ -33,6 +33,7 @@ namespace Allup_Project.Controllers
             return View(blogVM);
         }
 
+        [HttpGet("Blog/Detail/{id}")]
         public async Task<IActionResult> Detail(int? id)
         {
             var categories = await _categoryService.GetAllAsync();

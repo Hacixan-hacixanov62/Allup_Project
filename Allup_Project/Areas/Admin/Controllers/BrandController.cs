@@ -7,6 +7,7 @@ using Allup_Service.Service;
 using Allup_Service.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 
 namespace Allup_Project.Areas.Admin.Controllers
@@ -23,7 +24,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             _brandService = brandService;
             _context = context;
         }
-
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         public IActionResult Index(int page = 1, int take = 4)
         {
             var brands = _context.Brands.Include(m => m.Products).OrderByDescending(m => m.CreatedAt).AsQueryable();
@@ -90,6 +91,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         [HttpGet("admin/brand/Detail")]
         public async Task<IActionResult> Detail(int id)
         {

@@ -1,6 +1,7 @@
 ﻿
 
 using Allup_Core.Comman;
+using Allup_Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Allup_Core.Entities
@@ -36,5 +37,6 @@ namespace Allup_Core.Entities
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
         public bool? Status { get; set; }
         public bool IsCanceled { get; set; }
+        public OrderStatus OrderStatus { get; set; }
     }
 }

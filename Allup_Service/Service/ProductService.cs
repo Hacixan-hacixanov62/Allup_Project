@@ -312,8 +312,9 @@ namespace Allup_Service.Service
 
         public async Task<ProductGetDto> GetByIdAsync(int productId)
         {
-            var product = await _productRepository.GetAsync(m => m.Id == productId,
-                                                      m => m.Include(p => p.ProductImages)
+            var product = await _productRepository.GetAsync(m => m.Id == productId && !m.IsDeleted,
+                                                      m => m
+                                                      .Include(p => p.ProductImages)
                                                       .Include(m => m.Category)
                                                      .Include(m => m.ProductImages)
                                                      .Include(m => m.Brands)
@@ -491,6 +492,28 @@ namespace Allup_Service.Service
                .ToListAsync();
 
             return _mapper.Map<List<ProductGetDto>>(products);
+        }
+
+
+        public async Task<List<ProductGetDto>> GetProductsByIdsAsync(List<int> ids)
+        {
+            if (ids == null || !ids.Any())
+                return new List<ProductGetDto>();
+
+            return await _context.Products
+                .Where(p => ids.Contains(p.Id))
+                .Select(p => new ProductGetDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,  
+                    CostPrice = p.CostPrice,
+                    SalePrice = p.SalePrice,
+                    DiscountPercent = p.DiscountPercent,
+                    Desc = p.Desc,
+                    MainFileImage = p.ProductImages.FirstOrDefault(m => m.IsCover).ImageUrl
+
+                })
+                .ToListAsync();
         }
 
     }

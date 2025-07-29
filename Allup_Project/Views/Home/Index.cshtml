@@ -106,7 +106,7 @@
                                         </a>
                                         <ul class="product-meta">
                                             <li><a asp-route-productid="@product.Id" onclick="addToCart(@product.Id)" class="icon ion-bag add-to-basket"></a></li>
-                                            <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
+                                            <li><a asp-controller="Wishlist" asp-action="AddWishlist" data-id="@product.Id" class="add-to-wishlist"><i class="icon ion-android-favorite-outline"></i></a></li>
                                             <li><a href="#"><i class="icon ion-android-options"></i></a></li>
                                             <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
                                         </ul>
@@ -146,7 +146,7 @@
                                         </a>
                                         <ul class="product-meta">
                                             <li><a asp-route-productid="@product.Id" onclick="addToCart(@product.Id)"><i class="icon ion-bag add-to-basket"></i></a></li>
-                                            <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
+                                            <li><a asp-controller="Wishlist" asp-action="AddWishlist" data-id="@product.Id" class="add-to-wishlist"><i class="icon ion-android-favorite-outline"></i></a></li>
                                             <li><a href="#"><i class="icon ion-android-options"></i></a></li>
                                             <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
                                         </ul>
@@ -186,7 +186,7 @@
                                         </a>
                                         <ul class="product-meta">
                                             <li><a  asp-route-productid="@product.Id" onclick="addToCart(@product.Id)" ><i class="icon ion-bag add-to-basket"></i></a></li>
-                                            <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
+                                            <li><a asp-controller="Wishlist" asp-action="AddWishlist" data-id="@product.Id" class="add-to-wishlist"><i class="icon ion-android-favorite-outline"></i></a></li>
                                             <li><a href="#"><i class="icon ion-android-options"></i></a></li>
                                             <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
                                         </ul>
@@ -241,6 +241,44 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        $(".add-to-wishlist").click(function () {
+            var productId = $(this).data("id");
+
+            $.ajax({
+                url: '/Wishlist/AddWishlist',
+                type: 'POST',
+                data: { id: productId },
+                success: function (res) {
+                    if (res.success) {
+                        alert("Məhsul wishliste əlavə olundu! Yeni say: " + res.count);
+                        // İstəyə görə ikon dəyişdirilə bilər
+                    }
+                }
+            });
+        });
+
+        $(".remove-from-wishlist").click(function () {
+            var productId = $(this).data("id");
+
+            $.ajax({
+                url: '/Wishlist/DeleteWishlist',
+                type: 'POST',
+                data: { id: productId },
+                success: function (res) {
+                    if (res.success) {
+                        alert("WishList-dən silindi!");
+                        location.reload(); // Yəni yenidən yüklə
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
 <script>
  
 
@@ -275,3 +313,4 @@
 
 
 </script>
+}

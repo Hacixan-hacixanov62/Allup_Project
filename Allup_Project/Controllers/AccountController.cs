@@ -6,6 +6,7 @@ using Allup_Service.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NuGet.Common;
 
 namespace Allup_Project.Controllers
@@ -157,14 +158,14 @@ namespace Allup_Project.Controllers
             }
             UserProfileVM userProfileVm = new UserProfileVM();
             userProfileVm.UserProfileUpdateVM = new()
-            {
+            {   
                 UserName = user.UserName,
                 FullName = user.FullName,
                 Email = user.Email,
             };
-            //userProfileVm.Orders = _context.Orders
-            //    .Include(m => m.User)
-            //    .Where(m => m.UserId == user.Id).ToList();
+            userProfileVm.Orders =await _context.Orders
+                .Include(m=>m.AppUser)
+                .Where(m => m.AppUserId == user.Id).ToListAsync();
 
             return View(userProfileVm);
         }

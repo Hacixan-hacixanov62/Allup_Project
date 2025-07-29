@@ -26,6 +26,7 @@ namespace Allup_Service.Service.IService
         Task<List<ProductGetDto>> GetProductAsync(int skip, int take);
         Task<int> GetTotalProductCountAsync();
         Task<List<ProductGetDto>> FilterByPriceAsync(decimal min, decimal max);
+        Task<List<ProductGetDto>> GetProductsByIdsAsync(List<int> ids);
 
     }
 }

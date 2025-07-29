@@ -1,4 +1,5 @@
 ﻿using Allup_Core.Entities;
+using Allup_Core.Enums;
 using Allup_DataAccess.DAL;
 using Allup_Service.Dtos.OrderDtos;
 using Allup_Service.Service.IService;
@@ -164,36 +165,6 @@ namespace Allup_Project.Controllers
             var basketItems = await _basketService.GetBasketAsync();
             decimal total = basketItems.Sum(b => b.Product.CostPrice * b.Count);
 
-
-
-            //// Stripe-in kodd hissesi
-            ////========================================================================================
-
-            //var optionCust = new CustomerCreateOptions
-            //{
-            //    Email = dto.stripeEmail,
-            //    Name = user.FullName,
-            //    Phone = "994 051 516"
-            //};
-            //var serviceCust = new CustomerService();
-            //Customer customer = serviceCust.Create(optionCust);
-
-            //total = total * 100;
-            //var optionsCharge = new ChargeCreateOptions  // Odenisin Melumatlari saxlanilir
-            //{
-
-            //    Amount = (long)total, //Dollari cente cevirir
-            //    Currency = "USD",
-            //    Description = "Dannys Restourant Order",
-            //    Source = dto.stripeToken,
-            //    ReceiptEmail = "hajikhanih@code.edu.az"
-
-
-            //};
-            //var serviceCharge = new ChargeService();
-            //Charge charge = serviceCharge.Create(optionsCharge);
-
-            ////===========================================================================
             Order order = new()
             {
                 AppUser = user,
@@ -228,6 +199,59 @@ namespace Allup_Project.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", new { orderId = order.Id });
+        }
+
+        #region Stripe
+
+        //// Stripe-in kodd hissesi
+        ////========================================================================================
+
+        //var optionCust = new CustomerCreateOptions
+        //{
+        //    Email = dto.stripeEmail,
+        //    Name = user.FullName,
+        //    Phone = "994 051 516"
+        //};
+        //var serviceCust = new CustomerService();
+        //Customer customer = serviceCust.Create(optionCust);
+
+        //total = total * 100;
+        //var optionsCharge = new ChargeCreateOptions  // Odenisin Melumatlari saxlanilir
+        //{
+
+        //    Amount = (long)total, //Dollari cente cevirir
+        //    Currency = "USD",
+        //    Description = "Dannys Restourant Order",
+        //    Source = dto.stripeToken,
+        //    ReceiptEmail = "hajikhanih@code.edu.az"
+
+
+        //};
+        //var serviceCharge = new ChargeService();
+        //Charge charge = serviceCharge.Create(optionsCharge);
+
+        ////===========================================================================
+        #endregion
+
+        [Authorize(Roles = "Member")]
+        public IActionResult Cancel(int orderId)
+        {
+            var order = _context.Orders
+                .Where(m => m.AppUserId == _userManager.GetUserId(User))
+                .FirstOrDefault(m => m.Id == orderId);
+            order.OrderStatus = OrderStatus.Cancelled;
+            _context.SaveChanges();
+            return RedirectToAction("Profile", "Account", new { tab = "orders" });
+        }
+
+        [Authorize(Roles = "Member")]
+        public IActionResult GetOrderItems(int orderId)
+        {
+            var order = _context.Orders
+                .Where(m => m.AppUserId == _userManager.GetUserId(User))
+                .Include(m => m.OrderItems)
+                .FirstOrDefault(m => m.Id == orderId);
+            return PartialView("_OrderItemsPartial", order);
         }
 
     }

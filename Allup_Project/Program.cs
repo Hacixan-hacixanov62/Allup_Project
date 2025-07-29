@@ -3,6 +3,7 @@ using Allup_DataAccess.DAL;
 using Allup_DataAccess.Interceptors;
 using Allup_Service;
 using Allup_Service.Profiles;
+using Allup_Service.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
@@ -66,6 +67,9 @@ namespace Allup_Project
                 opt.AddProfile(new MapperProfiles()); // bu usul bize eger bos constructor yoxdursa onda lazim olacaq
             });
 
+            // Cachei silmek ucundur
+            builder.Services.AddOutputCache();
+            builder.Services.AddScoped<CacheClearService>();
 
             //builder.Services.ConfigureApplicationCookie(opt =>
             //{
@@ -102,6 +106,8 @@ namespace Allup_Project
 
             app.UseAuthentication(); // bu yeri yazmasaq Identity-nin login ve registeri islemeyecek , User sistemnen baglidir
             app.UseAuthorization(); // bu ise rol ve permissionler ucundur
+
+            app.UseOutputCache(); // Cache-i istifade etmek ucundur
 
             app.MapControllerRoute(
                name: "areas",

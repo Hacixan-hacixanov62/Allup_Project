@@ -16,6 +16,7 @@ using Allup_Service.Dtos.ReclamBannerDtos;
 using Allup_Service.Dtos.SizeDtos;
 using Allup_Service.Dtos.SliderDtos;
 using Allup_Service.Dtos.TagDtos;
+using Allup_Service.Dtos.WisListDtos;
 using AutoMapper;
 
 
@@ -124,6 +125,10 @@ namespace Allup_Service.Profiles
                 .ForMember(dest => dest.AppUser, opt => opt.MapFrom(src => src.AppUser))
                 .ReverseMap();
             CreateMap<Comment, CommentReplyDto>().ReverseMap();
+
+            //WishList Profiles
+            CreateMap<WishList, WislistDetailDto>().ReverseMap();
+            CreateMap<WishList,WishListDto>().ReverseMap();
         }
     }
 }

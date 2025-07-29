@@ -9,6 +9,7 @@ using Azure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 
@@ -35,7 +36,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             _authorService = authorService;
             _context = context;
         }
-
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         public async Task<IActionResult> Index(int page = 1, int take = 4)
         {
             try
@@ -190,7 +191,7 @@ namespace Allup_Project.Areas.Admin.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         [HttpGet("admin/Blog/Detail")]
         public async Task<IActionResult> Detail(int id)
         {

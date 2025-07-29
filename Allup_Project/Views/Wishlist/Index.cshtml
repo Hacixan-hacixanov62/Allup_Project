@@ -1,0 +1,263 @@
+﻿@using Allup_Service.Dtos.WisListDtos
+@model List<WislistDetailDto>
+
+
+<!--====== Breadcrumb Part Start ======-->
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item active">Wishlist</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+<!--====== Wishlist Part Start ======-->
+
+<section class="wishlist-page pt-10">
+    <div class="container-fluid custom-container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="wishlist mt-30">
+                    <div class="shopping-cart-table table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="image">Image</th>
+                                    <th class="product">Product</th>
+                                    <th class="price">Price</th>
+                                    <th class="quantity">Quantity</th>
+                                    <th class="total">Total</th>
+                                    <th class="delete">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="product-image">
+                                                <img src="@item.Image" alt="@item.Image">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-title">
+                                                <h4 class="title"><a href="single-product.html">@item.Name</a></h4>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-price">
+                                                <span class="price">€@item.Price.ToString("0.00")</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-quantity">
+                                                <div class="quantity mt-15 d-flex">
+                                                    <button type="button" class="sub"><i class="fal fa-minus"></i></button>
+                                                    <input type="text" value="1" />
+                                                    <button type="button" class="add"><i class="fal fa-plus"></i></button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-total">
+                                                <span class="total-amount">€@item.Price.ToString("0.00")</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="product-delete">
+                                                <a asp-controller="WishList" asp-action="DeleteWishlist" data-id="@item.Id" class="remove-from-wishlist"><i class="fal fa-trash-alt"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--====== Wishlist Part Ends ======-->
+<!--====== Brand Part Start ======-->
+
+<div class="brand-area pt-80">
+    <div class="container-fluid custom-container">
+        <div class="row brand-active">
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="assets/images/brand/brand-1.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="assets/images/brand/brand-2.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="assets/images/brand/brand-3.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="assets/images/brand/brand-4.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="assets/images/brand/brand-5.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="assets/images/brand/brand-6.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="assets/images/brand/brand-4.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</div>
+
+<!--====== Brand Part Ends ======-->
+<!--====== Features Banner Part Start ======-->
+
+<section class="features-banner-area pt-80 pb-100">
+    <div class="container-fluid custom-container">
+        <div class="features-banner-wrapper d-flex flex-wrap">
+            <div class="single-features-banner d-flex">
+                <div class="banner-icon">
+                    <img src="assets/images/banner-icon/icon1.png" alt="Icon">
+                </div>
+                <div class="banner-content media-body">
+                    <h3 class="banner-title">Free Shipping</h3>
+                    <p>Free shipping on all US order</p>
+                </div>
+            </div> <!-- single features banner -->
+            <div class="single-features-banner d-flex">
+                <div class="banner-icon">
+                    <img src="assets/images/banner-icon/icon2.png" alt="Icon">
+                </div>
+                <div class="banner-content media-body">
+                    <h3 class="banner-title">Support 24/7</h3>
+                    <p>Contact us 24 hours a day</p>
+                </div>
+            </div> <!-- single features banner -->
+            <div class="single-features-banner d-flex">
+                <div class="banner-icon">
+                    <img src="assets/images/banner-icon/icon3.png" alt="Icon">
+                </div>
+                <div class="banner-content media-body">
+                    <h3 class="banner-title">100% Money Back</h3>
+                    <p>You have 30 days to Return</p>
+                </div>
+            </div> <!-- single features banner -->
+            <div class="single-features-banner d-flex">
+                <div class="banner-icon">
+                    <img src="assets/images/banner-icon/icon4.png" alt="Icon">
+                </div>
+                <div class="banner-content media-body">
+                    <h3 class="banner-title">90 Days Return</h3>
+                    <p>If goods have problems</p>
+                </div>
+            </div> <!-- single features banner -->
+            <div class="single-features-banner d-flex">
+                <div class="banner-icon">
+                    <img src="assets/images/banner-icon/icon5.png" alt="Icon">
+                </div>
+                <div class="banner-content media-body">
+                    <h3 class="banner-title">Payment Secure</h3>
+                    <p>We ensure secure payment</p>
+                </div>
+            </div> <!-- single features banner -->
+        </div> <!-- features banner wrapper -->
+    </div> <!-- container -->
+</section>
+
+<!--====== Features Banner Part Ends ======-->
+<!--====== Newsletter Part Start ======-->
+
+<section class="newsletter-area pt-100 pb-100 bg_cover" style="background-image: url(assets/images/bg-newletter.jpg)">
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-lg-8">
+                <div class="newsletter-content">
+                    <h2 class="newsletter-title">Subscribe our newsletter</h2>
+                    <p>allup is a powerful eCommerce HTML Template</p>
+
+                    <div class="newsletter-forn">
+                        <form action="#">
+                            <input type="text" placeholder="Your Email address">
+                            <button class="main-btn">Subscribe</button>
+                        </form>
+                    </div>
+                </div> <!-- newsletter content -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</section>
+
+<!--====== Newsletter Part Ends ======-->
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".add-to-wishlist").click(function () {
+                var productId = $(this).data("id");
+
+                $.ajax({
+                    url: '/Wishlist/AddWishlist',
+                    type: 'POST',
+                    data: { id: productId },
+                    success: function (res) {
+                        if (res.success) {
+                            alert("Məhsul wishliste əlavə olundu! Yeni say: " + res.count);
+                            // İstəyə görə ikon dəyişdirilə bilər
+                        }
+                    }
+                });
+            });
+
+            $(".remove-from-wishlist").click(function () {
+                var productId = $(this).data("id");
+
+                $.ajax({
+                    url: '/Wishlist/DeleteWishlist',
+                    type: 'POST',
+                    data: { id: productId },
+                    success: function (res) {
+                        if (res.success) {
+                            alert("WishList-dən silindi!");
+                            location.reload(); // Yəni yenidən yüklə
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

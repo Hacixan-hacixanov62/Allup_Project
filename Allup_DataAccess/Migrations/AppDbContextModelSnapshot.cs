@@ -145,7 +145,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Banner", b =>
@@ -178,7 +178,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Banners", (string)null);
+                    b.ToTable("Banners");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Blog", b =>
@@ -245,7 +245,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("Blogs", (string)null);
+                    b.ToTable("Blogs");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Brand", b =>
@@ -283,7 +283,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.CartItem", b =>
@@ -310,7 +310,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Category", b =>
@@ -352,7 +352,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Color", b =>
@@ -390,7 +390,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colors", (string)null);
+                    b.ToTable("Colors");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.ColorProduct", b =>
@@ -413,7 +413,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ColorProducts", (string)null);
+                    b.ToTable("ColorProducts");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Comment", b =>
@@ -468,7 +468,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Contact", b =>
@@ -497,7 +497,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts", (string)null);
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.FeaturesBanner", b =>
@@ -524,7 +524,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FeaturesBanners", (string)null);
+                    b.ToTable("FeaturesBanners");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Order", b =>
@@ -581,6 +581,9 @@ namespace Allup_DataAccess.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -612,7 +615,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.OrderItem", b =>
@@ -661,7 +664,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Payment", b =>
@@ -719,7 +722,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Product", b =>
@@ -816,7 +819,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.ProductImage", b =>
@@ -841,7 +844,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages", (string)null);
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.ReclamBanner", b =>
@@ -883,7 +886,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ReclamBanners", (string)null);
+                    b.ToTable("ReclamBanners");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Size", b =>
@@ -921,7 +924,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sizes", (string)null);
+                    b.ToTable("Sizes");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.SizeProduct", b =>
@@ -944,7 +947,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("SizeProducts", (string)null);
+                    b.ToTable("SizeProducts");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Slider", b =>
@@ -971,7 +974,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sliders", (string)null);
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.Tag", b =>
@@ -1009,7 +1012,7 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags", (string)null);
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Allup_Core.Entities.TagProduct", b =>
@@ -1032,7 +1035,89 @@ namespace Allup_DataAccess.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("TagProducts", (string)null);
+                    b.ToTable("TagProducts");
+                });
+
+            modelBuilder.Entity("Allup_Core.Entities.WishList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActivated")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("WishLists");
+                });
+
+            modelBuilder.Entity("Allup_Core.Entities.WishListProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActivated")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WishlistId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("WishlistId");
+
+                    b.ToTable("WishListProducts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1240,11 +1325,11 @@ namespace Allup_DataAccess.Migrations
                         .HasForeignKey("AppUserId");
 
                     b.HasOne("Allup_Core.Entities.Comment", "Parent")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentId");
 
                     b.HasOne("Allup_Core.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("ProductId");
 
                     b.Navigation("AppUser");
@@ -1373,6 +1458,36 @@ namespace Allup_DataAccess.Migrations
                     b.Navigation("Tag");
                 });
 
+            modelBuilder.Entity("Allup_Core.Entities.WishList", b =>
+                {
+                    b.HasOne("Allup_Core.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Allup_Core.Entities.WishListProduct", b =>
+                {
+                    b.HasOne("Allup_Core.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Allup_Core.Entities.WishList", "Wishlist")
+                        .WithMany("WishListProducts")
+                        .HasForeignKey("WishlistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Wishlist");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1439,6 +1554,11 @@ namespace Allup_DataAccess.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("Allup_Core.Entities.Comment", b =>
+                {
+                    b.Navigation("Children");
+                });
+
             modelBuilder.Entity("Allup_Core.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -1447,6 +1567,8 @@ namespace Allup_DataAccess.Migrations
             modelBuilder.Entity("Allup_Core.Entities.Product", b =>
                 {
                     b.Navigation("ColorProducts");
+
+                    b.Navigation("Comments");
 
                     b.Navigation("ProductImages");
 
@@ -1463,6 +1585,11 @@ namespace Allup_DataAccess.Migrations
             modelBuilder.Entity("Allup_Core.Entities.Tag", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Allup_Core.Entities.WishList", b =>
+                {
+                    b.Navigation("WishListProducts");
                 });
 #pragma warning restore 612, 618
         }

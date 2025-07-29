@@ -3,6 +3,7 @@ using Allup_Service.Dtos.SliderDtos;
 using Allup_Service.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace Allup_Project.Areas.Admin.Controllers
 {
@@ -18,6 +19,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             _sliderService = sliderService;
         }
 
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         public async Task<IActionResult> Index()
         {
             var sliders = await _sliderService.GetAllAsync();
@@ -91,6 +93,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         [HttpGet("admin/slider/detail")]
         public async Task<IActionResult> Detail(int id)
         {

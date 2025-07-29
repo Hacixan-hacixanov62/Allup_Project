@@ -8,6 +8,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -36,7 +37,7 @@ namespace Allup_Project.Areas.Admin.Controllers
             _colorService = colorService;
             _brandService = brandService;
         }
-
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         public async Task<IActionResult> Index(int page =1,int take =6)
         {
 
@@ -235,6 +236,7 @@ namespace Allup_Project.Areas.Admin.Controllers
 
         }
 
+        [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         [HttpGet("admin/product/detail")]
         public async Task<IActionResult> Detail(int id)
         {
