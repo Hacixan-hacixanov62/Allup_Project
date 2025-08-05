@@ -9,6 +9,7 @@ namespace Allup_Core.Entities
         [MaxLength(100)]
         public string Name { get; set; } = null!;
         public List<Product> Products { get; set; } =null!;
+        public List<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
 
     }
 }

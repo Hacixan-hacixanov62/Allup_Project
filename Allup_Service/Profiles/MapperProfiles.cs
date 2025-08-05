@@ -2,6 +2,7 @@
 using Allup_Service.Dtos.AuthDtos;
 using Allup_Service.Dtos.AuthorDtos;
 using Allup_Service.Dtos.BannerDtos;
+using Allup_Service.Dtos.BlogCommentDtos;
 using Allup_Service.Dtos.BlogDtos;
 using Allup_Service.Dtos.BrandDtos;
 using Allup_Service.Dtos.CartDtos;
@@ -127,8 +128,19 @@ namespace Allup_Service.Profiles
             CreateMap<Comment, CommentReplyDto>().ReverseMap();
 
             //WishList Profiles
-            CreateMap<WishList, WislistDetailDto>().ReverseMap();
-            CreateMap<WishList,WishListDto>().ReverseMap();
+            CreateMap<WishlistItemCard, WislistDetailDto>().ReverseMap();
+            CreateMap<WishlistItemCard,WishListDto>().ReverseMap();
+            CreateMap<WishlistItem,WishListCardDto>().ReverseMap();
+            CreateMap<WishlistItem, WishListCookieItemDto>().ReverseMap();
+
+
+            //BlogComment Profiles
+            CreateMap<BlogComment, BlogCommentCreateDto>().ReverseMap();
+            CreateMap<BlogComment, BlogCommentUpdateDto>().ReverseMap();
+            CreateMap<BlogComment, BlogCommentGetDto>()
+                .ForMember(dest => dest.AppUser, opt => opt.MapFrom(src => src.AppUser))
+                .ReverseMap();
+            CreateMap<BlogComment, BlogCommentReplyDto>().ReverseMap();
         }
     }
 }

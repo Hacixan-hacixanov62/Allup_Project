@@ -2,7 +2,7 @@
 
 namespace Allup_DataAccess.Repositories.IRepositories
 {
-    public interface IWishListRepository:IRepository<WishList>
+    public interface IWishListRepository:IRepository<WishlistItem>
     {
     }
 }

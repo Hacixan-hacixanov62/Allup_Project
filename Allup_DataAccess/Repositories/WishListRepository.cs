@@ -4,7 +4,7 @@ using Allup_DataAccess.Repositories.IRepositories;
 
 namespace Allup_DataAccess.Repositories
 {
-    public class WishListRepository : Repository<WishList>, IWishListRepository
+    public class WishListRepository : Repository<WishlistItem>, IWishListRepository
     {
         public WishListRepository(AppDbContext context) : base(context)
         {

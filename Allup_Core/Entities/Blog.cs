@@ -27,7 +27,9 @@ namespace Allup_Core.Entities
         public Category Category { get; set; } = null!;
 
         public int TagId { get; set; }
-        public Tag Tag { get; set; }
+        public Tag Tag { get; set; } = null!;
+
+        public List<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
 
     }
 }

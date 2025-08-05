@@ -12,5 +12,6 @@ namespace Allup_Service.Dtos.WisListDtos
 
         public int ProductId { get; set; }
         public  List<ProductGetDto> Products { get; set; } = new();
+        public List<WishlistItemCard> WishlistItems { get; set; } = new();
     }
 }

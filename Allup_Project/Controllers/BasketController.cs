@@ -31,10 +31,12 @@ namespace Allup_Project.Controllers
         {
             var featuresBanners = await _context.FeaturesBanners.ToListAsync();
             var cartItems = await _basketService.GetBasketAsync();
+            var cartItemsFto = await _basketService.GetCartAsync();
             BasketVM basketVM = new BasketVM
             {
                 FeaturesBanners = featuresBanners,
-                CartItems = cartItems
+                CartItems = cartItems,
+                Cart = cartItemsFto,
             };
             return View(basketVM);
         }

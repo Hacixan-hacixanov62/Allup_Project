@@ -1,11 +1,13 @@
 ﻿using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
 using Allup_DataAccess.Helpers;
+using Allup_DataAccess.Repositories;
 using Allup_DataAccess.Repositories.IRepositories;
 using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Dtos.SizeDtos;
 using Allup_Service.Dtos.TagDtos;
+using Allup_Service.Service.Generic;
 using Allup_Service.Service.IService;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +17,7 @@ using System.Security.Claims;
 
 namespace Allup_Service.Service
 {
-    public class ProductService:IProductService
+    public class ProductService:CrudService<Product, ProductCreateDto, ProductUpdateDto, ProductGetDto>, IProductService
     {
         private readonly IProductRepository _productRepository;
         private readonly IWebHostEnvironment _env;
@@ -24,7 +26,7 @@ namespace Allup_Service.Service
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductService(IProductRepository productRepository, IWebHostEnvironment env, IMapper mapper , ICloudinaryService cloudinaryService , AppDbContext context , IHttpContextAccessor httpContextAccessor )
+        public ProductService(IProductRepository productRepository, IWebHostEnvironment env, IMapper mapper , ICloudinaryService cloudinaryService , AppDbContext context , IHttpContextAccessor httpContextAccessor ) : base(productRepository, mapper)
         {
             _productRepository = productRepository;
             _env = env;
@@ -312,16 +314,14 @@ namespace Allup_Service.Service
 
         public async Task<ProductGetDto> GetByIdAsync(int productId)
         {
-            var product = await _productRepository.GetAsync(m => m.Id == productId && !m.IsDeleted,
-                                                      m => m
-                                                      .Include(p => p.ProductImages)
+            var product = await _context.Products.Include(p => p.ProductImages)
                                                       .Include(m => m.Category)
-                                                     .Include(m => m.ProductImages)
                                                      .Include(m => m.Brands)
                                                      .Include(m => m.TagProducts).ThenInclude(tp => tp.Tag)
                                                      .Include(m => m.ColorProducts).ThenInclude(cp => cp.Color)
                                                     .Include(m => m.SizeProducts).ThenInclude(sp => sp.Size)
-                                                       );
+                                                    .FirstOrDefaultAsync(p => p.Id == productId);   
+
             if (product == null) return null;
 
             var dto = _mapper.Map<ProductGetDto>(product);

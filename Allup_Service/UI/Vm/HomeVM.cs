@@ -11,6 +11,8 @@ namespace Allup_Service.UI.Vm
         public List<Category> Categories { get; set; } = null!;
         public List<Product> Products { get; set; } = null!;
         public List<ReclamBanner> ReclamBanners { get; set; } = null!;
+        public int WishListCount { get; set; }
+
 
     }
 }

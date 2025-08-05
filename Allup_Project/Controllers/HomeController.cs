@@ -21,6 +21,7 @@ namespace Allup_Project.Controllers
            var featuresBanners =await _context.FeaturesBanners.ToListAsync();
             var products = await _context.Products.Include(p=>p.ProductImages).Include(p=>p.Category).Take(8).ToListAsync();
            var reclamBanners = await _context.ReclamBanners.ToListAsync();
+            var wishLists = await _context.WishlistItems.ToListAsync();
             HomeVM homeVM = new HomeVM
             {
                 Slider = sliders,
@@ -28,6 +29,7 @@ namespace Allup_Project.Controllers
                 FeaturesBanner = featuresBanners,
                 Products = products,
                 ReclamBanners = reclamBanners,
+                WishListCount = wishLists.Count,
             };
 
             return View(homeVM);

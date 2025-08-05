@@ -1,5 +1,7 @@
 ﻿@using Allup_Service.Dtos.CartDtos
 @using Allup_Service.UI.Services.IServices
+@using Allup_Service.UI.Vm
+
 @inject ILayoutService _layoutService;
 @{
 
@@ -409,17 +411,6 @@
                                             <li>
                                                 <a class="menu-title" href="#">Shop Single</a>
                                                 <ul class="submenu-item">
-                                                    <li><a href="single-product.html">Shop Single</a></li>
-                                                    <li><a href="single-product-variable.html">Shop Variable</a></li>
-                                                    <li><a href="single-product-affiliate.html">Shop Affiliate</a></li>
-                                                    <li><a href="single-product-group.html">Shop Group</a></li>
-                                                    <li><a href="single-product-tabstyle2.html">Shop Tabs 2</a></li>
-                                                    <li><a href="single-product-tabstyle3.html">Shop Tabs 3</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a class="menu-title" href="#">Shop Single</a>
-                                                <ul class="submenu-item">
                                                     <li><a href="single-product-slider.html">Shop Slider</a></li>
                                                     <li><a href="single-product-gallery-left.html">Shop Gallery Left sidebar</a></li>
                                                     <li><a href="single-product-gallery-right.html">Shop Gallery Right sidebar</a></li>
@@ -462,7 +453,7 @@
                                             </li>
                                         </ul> <!--  mega sub menu -->
                                     </li>
-                                    <li><a href="#">Blog <i class="fal fa-chevron-down"></i></a>
+                                    <li><a asp-action="Index" asp-controller="Blog">Blog <i class="fal fa-chevron-down"></i></a>
                                         <ul class="sub-menu">
                                             <li><a href="#">Blog Grid <i class="fal fa-chevron-right"></i></a>
                                                 <ul class="sub-menu">

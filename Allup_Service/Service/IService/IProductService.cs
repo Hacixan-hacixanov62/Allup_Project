@@ -1,5 +1,6 @@
 ﻿using Allup_Core.Entities;
 using Allup_Service.Dtos.ProductDtos;
+using Allup_Service.Service.Generic;
 using Allup_Service.UI.Dtos;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Allup_Service.Service.IService
 {
-    public interface IProductService
+    public interface IProductService:ICrudService<Product, ProductCreateDto, ProductUpdateDto,ProductGetDto>
     {
         Task CreateAsync(ProductCreateDto productCreateDto);
         Task DeleteAsync(int id);

@@ -1,7 +1,15 @@
-﻿@using Allup_Service.Dtos.WisListDtos
-@model List<WislistDetailDto>
+﻿@using Allup_Core.Entities
+@using Allup_Service.Dtos.WisListDtos
+@model List<WishlistItem>
 
+@{
+    decimal totalPrice = 0;
 
+    foreach (var item in Model)
+    {
+        (totalPrice += item.Count * (item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100))).ToString("0.00");
+    }
+}
 <!--====== Breadcrumb Part Start ======-->
 
 <div class="breadcrumb-area">
@@ -41,36 +49,43 @@
                                     <tr>
                                         <td>
                                             <div class="product-image">
-                                                <img src="@item.Image" alt="@item.Image">
+                                                <img src="@item.Product.ProductImages.FirstOrDefault(m=>m.IsCover)?.ImageUrl" alt="">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="product-title">
-                                                <h4 class="title"><a href="single-product.html">@item.Name</a></h4>
+                                                <h4 class="title"><a asp-controller="Shop" asp-action="Detail">@item.Product.Name</a></h4>
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="product-price">
-                                                <span class="price">€@item.Price.ToString("0.00")</span>
+                                            <div class="product-price" id="unit-price-@item.ProductId">
+                                                <span class="price">€@((item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100)).ToString("0.00"))</span>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="product-quantity">
                                                 <div class="quantity mt-15 d-flex">
-                                                    <button type="button" class="sub"><i class="fal fa-minus"></i></button>
-                                                    <input type="text" value="1" />
-                                                    <button type="button" class="add"><i class="fal fa-plus"></i></button>
+                                                    <button type="button" class="sub" onclick="decreaseCount(@item.ProductId)">
+                                                        <i class="fal fa-minus"></i>
+                                                    </button>
+                                                    
+                                                    <span class="count" id="value-@item.ProductId">@item.Count</span>
+
+                                                    <button type="button" class="add" onclick="increaseCount(@item.ProductId)">
+                                                        <i class="fal fa-plus"></i>                                
+                                                    </button>
+
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="product-total">
-                                                <span class="total-amount">€@item.Price.ToString("0.00")</span>
+                                            <div class="product-total" id="total-price-@item.ProductId">
+                                                <span class="total-amount">€@((item.Count * (item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100))).ToString("0.00"))</span>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="product-delete">
-                                                <a asp-controller="WishList" asp-action="DeleteWishlist" data-id="@item.Id" class="remove-from-wishlist"><i class="fal fa-trash-alt"></i></a>
+                                                <a asp-controller="WishList" asp-action="DeleteWishlist" data-id="@item.ProductId" class="remove-from-wishlist"><i class="fal fa-trash-alt"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -80,7 +95,7 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div>  
         </div>
     </div>
 </section>
@@ -226,38 +241,114 @@
 
 @section Scripts{
     <script>
-        $(document).ready(function () {
-            $(".add-to-wishlist").click(function () {
-                var productId = $(this).data("id");
+            $(".remove-from-wishlist").click(function (e) {
+            e.preventDefault();
 
-                $.ajax({
-                    url: '/Wishlist/AddWishlist',
-                    type: 'POST',
-                    data: { id: productId },
-                    success: function (res) {
-                        if (res.success) {
-                            alert("Məhsul wishliste əlavə olundu! Yeni say: " + res.count);
-                            // İstəyə görə ikon dəyişdirilə bilər
-                        }
+            var btn = $(this);
+            var productId = btn.data("id");
+
+            $.ajax({
+                url: '/Wishlist/DeleteWishlist',
+                type: 'POST',
+                data: { id: productId },
+                success: function (res) {
+                    if (res.success) {
+
+                        btn.closest("tr").remove(); 
                     }
-                });
-            });
-
-            $(".remove-from-wishlist").click(function () {
-                var productId = $(this).data("id");
-
-                $.ajax({
-                    url: '/Wishlist/DeleteWishlist',
-                    type: 'POST',
-                    data: { id: productId },
-                    success: function (res) {
-                        if (res.success) {
-                            alert("WishList-dən silindi!");
-                            location.reload(); // Yəni yenidən yüklə
-                        }
-                    }
-                });
+                }
             });
         });
+
     </script>
+
+    <script>
+
+        function updateRowTotal(productId, newCount) {
+            const unitPriceSpan = document.querySelector(`#unit-price-${productId} .price`);
+            const totalPriceSpan = document.querySelector(`#total-price-${productId} .total-amount`);
+
+            if (!unitPriceSpan || !totalPriceSpan) return;
+
+            let unitPrice = parseFloat(unitPriceSpan.innerText.replace('€', '').trim());
+            let newTotal = (unitPrice * newCount).toFixed(2);
+
+            totalPriceSpan.innerText = `€${newTotal}`;
+        }
+
+
+        function increaseCount(productId) {
+            fetch(`/Wishlist/IncreaseToCart?id=${productId}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': getAntiForgeryToken()
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success){
+                    const countSpan = document.getElementById(`value-${productId}`);
+                    if(countSpan){
+                        let currentCount = parseInt(countSpan.innerText);
+                        countSpan.innerText = currentCount + 1;
+                    }
+
+                    updateRowTotal(productId, parseInt(countSpan.innerText));
+
+                    document.getElementById("basketCount").innerText = data.count;
+                    document.getElementById("smallcount").innerText = data.count;
+
+                    document.getElementById("subtotal-amount").innerText = `€${data.total.toFixed(2)}`;
+                    document.getElementById("total-amount").innerText = `€${data.total.toFixed(2)}`;
+                    document.getElementById("totals").innerText = `€${data.total.toFixed(2)}`;
+                }
+            })
+            .catch(error => {
+                console.error('Artırma xətası:', error);
+            });
+        }
+
+        function decreaseCount(productId) {
+            const countSpan = document.getElementById(`value-${productId}`);
+            if (!countSpan) return;
+
+            let currentCount = parseInt(countSpan.innerText);
+            if (currentCount <= 1) return;
+
+            fetch(`/Wishlist/DecreaseToCart?id=${productId}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': getAntiForgeryToken()
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success){
+                    currentCount--;
+                    countSpan.innerText = currentCount;
+
+                    updateRowTotal(productId, currentCount);
+
+                    document.getElementById("basketCount").innerText = data.count;
+                    document.getElementById("smallcount").innerText = data.count;
+
+                    document.getElementById("subtotal-amount").innerText = `€${data.total.toFixed(2)}`;
+                    document.getElementById("total-amount").innerText = `€${data.total.toFixed(2)}`;
+                    document.getElementById("totals").innerText = `€${data.total.toFixed(2)}`;
+                }
+            })
+            .catch(err => console.error("Azaltma xətası:", err));
+        }
+
+
+
+        function getAntiForgeryToken() {
+            return document.querySelector('input[name="__RequestVerificationToken"]').value;
+        }
+
+
+    </script>
+
+
+    }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Allup_DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250726162546_WishListTableMigration")]
-    partial class WishListTableMigration
+    [Migration("20250801064516_ProductTableUrlMigration")]
+    partial class ProductTableUrlMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -778,6 +778,14 @@ namespace Allup_DataAccess.Migrations
                     b.Property<bool>("IsNew")
                         .HasColumnType("bit");
 
+                    b.Property<string>("MainFileImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MainFileUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -1041,7 +1049,7 @@ namespace Allup_DataAccess.Migrations
                     b.ToTable("TagProducts");
                 });
 
-            modelBuilder.Entity("Allup_Core.Entities.WishList", b =>
+            modelBuilder.Entity("Allup_Core.Entities.WishlistItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1053,31 +1061,16 @@ namespace Allup_DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActivated")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("WishLists");
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("WishlistItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1418,7 +1411,7 @@ namespace Allup_DataAccess.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("Allup_Core.Entities.WishList", b =>
+            modelBuilder.Entity("Allup_Core.Entities.WishlistItem", b =>
                 {
                     b.HasOne("Allup_Core.Entities.AppUser", "AppUser")
                         .WithMany()
@@ -1426,7 +1419,15 @@ namespace Allup_DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Allup_Core.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("AppUser");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

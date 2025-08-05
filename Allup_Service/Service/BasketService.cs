@@ -234,9 +234,9 @@ namespace Allup_Service.Service
             }
 
             var request = _httpContextAccessor.HttpContext.Request;
-            if (request.Cookies["AllupCart"] != null)
+            if (request.Cookies[BASKET_KEY] != null)
             {
-                var basketItems = JsonConvert.DeserializeObject<List<CartItem>>(request.Cookies["AllupCart"]);
+                var basketItems = JsonConvert.DeserializeObject<List<CartItem>>(request.Cookies[BASKET_KEY]);
                 var distinctCount = basketItems.Select(x => x.ProductId)
                                                .Distinct()
                                                .Count();

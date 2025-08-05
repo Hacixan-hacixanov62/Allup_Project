@@ -43,7 +43,7 @@
                                             <li><a href="#"><i class="fas fa-calendar-alt"></i> @item.CreatedAt</a></li>
                                         </ul>
                                         <p>@item.MinDescription</p>
-                                        <a asp-controller="Blog" asp-action="Detail" class="main-btn main-btn-2">Read More</a>
+                                        <a asp-action="Detail" asp-route-id="@item.Id" class="main-btn main-btn-2">Read More</a>
                                     </div>
                                 </div> <!-- single blog post -->
                             </div>

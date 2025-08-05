@@ -35,6 +35,8 @@ namespace Allup_Core.Entities
         public bool IsNew { get; set; }
         public bool IsBestSeller { get; set; }
         public bool IsFeatured { get; set; }
+        public string MainFileImage { get; set; } = null!;
+        public string MainFileUrl { get; set; } = null!;
         [NotMapped]
         [MaxSize(2 * 1024 * 1024)]
         [AllowedTypes("image/jpeg", "image/png")]
@@ -54,12 +56,12 @@ namespace Allup_Core.Entities
         public int BrandId { get; set; }
         public Brand? Brands { get; set; }
 
-        public List<ProductImage> ProductImages { get; set; }
+        public List<ProductImage> ProductImages { get; set; } = null!;
 
         // Many to Many 
-        public List<TagProduct> TagProducts { get; set; }
-        public List<SizeProduct> SizeProducts { get; set; }
-        public List<ColorProduct> ColorProducts { get; set; }
+        public List<TagProduct> TagProducts { get; set; }=null!;
+        public List<SizeProduct> SizeProducts { get; set; } = null!;
+        public List<ColorProduct> ColorProducts { get; set; } = null!;
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 

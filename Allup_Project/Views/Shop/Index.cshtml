@@ -183,19 +183,22 @@
                              <div class="card-header" id="headingOne">
                                     <a href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Hot Category</a>
                                 </div>                          
-                              <div class="card">                              
-                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                   <div class="card-body">
-                                        @foreach (var category in Model.Categories)
-                                        {
-                                              <ul class="category-list">                                           
-                                            <li><a href="#">@category.Name</a></li>
-                                        </ul>
-                                      
-                                        }
+                              <div class="card">
+                                <form method="get" asp-controller="Shop" asp-action="Index">
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            @foreach (var category in Model.Categories)
+                                            {
+                                                <ul class="category-list">
+                                                    <li><a href="#">@category.Name</a></li>
+                                                </ul>
+
+                                            }
+                                        </div>
+
                                     </div>
-                                    
-                                </div>
+                                  </form>
+                                
                                 
                             </div> <!-- card -->
                             
@@ -279,20 +282,21 @@
 
                     <div class="shop-sidebar-widget mt-30">
                         <h5 class="shop-sidebar-title">Size</h5>
-                        <ul class="size-list">
-                            @foreach (var size in Model.Sizes)
-                            {
-                                <li>
-                                    <label>
-                                        <input type="checkbox" name="SelectedSize" value="@size.Id"
-                                               @(Model.SelectedSize?.Contains(size.Id) == true ? "checked" : "") />
-                                        @size.Name
-                                    </label>
-                                </li>
-                            }
-                        </ul>
-
-                        
+                         <form method="get" asp-controller="Shop" asp-action="Index">
+                            <ul class="size-list">
+                                @foreach (var size in Model.Sizes)
+                                {
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" name="SelectedSize" value="@size.Id"
+                                                   @(Model.SelectedSize?.Contains(size.Id) == true ? "checked" : "") />
+                                            @size.Name
+                                        </label>
+                                    </li>
+                                }
+                            </ul>
+                         </form>
+                                         
                     </div> <!-- Shop sidebar Size -->
                     <!-- Promotion Block -->
                     <br /> <br />

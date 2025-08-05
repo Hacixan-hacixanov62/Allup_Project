@@ -38,11 +38,12 @@ namespace Allup_DataAccess.DAL
         public DbSet<Payment> Payments { get; set; } = null!;
         public DbSet<Author> Authors { get; set; } = null!;
         public DbSet<Blog> Blogs { get; set; } = null!;
+        public DbSet<BlogTag> BlogTags { get; set; } = null!;
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<WishList> WishLists { get; set; }
-        public DbSet<WishListProduct> WishListProducts { get; set; }
+        public DbSet<WishlistItem> WishlistItems { get; set; }
+        public DbSet<BlogComment> BlogComments { get; set; }
 
 
 

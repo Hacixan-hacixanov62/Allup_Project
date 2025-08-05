@@ -103,6 +103,9 @@ namespace Allup_Service
 
             services.AddScoped<IWishListRepository, WishListRepository>();
             services.AddScoped<IWishListService, WishListService>();
+
+            services.AddScoped<IBlogCommentRepository, BlogCommentRepository>();
+            services.AddScoped<IBlogCommentService,BlogCommnetService>();
         }
     }
 }
