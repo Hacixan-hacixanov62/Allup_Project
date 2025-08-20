@@ -45,6 +45,7 @@ namespace Allup_Service.Dtos.ProductDtos
         public bool IsNew { get; set; }
         public bool IsBestSeller { get; set; }
         public bool IsFeatured { get; set; }
+        public string CategoryName { get; set; } = null!;
 
         public string MainFileImage { get; set; } = null!;
         public string MainFileUrl { get; set; } = null!;

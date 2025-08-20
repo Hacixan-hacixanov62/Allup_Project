@@ -1,4 +1,5 @@
 ﻿using Allup_Service.Abstractions.Dtos;
+using System.ComponentModel.DataAnnotations;
 
 namespace Allup_Service.Dtos.BlogCommentDtos
 {
@@ -6,8 +7,7 @@ namespace Allup_Service.Dtos.BlogCommentDtos
     {
         public int Id { get; set; }
         public int BlogId { get; set; }
-        public int Rating { get; set; }
-        public string Email { get; set; } = null!;
+        [Required]
         public string Name { get; set; } = null!;
     }
 }

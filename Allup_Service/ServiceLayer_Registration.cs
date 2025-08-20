@@ -106,6 +106,12 @@ namespace Allup_Service
 
             services.AddScoped<IBlogCommentRepository, BlogCommentRepository>();
             services.AddScoped<IBlogCommentService,BlogCommnetService>();
+
+            services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<IMessageService, MessageService>();
+
+            services.AddScoped<IAboutRepository, AboutRepository>();
+            services.AddScoped<IAboutService, AboutService>();
         }
     }
 }

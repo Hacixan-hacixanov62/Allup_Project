@@ -85,125 +85,40 @@
                     </div>
                 </div>
                 <div class="blog-single-comment">
+
                     <div class="blog-comments">
-                        <h4 class="comment-title">3 Comments</h4>
-                       @if (Model.BlogComments.Any())
-                       {
-                            <ul class="comments-list">
-                              @foreach (var comment in Model.BlogComments)
-                              {
-                                    <li>
-                                        <div class="single-comment d-sm-flex">
-                                            <div class="comment-author">
-                                                <img src="assets/images/comment-author.jpg" alt="author">
-                                            </div>
-                                            <div class="comment-content media-body">
-                                                <div class="comment-meta">
-                                                    <h5 class="author-name">@comment.AppUser.Username</h5>
-                                                    <span class="date">@comment.CreatedAt.ToString("g")</span>
-                                                </div>
-                                                <p>@comment.Text</p>
-                                            @*     @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.AppUser.Id))
-                                                {
-                                                    <form method="post" asp-action="DeleteBlogComment" asp-controller="Blog">
-                                                        <input type="hidden" name="id" value="@comment.Id" />
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
-                                                } *@
-                                                @if (User.Identity.IsAuthenticated)
-                                                {
-                                                   <button class="reply-button" data-comment-id="@comment.Id">Replay</button>
-
-                                                    <form  asp-action="ReplyComment" asp-controller="Blog" method="post">
-                                                          <input type="hidden" name="ParentId" value="@comment.Id" />
-                                                          <input type="hidden" name="ProductId" value="@Model.Blog.Id" />
-                                                            <textarea name="Text" placeholder="Write a reply" required></textarea>
-                                                            <div class="comment-replay">
-                                                                  <button  type="submit">Replay</button>
-                                                            </div>
-
-                                                    </form>
-                                                }
-                                               
-                                            </div>
-                                        </div>
-                                        <ul class="comments-replay">
-                                            <li>
-                                                <div class="single-comment d-sm-flex">
-                                                    <div class="comment-author">
-                                                        <img src="assets/images/comment-author.jpg" alt="author">
-                                                    </div>
-                                                    <div class="comment-content media-body">
-                                                        <div class="comment-meta">
-                                                            <h5 class="author-name">Admin</h5>
-                                                            <span class="date">February 16, 2020 at 1:38 am</span>
-                                                        </div>
-                                                        <p>But I must explain to you how all this mistaken idea of denouncing pleasure</p>
-                                                        <div class="comment-replay">
-                                                            <a href="#">Replay</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                              }
-                             
-                            </ul>
-                       }
-                        else
-                        {
-                            <p>No comments yet. Be the first to leave a reply!</p>
-                        }
-                      
+                        @await Html.PartialAsync("_BlogCommentPartial", Model.BlogComments)
                     </div>
+
                     <div class="blog-comment-form">
-                        <h4 class="comment-title">Leave a Reply </h4>
+                        <h4 class="comment-title">Leave a Reply</h4>
                         <p>Your email address will not be published. Required fields are marked *</p>
+
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <div class="row">
-                                <form id="commentForm" asp-action="CreateBlogComment" asp-route-BlogId="@Model.Blog.Id" method="post">
-                                    <div class="col-md-12">
-                                        <div class="single-form">
-                                            <label>Your Review:</label>
-                                            <textarea placeholder="Write a review"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="single-form">
-                                            <label>Name:</label>
-                                            <input type="text" placeholder="Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="single-form">
-                                            <label>Email:</label>
-                                            <input type="email" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="single-form">
-                                            <label>Website:</label>
-                                            <input type="email" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="single-form">
-                                            <button type="submit" class="main-btn">Post Comment</button>
-                                        </div>
-                                    </div>
-                                </form>
+                            <form id="commentForm" asp-action="CreateBlogComment" method="post">
+                                <input type="hidden" asp-for="BlogCommentCreateDto.BlogId" value="@Model.Blog.Id" />
 
-                            </div>
+                                <div class="col-md-12">
+                                    <div class="single-form">
+                                        <label asp-for="BlogCommentCreateDto.Name">Your Comment:</label>
+                                        <textarea asp-for="BlogCommentCreateDto.Name" class="form-control" placeholder="Write a review"></textarea>
+                                        <span asp-validation-for="BlogCommentCreateDto.Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mt-2">
+                                    <button type="submit" class="main-btn">Post Comment</button>
+                                </div>
+                            </form>
                         }
                         else
                         {
-                            <p>Please <a asp-controller="Account" asp-action="Login">Log in</a>to leave a comment.</p>
+                            <p>Please <a asp-controller="Account" asp-action="Login">log in</a> to leave a comment.</p>
                         }
-
                     </div>
                 </div>
+
             </div>
 
             <div class="col-lg-3">

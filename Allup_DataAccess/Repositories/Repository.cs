@@ -1,4 +1,5 @@
 ﻿using Allup_Core.Comman;
+using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
 using Allup_DataAccess.Repositories.IRepositories;
 using Microsoft.EntityFrameworkCore;
@@ -125,27 +126,27 @@ namespace Allup_DataAccess.Repositories
         // Asagdakilar Messageye aidir
 
 
-        //public async Task<Chat?> GetChatWithUsersAndMessagesAsync(int chatId, string userId)
-        //{
-        //    return await _context.Chats
-        //        .Include(m => m.AppUserChats).ThenInclude(m => m.AppUser)
-        //        .Include(m => m.Messages)
-        //        .FirstOrDefaultAsync(m => m.Id == chatId && m.AppUserChats.Any(u => u.AppUserId == userId));
-        //}
+        public async Task<Chat?> GetChatWithUsersAndMessagesAsync(int chatId, string userId)
+        {
+            return await _context.Chats
+                .Include(m => m.AppUserChats).ThenInclude(m => m.AppUser)
+                .Include(m => m.Messages)
+                .FirstOrDefaultAsync(m => m.Id == chatId && m.AppUserChats.Any(u => u.AppUserId == userId));
+        }
 
-        //public async Task<Message> AddMessageAsync(Message message)
-        //{
-        //    await _context.Messages.AddAsync(message);
-        //    await _context.SaveChangesAsync();
-        //    return message;
-        //}
+        public async Task<Message> AddMessageAsync(Message message)
+        {
+            await _context.Messages.AddAsync(message);
+            await _context.SaveChangesAsync();
+            return message;
+        }
 
-        //public async Task<List<Chat>> GetUserChatsAsync(string userId)
-        //{
-        //    return await _context.Chats
-        //        .Include(m => m.AppUserChats)
-        //        .Where(m => m.AppUserChats.Any(a => a.AppUserId == userId))
-        //        .ToListAsync();
-        //}
+        public async Task<List<Chat>> GetUserChatsAsync(string userId)
+        {
+            return await _context.Chats
+                .Include(m => m.AppUserChats)
+                .Where(m => m.AppUserChats.Any(a => a.AppUserId == userId))
+                .ToListAsync();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using Allup_Core.Entities;
 using Allup_DataAccess.Helpers;
 using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Dtos.ColorDtos;
@@ -22,6 +23,9 @@ namespace Allup_Service.UI.Dtos
 
         public List<int>? SelectedSize { get; set; }
 
+        public ProductGetDto Product { get; set; } = null!;
+
+
         public int Size { get; set; }
         public int Count { get; set; }
         public int Pages { get; set; }
@@ -34,6 +38,9 @@ namespace Allup_Service.UI.Dtos
         public decimal? SelectedMinPrice { get; set; }
 
         public decimal? SelectedMaxPrice { get; set; }
+
+        public List<FeaturesBanner> FeaturesBanners { get; set; } = null!;
+        public List<Brand> Brands { get; set; } = null!;
 
     }
 }

@@ -32,7 +32,7 @@ namespace Allup_Service.Service
             _mapper = mapper;
         }
 
-        public async Task<bool> AddToWishListAsync(int id)
+        public async Task<bool> AddToWishListAsync(int id, int count = 1)
         {
             var product = await _productService.GetAsync(id);
             if (product == null)
@@ -56,7 +56,8 @@ namespace Allup_Service.Service
                     WishlistItem wishListItem = new WishlistItem
                     {
                         AppUserId = userId,
-                        ProductId = id
+                        ProductId = id,
+                        Count = count
                     };
                     await _wishListItemRepository.CreateAsync(wishListItem);
                     await _wishListItemRepository.SaveChangesAsync();
@@ -78,13 +79,14 @@ namespace Allup_Service.Service
                 var existingCookieItem = wishList.FirstOrDefault(x => x.ProductId == id);
                 if (existingCookieItem != null)
                 {
-                    wishList.Remove(existingCookieItem);
+                    existingCookieItem.Count = count;
                 }
                 else
                 {
                     wishList.Add(new WishListCookieItemDto
                     {
-                        ProductId = id
+                        ProductId = id,
+                        Count = count   
                     });
                 }
 

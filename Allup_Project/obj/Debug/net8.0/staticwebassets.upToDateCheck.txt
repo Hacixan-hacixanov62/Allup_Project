@@ -5150,6 +5150,7 @@ wwwroot\admin\assets\plugins\x-editable\dist\bootstrap3-editable\img\clear.png
 wwwroot\admin\assets\plugins\x-editable\dist\bootstrap3-editable\img\loading.gif
 wwwroot\admin\assets\plugins\x-editable\dist\bootstrap3-editable\js\bootstrap-editable.min.js
 wwwroot\admin\assets\plugins\xml\plugin.js
+wwwroot\assets\css\chat.css
 wwwroot\assets\css\plugins\animate.css
 wwwroot\assets\css\plugins\bootstrap.min.css
 wwwroot\assets\css\plugins\default.css
@@ -5238,6 +5239,9 @@ wwwroot\assets\images\category-6.jpg
 wwwroot\assets\images\category-7.jpg
 wwwroot\assets\images\category-8.jpg
 wwwroot\assets\images\category-9.jpg
+wwwroot\assets\images\chat\picture.jpg
+wwwroot\assets\images\chat\picture2.jpg
+wwwroot\assets\images\chat\Qr_code.png
 wwwroot\assets\images\comment-author.jpg
 wwwroot\assets\images\custom_banner.jpg
 wwwroot\assets\images\favicon.png

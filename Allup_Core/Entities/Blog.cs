@@ -26,6 +26,8 @@ namespace Allup_Core.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
 
+        public string? AppUserId { get; set; }
+        public AppUser? AppUser { get; set; }
         public int TagId { get; set; }
         public Tag Tag { get; set; } = null!;
 

@@ -44,7 +44,12 @@ namespace Allup_DataAccess.DAL
         public DbSet<Comment> Comments { get; set; }
         public DbSet<WishlistItem> WishlistItems { get; set; }
         public DbSet<BlogComment> BlogComments { get; set; }
+        public DbSet<About> Abouts { get; set; }
 
+        //SignalR
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<Message> Messages { get; set; } = null!;
+        public DbSet<AppUserChat> AppUserChats { get; set; } = null!;
 
 
         // Many to Many

@@ -515,6 +515,23 @@ namespace Allup_Service.Service
                 })
                 .ToListAsync();
         }
+         
+        public async Task<ICollection<ProductGetDto>> SearchAsync(string searchText, int page, int take)
+        {
+            var products = _context.Products.Where(p=>p.Name.Contains(searchText) || p.Desc.Contains(searchText))
+                .Include(p => p.Category)
+                .Include(p => p.Brands)
+                .Include(p => p.TagProducts).ThenInclude(tp => tp.Tag)
+                .Include(p => p.SizeProducts).ThenInclude(sp => sp.Size)
+                .Include(p => p.ColorProducts).ThenInclude(cp => cp.Color)
+                .Include(p => p.ProductImages)
+                .AsNoTracking()
+                .Skip((page - 1) * take)
+                .Take(take)
+                .ToListAsync();
+
+            return   _mapper.Map<ICollection<ProductGetDto>>(products);
+        }
 
     }
 }

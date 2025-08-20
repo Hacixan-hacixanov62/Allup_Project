@@ -1,11 +1,15 @@
 ﻿
 using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
+using Allup_DataAccess.Helpers;
+using Allup_DataAccess.Repositories;
 using Allup_DataAccess.Repositories.IRepositories;
 using Allup_Service.Dtos.BlogDtos;
 using Allup_Service.Exceptions;
 using Allup_Service.Service.IService;
+using Allup_Service.UI.Vm;
 using AutoMapper;
+using CloudinaryDotNet;
 using Microsoft.EntityFrameworkCore;
 
 namespace Allup_Service.Service
@@ -120,6 +124,30 @@ namespace Allup_Service.Service
                               .Include(c => c.Category)
                              .ToListAsync();
 
+        }
+
+        public async Task<PaginationResponse<Blog>> GetPaginateAsync(int page, int take,string search =null)
+        {
+            var query = _blogRepository.GetAll(include: x => x.Include(a => a.AppUser));
+
+            int count = await query.CountAsync();
+            int totalPage = (int)Math.Ceiling((decimal)count / take);
+
+            var blogs = await query
+                .OrderByDescending(b => b.CreatedAt)
+                .Skip((page - 1) * take)
+                .Take(take)
+                .ToListAsync();
+
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(b => b.Title.Contains(search)
+                                      || b.Author.Name.Contains(search));
+            }
+
+
+            return new PaginationResponse<Blog>(blogs, totalPage, page, count);
         }
 
         public Task<bool> IsExistAsync(int id)

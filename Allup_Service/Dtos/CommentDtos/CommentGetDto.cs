@@ -1,4 +1,5 @@
-﻿using Allup_Service.Abstractions.Dtos;
+﻿using Allup_Core.Entities;
+using Allup_Service.Abstractions.Dtos;
 using Allup_Service.Dtos.AuthDtos;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,6 +20,8 @@ namespace Allup_Service.Dtos.CommentDtos
         public string Name { get; set; } = null!;
         public UserGetDto? AppUser { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string AppUserId { get; set; } = null!;
+        public AppUser AppUseR { get; set; } = null!;
         public List<CommentGetDto> Children { get; set; } = [];
     }
 }

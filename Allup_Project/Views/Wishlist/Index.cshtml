@@ -10,6 +10,11 @@
         (totalPrice += item.Count * (item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100))).ToString("0.00");
     }
 }
+
+<form id="antiForgeryForm" style="display:none">
+    @Html.AntiForgeryToken()
+</form>
+
 <!--====== Breadcrumb Part Start ======-->
 
 <div class="breadcrumb-area">
@@ -19,6 +24,7 @@
                 <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
                 <li class="breadcrumb-item active">Wishlist</li>
             </ol>
+
         </nav>
     </div> <!-- container -->
 </div>
@@ -277,6 +283,7 @@
         }
 
 
+
         function increaseCount(productId) {
             fetch(`/Wishlist/IncreaseToCart?id=${productId}`, {
                 method: 'POST',
@@ -307,6 +314,9 @@
                 console.error('Artırma xətası:', error);
             });
         }
+
+
+
 
         function decreaseCount(productId) {
             const countSpan = document.getElementById(`value-${productId}`);

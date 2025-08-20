@@ -1,4 +1,5 @@
 ﻿using Allup_Core.Entities;
+using Allup_Service.Dtos.AboutDtos;
 using Allup_Service.Dtos.AuthDtos;
 using Allup_Service.Dtos.AuthorDtos;
 using Allup_Service.Dtos.BannerDtos;
@@ -18,6 +19,7 @@ using Allup_Service.Dtos.SizeDtos;
 using Allup_Service.Dtos.SliderDtos;
 using Allup_Service.Dtos.TagDtos;
 using Allup_Service.Dtos.WisListDtos;
+using Allup_Service.UI.Vm;
 using AutoMapper;
 
 
@@ -118,13 +120,13 @@ namespace Allup_Service.Profiles
             //Blog Profiles
             CreateMap<Blog, BlogCreateDto>().ReverseMap();
             CreateMap<Blog, BlogUpdateDto>().ReverseMap();
+            CreateMap<Blog,BlogVM>().ReverseMap();
 
             //Comment Profiles
             CreateMap<Comment, CommentCreateDto>().ReverseMap();
             CreateMap<Comment, CommentUpdateDto>().ReverseMap();
             CreateMap<Comment, CommentGetDto>()
-                .ForMember(dest => dest.AppUser, opt => opt.MapFrom(src => src.AppUser))
-                .ReverseMap();
+                .ForMember(dest => dest.AppUserId, opt => opt.MapFrom(src => src.AppUserId));
             CreateMap<Comment, CommentReplyDto>().ReverseMap();
 
             //WishList Profiles
@@ -133,14 +135,12 @@ namespace Allup_Service.Profiles
             CreateMap<WishlistItem,WishListCardDto>().ReverseMap();
             CreateMap<WishlistItem, WishListCookieItemDto>().ReverseMap();
 
+            //About Profiles
+            CreateMap<About, AboutCreateDto>().ReverseMap();
+            CreateMap<About, AboutUpdateDto>().ReverseMap();
+            CreateMap<About, AboutGetDto>().ReverseMap();
+            CreateMap<About, AboutDetailDto>().ReverseMap();
 
-            //BlogComment Profiles
-            CreateMap<BlogComment, BlogCommentCreateDto>().ReverseMap();
-            CreateMap<BlogComment, BlogCommentUpdateDto>().ReverseMap();
-            CreateMap<BlogComment, BlogCommentGetDto>()
-                .ForMember(dest => dest.AppUser, opt => opt.MapFrom(src => src.AppUser))
-                .ReverseMap();
-            CreateMap<BlogComment, BlogCommentReplyDto>().ReverseMap();
         }
     }
 }

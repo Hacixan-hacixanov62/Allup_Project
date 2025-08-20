@@ -5,6 +5,7 @@ using Allup_Service.Service;
 using Allup_Service.Service.IService;
 using Allup_Service.UI.Vm;
 using AutoMapper;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,15 +29,27 @@ namespace Allup_Project.Controllers
             _blogCommentService = blogCommentService;
         }
 
-        public async Task<IActionResult> Index(int? authorId)
+        public async Task<IActionResult> Index(int? authorId ,string search, int page =1,int take=5)
         {
             var categories = await _categoryService.GetAllAsync();
             var blogs = await _blogService.GetAllAsync();
+         
 
-            BlogVM blogVM = new BlogVM
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                blogs = blogs.Where(b => b.Title.Contains(search, StringComparison.OrdinalIgnoreCase)
+                                      || b.Author.Name.Contains(search, StringComparison.OrdinalIgnoreCase))
+                             .ToList();
+            }
+            var paginateBlogs = await _blogService.GetPaginateAsync(page, take,search);
+
+            ViewBag.Search = search;
+
+            BlogVM blogVM = new BlogVM  
             {
                 Categories = categories,
-                Blogs = blogs
+                Blogs = blogs,
+                PaginatedBlogs = paginateBlogs,
             };
 
             return View(blogVM);
@@ -83,13 +96,14 @@ namespace Allup_Project.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateBlogComment(BlogCommentCreateDto dto)
+        public async Task<IActionResult> CreateBlogComment([Bind(Prefix = "BlogCommentCreateDto")] BlogCommentCreateDto dto)
         {
             var result = await _blogCommentService.CreateAsync(dto,ModelState);
 
             string resultUrl =Request.GetReturnUrl();
+            var comment = await _blogCommentService.GetComment(dto.BlogId);
 
-            return View(resultUrl);
+            return PartialView("_BlogCommentPartial",comment);  
 
         }
 

@@ -1,0 +1,63 @@
+﻿@using Allup_Service.Dtos.BlogCommentDtos
+@model List<BlogCommentGetDto>
+
+@if (Model.Any())
+{
+    <h4 class="comment-title">@Model.Count Comment(s)</h4>
+    <ul class="comments-list">
+        @foreach (var comment in Model)
+        {
+            <li>
+                <div class="single-comment d-sm-flex">
+                    <div class="comment-author">
+                        <img src="assets/images/comment-author.jpg" alt="author">
+                    </div>
+                    <div class="comment-content media-body">
+                        <div class="comment-meta">
+                            <h5 class="author-name">@comment.AppUser?.Username</h5>
+                            <span class="date">@comment.CreatedAt.ToString("g")</span>
+                        </div>
+                        <p>@comment.Text</p>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <form asp-action="ReplyComment" asp-controller="Blog" method="post" class="mt-2">
+                                <input type="hidden" name="ParentId" value="@comment.Id" />
+                                <input type="hidden" name="BlogId" value="@comment.BlogId" />
+                                <textarea name="Text" placeholder="Write a reply..." required></textarea>
+                                <button type="submit" class="btn btn-sm btn-secondary mt-1">Reply</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+
+                @if (comment.Children != null && comment.Children.Any())
+                {
+                    <ul class="comments-replay">
+                        @foreach (var child in comment.Children)
+                        {
+                            <li>
+                                <div class="single-comment d-sm-flex">
+                                    <div class="comment-author">
+                                        <img src="assets/images/comment-author.jpg" alt="author">
+                                    </div>
+                                    <div class="comment-content media-body">
+                                        <div class="comment-meta">
+                                            <h5 class="author-name">@child.AppUser?.Username</h5>
+                                            <span class="date">@child.CreatedAt.ToString("g")</span>
+                                        </div>
+                                        <p>@child.Text</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No comments yet. Be the first to leave one!</p>
+}

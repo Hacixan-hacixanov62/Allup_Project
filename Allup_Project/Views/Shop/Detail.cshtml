@@ -118,7 +118,7 @@
                         </div>
                         <div class="product-wishlist-compare">
                             <ul class="d-flex flex-wrap">
-                            <li><a asp-controller="WishList" asp-action="AddWishlist" asp-route-id="@Model.Product.Id"><i class="fal fa-heart"></i> Add to wishlist</a></li>
+                            <li><a asp-controller="WishList" asp-action="AddWishlist" asp-route-id="@Model.Product.Id" class="add-to-wishlist" data-product-id="@Model.Product.Id"><i class="fal fa-heart"></i> Add to wishlist</a></li>
                                 <li><a href="#"><i class="fal fa-repeat"></i> Add to compare</a></li>
                             </ul>
                         </div>
@@ -831,6 +831,27 @@
 
 
 @section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $(".add-to-wishlist").click(function (e) {
+                e.preventDefault();
+                var productId = $(this).data("product-id");
+
+                $.ajax({
+                    url: '/Wishlist/AddWishlist',
+                    type: 'POST',
+                    data: { id: productId },
+                    success: function (res) {
+                        if (res.success) {
+                            alert("Məhsul wishliste əlavə olundu! Yeni say: " + res.count);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
     <script>
         document.getElementById('commentForm').addEventListener('submit', function (e) {
             e.preventDefault();

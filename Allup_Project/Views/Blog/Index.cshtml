@@ -27,13 +27,13 @@
             <div class="col-lg-9">
                 <div class="blog-posts">
                     <div class="row">
-                        @foreach (var item in Model.Blogs)
+                        @foreach (var item in Model.PaginatedBlogs.Datas)
                         {
                             <div class="col-md-6">
                                 <div class="single-blog-post blog-grid-post mt-30">
                                     <div class="blog-post-media">
                                         <div class="blog-image">
-                                            <a href="blog-single-left-sidebar.html"><img src="@item.ImageUrl" alt="blog"></a>
+                                            <a asp-action="Detail" asp-route-id="@item.Id"><img src="@item.ImageUrl" alt="blog"></a>
                                         </div>
                                     </div>
                                     <div class="blog-post-content">
@@ -57,26 +57,49 @@
 
 
                 <ul class="pagination justify-content-center mt-30">
-                    <li><a href="#"><i class="fal fa-chevron-left"></i></a></li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#"><i class="fal fa-chevron-right"></i></a></li>
+                    @if (Model.PaginatedBlogs.HasPrevious)
+                    {
+                        <li>
+                            <a asp-action="Index" asp-route-page="@(Model.PaginatedBlogs.CurrentPage - 1)">
+                                <i class="fal fa-chevron-left"></i>
+                            </a>
+                        </li>
+                    }
+
+                    @for (int i = 1; i <= Model.PaginatedBlogs.TotalPage; i++)
+                    {
+                        <li class="@(i == Model.PaginatedBlogs.CurrentPage ? "active" : "")">
+                            <a asp-action="Index" asp-route-page="@i">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.PaginatedBlogs.HasNext)
+                    {
+                        <li>
+                            <a asp-action="Index" asp-route-page="@(Model.PaginatedBlogs.CurrentPage + 1)">
+                                <i class="fal fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
 
 
            <div class="col-lg-3">
                 <div class="blog-sidebar">
-                     <div class="sidebar-widget mt-30">
+                    <div class="sidebar-widget mt-30">
                         <h4 class="sidebar-title">Search</h4>
                         <div class="blog-sidebar-search">
-                            <form action="#">
-                                <input type="text" placeholder="Search">
-                                <button><i class="fas fa-search"></i></button>
+                            <form asp-controller="Blog" asp-action="Index" method="get">
+                                <input type="text"
+                                       name="search"
+                                       value="@ViewBag.Search"
+                                       placeholder="Search..." />
+                                <button type="submit"><i class="fas fa-search"></i></button>
                             </form>
                         </div>
-                     </div> <!-- sidebar widget -->
+                    </div>
+                    <!-- sidebar widget -->
 
                     <div class="sidebar-widget mt-30">
                         <h4 class="sidebar-title">Categories</h4>

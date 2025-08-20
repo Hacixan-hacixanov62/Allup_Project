@@ -14,7 +14,7 @@ namespace Allup_Service.Service.IService
         //void SetDatasToCookies(List<WishListDto> wishlist, Product dbProduct, WishListDto existProduct);
         //Task<WishListDto> GetByUserIdAsync(string userId);
         //Task<List<WishlistItem>> GetAllByWishlistIdAsync(int? wishlistId);
-        Task<bool> AddToWishListAsync(int id);
+        Task<bool> AddToWishListAsync(int id,int count =1);
         Task<int> WishlistCount();
         Task<WishListCardDto> WishListCardVM();
         Task<bool> RemoveFromWishListAsync(int id);

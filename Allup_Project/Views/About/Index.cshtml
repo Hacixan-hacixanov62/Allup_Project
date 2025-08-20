@@ -1,0 +1,150 @@
+﻿@using Allup_Service.UI.Dtos
+@model AboutDto
+@{
+    Layout = "_Layout";
+}
+
+<!--====== Breadcrumb Part Start ======-->
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+                <li class="breadcrumb-item active">About Us</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+<!--====== About Part Start ======-->
+
+<section class="about-page pt-20">
+    @foreach (var about in Model.Abouts)
+    {
+         <div class="container-fluid custom-container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="about-image mt-30">
+                    <img src="@about.ImageUrl" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-content mt-30">
+                    <h2 class="title">@about.Title</h2>
+                    <p>@about.Desc</p>
+                 </div>
+            </div>
+        </div> <!-- row -->
+        <div class="about-items pt-20">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="about-item mt-30">
+                        <h4 class="title">@about.Title1</h4>
+                        <p>@about.Desc1</p>
+                    </div> <!-- about item -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="about-item mt-30">
+                        <h4 class="title">@about.Title2</h4>
+                        <p>@about.Desc2</p>
+                     </div> <!-- about item -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="about-item mt-30">
+                        <h4 class="title">@about.Title3</h4>
+                        <p>@about.Desc3</p>
+                    </div> <!-- about item -->
+                </div>
+            </div> <!-- row -->
+        </div>  <!-- about items -->
+    </div> <!-- container -->
+    }
+</section>
+
+<!--====== About Part Ends ======-->
+<!--====== Brand Part Start ======-->
+
+<div class="brand-area pt-80">
+    <div class="container-fluid custom-container">
+        <div class="row brand-active">
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-1.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-2.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-3.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-4.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-5.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-6.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+            <div class="col-lg-2">
+                <div class="single-brand">
+                    <a href="#">
+                        <img src="~/assets/images/brand/brand-4.jpg" alt="brand">
+                    </a>
+                </div> <!-- single brand -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</div>
+
+<!--====== Brand Part Ends ======-->
+<!--====== Features Banner Part Start ======-->
+
+<section class="features-banner-area pt-80 pb-100">
+    <div class="container-fluid custom-container">
+      <div class="features-banner-wrapper d-flex flex-wrap">
+       @foreach (var banner in Model.FeaturesBanners)
+        {
+
+            <div class="single-features-banner d-flex">
+                <div class="banner-icon">
+                    <img src="~/Uploads/FeaturesBanners/@banner.ImageUrl" alt="Icon">
+                </div>
+                <div class="banner-content media-body">
+                    <h3 class="banner-title">@banner.Title</h3>
+                    <p>@banner.Desc</p>
+                </div>
+            </div> <!-- single features banner -->
+        
+        }
+      </div> <!-- features banner wrapper -->
+    </div> <!-- container -->
+</section>
+
+<!--====== Features Banner Part Ends ======-->
+

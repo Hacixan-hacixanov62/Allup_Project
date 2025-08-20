@@ -4,9 +4,6 @@ namespace Allup_Core.Entities
 {
     public class BlogComment:BaseAuditableEntity
     {
-        public string Text { get; set; } = null!;
-        public int Rating { get; set; }
-        public string Email { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string AppUserId { get; set; } = null!;
         public AppUser AppUser { get; set; } = null!;

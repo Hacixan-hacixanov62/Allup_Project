@@ -1,6 +1,8 @@
 ﻿using Allup_DataAccess.DAL;
 using Allup_Service.Dtos.CartDtos;
 using Allup_Service.Dtos.ProductDtos;
+using Allup_Service.Dtos.WisListDtos;
+using Allup_Service.Service;
 using Allup_Service.UI.Services.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -110,6 +112,64 @@ namespace Allup_Service.UI.Services
             }
 
             return cartGetDto;
+        }
+
+        public WishListCookieItemDto GetWishListItem()
+        {
+            WishListCookieItemDto wishListCookieItemDto = new WishListCookieItemDto();
+
+            if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var itemes = _context.WishlistItems.
+                           Include(m => m.Product).
+                           ThenInclude(m => m.ProductImages.Where(m => m.IsCover == true)).Where(m => m.AppUserId == userId).ToList();
+
+                foreach (var bi in itemes)
+                {
+
+                    WishListCookieItemDto basketItemVM = new WishListCookieItemDto()
+                    {
+                        Count =bi.Count
+                    };
+                }
+
+            }
+            else
+            {
+                var basketStr = _httpContextAccessor.HttpContext.Request.Cookies[WishListService.WishList_KEY];
+
+                List<WishListCookieItemDto> cookieItems = null;
+
+                if (basketStr != null)
+                    cookieItems = JsonConvert.DeserializeObject<List<WishListCookieItemDto>>(basketStr);
+                else
+                    cookieItems = new List<WishListCookieItemDto>();
+
+
+                try
+                {
+                    foreach (var cItem in cookieItems)
+                    {
+                        WishListCookieItemDto basketItemVM = new WishListCookieItemDto()
+                        {
+
+                           Count = cItem.Count
+                        };
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine(ex.Message);
+                }
+
+
+
+            }
+
+            return wishListCookieItemDto;
         }
     }
 }

@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Allup_Core\Allup_Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+  </ItemGroup>
+
 </Project>

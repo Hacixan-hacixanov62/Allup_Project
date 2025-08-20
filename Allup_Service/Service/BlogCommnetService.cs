@@ -1,7 +1,9 @@
 ﻿using Allup_Core.Entities;
 using Allup_Core.Enums;
+using Allup_DataAccess.Repositories;
 using Allup_DataAccess.Repositories.IRepositories;
 using Allup_Service.Dtos.BlogCommentDtos;
+using Allup_Service.Dtos.CommentDtos;
 using Allup_Service.Exceptions;
 using Allup_Service.Service.IService;
 using AutoMapper;
@@ -110,7 +112,7 @@ namespace Allup_Service.Service
                 throw new NotFoundException("BlogComment NotFound");
 
             var userId = _getUserId();
-
+            
             if (comment.AppUserId != userId && !_isAdmin())
                 throw new UnAuthorizedException("BlogComment NotFound");
 
@@ -131,7 +133,17 @@ namespace Allup_Service.Service
 
             return dtos;
         }
+        public async Task<List<BlogCommentGetDto>> GetComment(int blogId)
+        {
+            var comments = await _blogCommentRepository.GetAllAsync(x => x.BlogId == blogId,
+                                                   include: q => q.Include(c => c.AppUser));
 
+            if (comments == null) comments = new List<BlogComment>(); // boş list qaytar
+            
+            var dtos = _mapper.Map<List<BlogCommentGetDto>>(comments);
+
+            return dtos ?? new List<BlogCommentGetDto>();
+        }
 
         private string _getUserId()
         {
@@ -168,6 +180,7 @@ namespace Allup_Service.Service
         {
             throw new NotImplementedException();
         }
+
 
     }
 }

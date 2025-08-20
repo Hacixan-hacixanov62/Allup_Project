@@ -1,10 +1,8 @@
-﻿using Allup_Core.Entities;
-using Allup_Service.Dtos.WisListDtos;
+﻿using Allup_Service.Dtos.WisListDtos;
 using Allup_Service.Service;
 using Allup_Service.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 
 namespace Allup_Project.Controllers
 {
@@ -17,7 +15,7 @@ namespace Allup_Project.Controllers
         public WishlistController(IHttpContextAccessor httpContextAccessor, IProductService productService, IWishListService wishListService)
         {
             _httpContextAccessor = httpContextAccessor;
-            _productService = productService;
+            _productService = productService;           
             _wishListService = wishListService;
         }
 
@@ -26,13 +24,13 @@ namespace Allup_Project.Controllers
            // var wishlistDetails = await _wishListService.WishListCardVM();
            var  wishlistDetails = await _wishListService.GetWishListAsync();
             return View(wishlistDetails);
-
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> AddWishlist(int id)
+        public async Task<IActionResult> AddWishlist(int id,int count =1)
         {
-           await _wishListService.AddToWishListAsync(id);
+           await _wishListService.AddToWishListAsync(id,count);
             return Json(new { success = true });
 
         }
@@ -41,7 +39,7 @@ namespace Allup_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteWishlist(int id)
         {
-            var success = await _wishListService.RemoveFromWishListAsync(id);
+            var success = await _wishListService.RemoveFromWishListAsync(id);                                                                                                                      
             return Json(new { success });
         }
 
@@ -57,10 +55,10 @@ namespace Allup_Project.Controllers
             return Json(new { success = true, count });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> IncreaseToCart(int id)
+
+        public async Task<IActionResult> IncreaseToCart(int id, int count = 1)
         {
-            await _wishListService.AddToWishListAsync(id);
+            await _wishListService.AddToWishListAsync(id,count);
 
             var basket = await _wishListService.GetWishListAsync();
 
@@ -74,7 +72,6 @@ namespace Allup_Project.Controllers
         }
 
 
-        [HttpPost]
         public async Task<IActionResult> DecreaseToCart(int id)
         {
             await _wishListService.DecreaseToCartAsync(id);

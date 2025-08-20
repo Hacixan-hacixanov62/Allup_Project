@@ -39,6 +39,7 @@
             <div class="col-xl-8 col-lg-7">
                 <div class="checkout-form">
                     <form asp-action="Checkout" method="post" asp-controller="Basket">
+                         @Html.AntiForgeryToken()
                         <div class="billing-address mt-30">
                             <h4 class="allup-title">Billing Address</h4>
                             <div class="row">

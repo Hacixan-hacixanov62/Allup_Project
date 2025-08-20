@@ -46,7 +46,7 @@ namespace Allup_Project.Controllers
             await _basketService.AddToCartAsync(id, count);
             return Ok();
         }
-
+        
         public async Task<IActionResult> IncreaseToCart(int id, int count = 1)
         {
             await _basketService.AddToCartAsync(id, count);

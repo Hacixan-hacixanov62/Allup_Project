@@ -1,0 +1,10 @@
+﻿@using Allup_Core.Entities
+@model List<Chat>
+<ul>
+    @foreach (var chat in Model)
+    {
+        <li>
+            <a asp-action="Detail" asp-route-id="@chat.Id">@(string.IsNullOrWhiteSpace(chat.Name) ? chat.AppUserChats.FirstOrDefault()?.AppUser.UserName : chat.Name)</a>
+        </li>
+    }
+</ul>

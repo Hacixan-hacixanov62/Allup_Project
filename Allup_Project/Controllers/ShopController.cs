@@ -19,8 +19,8 @@ namespace Allup_Project.Controllers
         private readonly ISizeService _sizeService;
         private readonly IColorService _colorService;
         private readonly ICommentService _commentService;
-
-        public ShopController(IProductService productService, ICategoryService categoryService, IMapper mapper, ISizeService sizeService, IColorService colorService, ICommentService commentService)
+        private readonly IFeaturesBannerService _featuresBannerService;
+        public ShopController(IProductService productService, ICategoryService categoryService, IMapper mapper, ISizeService sizeService, IColorService colorService, ICommentService commentService, IFeaturesBannerService featuresBannerService)
         {
             _productService = productService;
             _categoryService = categoryService;
@@ -28,14 +28,16 @@ namespace Allup_Project.Controllers
             _sizeService = sizeService;
             _colorService = colorService;
             _commentService = commentService;
+            _featuresBannerService = featuresBannerService;
         }
 
-        public async Task<IActionResult> Index(string sortOrder, List<int> sizeIds, List<int> colorIds, int? minPrice =null, int? maxPrice =null, int page = 1, int pageSize = 9)
+        public async Task<IActionResult> Index(string sortOrder, List<int> sizeIds, List<int> colorIds, int? minPrice =null, int? maxPrice =null, int page = 1, int pageSize = 5)
         {
             var products = await _productService.GetAllAsync();
             var categories = await _categoryService.GetAllAsync();
             var sizes = await _sizeService.GetAllAsync();
             var colors = await _colorService.GetAllAsync();
+            var banner = await _featuresBannerService.GetAllAsync();
 
             if (sizeIds != null && sizeIds.Any())
             {
@@ -86,7 +88,7 @@ namespace Allup_Project.Controllers
             ViewData["SelectedSort"] = sortOrder;
 
             // Pagination
-            int totalCount = products.Count;
+            int totalCount = products.Count; 
             int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
             if (page < 1) page = 1;
             if (page > totalPages) page = totalPages;
@@ -122,7 +124,8 @@ namespace Allup_Project.Controllers
                 Count = totalCount,
                 Pages = totalPages,
                 HasPrevious = page > 1,
-                HasNext = page < totalPages
+                HasNext = page < totalPages,
+                FeaturesBanners = banner,
             };
 
             // Əgər AJAX requestdirsə, sadəcə məhsulları json qaytar , Shopdaki produclari refressiz isletmek uzundur
@@ -156,10 +159,12 @@ namespace Allup_Project.Controllers
             {
                 return NotFound();
             }
+            var comments = await _commentService.GetComment(id);
 
             ShopDetailDto shopDetailDto = new ShopDetailDto
             {
                 Product = product,
+                Comments = comments,
             };
 
             return View(shopDetailDto);
@@ -239,7 +244,7 @@ namespace Allup_Project.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateComment(CommentCreateDto dto)
+        public async Task<IActionResult> CreateComment([Bind(Prefix = "CommentCreateDto")] CommentCreateDto dto)
         {
             var result = await _commentService.CreateAsync(dto, ModelState);
 
@@ -262,11 +267,15 @@ namespace Allup_Project.Controllers
         }
 
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteComment(int id)
         {
             await _commentService.DeleteAsync(id);
 
-            string returnUrl = Request.GetReturnUrl();
+            string returnUrl = Request.Headers["Referer"].ToString();
+            if (string.IsNullOrEmpty(returnUrl))
+                return RedirectToAction("Index", "Home");
 
             return Redirect(returnUrl);
         }

@@ -2,7 +2,9 @@ using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
 using Allup_DataAccess.Interceptors;
 using Allup_Service;
+using Allup_Service.Hubs;
 using Allup_Service.Profiles;
+using Allup_Service.Profiles.BlogCommentProfile;
 using Allup_Service.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,11 +27,15 @@ namespace Allup_Project
 
 
             builder.Services.AddBusinessServices();
-          //  builder.Services.AddBussniessRepository(builder.Configuration);
+            //  builder.Services.AddBussniessRepository(builder.Configuration);
+          //  builder.Services.AddDalServices(builder.Configuration);
+            //builder.Services.AddBusinessServices();
 
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSignalR();
+
             builder.Services.AddDbContext<AppDbContext>(options =>
                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -65,11 +71,14 @@ namespace Allup_Project
             builder.Services.AddAutoMapper(opt =>
             {
                 opt.AddProfile(new MapperProfiles()); // bu usul bize eger bos constructor yoxdursa onda lazim olacaq
+
             });
 
             // Cachei silmek ucundur
             builder.Services.AddOutputCache();
             builder.Services.AddScoped<CacheClearService>();
+
+            builder.Services.AddAutoMapper(typeof(BlogCommetProfile).Assembly);
 
             //builder.Services.ConfigureApplicationCookie(opt =>
             //{
@@ -99,6 +108,7 @@ namespace Allup_Project
                 app.UseHsts();
             }
 
+            app.MapHub<ChatHub>("/chatHub");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

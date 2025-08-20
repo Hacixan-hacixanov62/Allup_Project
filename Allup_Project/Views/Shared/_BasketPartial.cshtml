@@ -47,7 +47,7 @@
                                             </div>
                                         </div> <!-- price content -->
                                         <div class="checkout text-center">
-                                            <a asp-controller="Basket" asp-action="Index" class="main-btn">Checkout</a>
+                                            <a asp-controller="Basket" asp-action="CheckOut" class="main-btn">Checkout</a>
                                         </div>
                                          <div class="checkout text-center">
                                             <a asp-controller="Basket" asp-action="Index" class="main-btn">View Cart</a>
@@ -67,7 +67,7 @@
 else
 {
       @foreach(var cartItem in Model)
-        {
+      {
             var product = cartItem.Product;
 
               <div class="mini-cart">
@@ -108,12 +108,12 @@ else
                                             </div>
                                         </div> <!-- price content -->
                                         <div class="checkout text-center">
-                                            <a href="checkout.html" class="main-btn">Checkout</a>
+                                            <a asp-controller="Basket" asp-action="CheckOut" class="main-btn">Checkout</a>
                                         </div>
                                          <div class="checkout text-center">
                                             <a asp-controller="Basket" asp-action="Index" class="main-btn">View Cart</a>
                                         </div>
         </div> <!-- mini cart -->
-        }
+      }
 
 }

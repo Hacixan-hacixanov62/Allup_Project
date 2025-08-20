@@ -1,4 +1,5 @@
 ﻿using Allup_Core.Comman;
+using Allup_Core.Entities;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
@@ -27,8 +28,8 @@ namespace Allup_DataAccess.Repositories.IRepositories
         IQueryable<TEntity> OrderByDescending(IQueryable<TEntity> query, Expression<Func<TEntity, object>> expression); // Azalan Qaydada siraya salmaq
 
         // Asagdakilar Message ye aidir
-        //Task<Chat?> GetChatWithUsersAndMessagesAsync(int chatId, string userId);
-        //Task<Message> AddMessageAsync(Message message);
-        //Task<List<Chat>> GetUserChatsAsync(string userId);
+        Task<Chat?> GetChatWithUsersAndMessagesAsync(int chatId, string userId);
+        Task<Message> AddMessageAsync(Message message);
+        Task<List<Chat>> GetUserChatsAsync(string userId);
     }
 }

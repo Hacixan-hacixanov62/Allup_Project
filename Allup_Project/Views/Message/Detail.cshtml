@@ -1,0 +1,148 @@
+﻿@using Allup_Core.Entities
+@using System.Security.Claims
+@model Chat
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="~/assets/css/chat.css" />
+
+</head>
+<body>
+    <div class="chat-container">
+
+        <div class="chat-content">
+            <div class="chat-header">
+                <img class="phtimg" src="~/assets/images/chat/picture.jpg" alt="Alternate Text" />
+                <span>@Model.Name</span> @*Axirda Qurtaranda bunun asagisinda bir div acarsan orada chatdaki adamlarin adlari yazilsin*@
+                @*Mesel : <div class="members"> @Model.AppUserChats.Select(m=>m.AppUser.UserName)</div>*@
+            </div>
+            <div class="chat-messages">
+                <ol class="messages-list">
+                    @foreach (var message in Model.Messages)
+                    {
+                        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!.ToString();
+                        if (message.SenderId != currentUserId)
+                        {
+                            <li class="message received">
+                                <div class="text">@message.Text</div>
+                                <time>@message.CreatedAt.ToShortTimeString()</time>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="message sent">
+                                <div class="text">@message.Text</div>
+                                <time>@message.CreatedAt.ToShortTimeString()</time>
+                            </li>
+                        }
+                    }
+                </ol>
+            </div>
+            <div class="chat-input">
+                <form method="post" class="sendMessageForm" asp-action="SendMessage" data-chatId="@Model.Id">
+                    <input class="messageInput" type="text" required name="text" placeholder="Say something" />
+                    <button type="submit" class="send">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const form = document.querySelector(".sendMessageForm");
+        const messageInput = document.querySelector(".messageInput");
+        const chat = document.querySelector(".chat-messages");
+
+        chat.scrollTop = chat.scrollHeight;
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const response = await fetch(`/Message/SendMessage`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chatId: @Model.Id,
+                    text: messageInput.value
+                })
+            });
+
+            if (!response.ok) {
+                console.error("HTTP error", response.status);
+                return;
+            }
+
+            const message = await response.json();
+
+            const date = new Date(message.createdTime);
+            const hours = date.getUTCHours();
+            const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+            const ampm = hours >= 12 ? "PM" : "AM";
+            const formattedHours = hours % 12 || 12;
+            const formattedTime = `${formattedHours}:${minutes} ${ampm}`;
+
+            const li = `
+                <li class="message sent">
+                    <div class="text">${message.text}</div>
+                    <time>${formattedTime}</time>
+                </li>
+            `;
+
+            chat.innerHTML += li;
+            chat.scrollTop = chat.scrollHeight;
+            messageInput.value = "";
+            messageInput.blur();
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.7/signalr.min.js"></script>
+    @*Esas js hissesi asagdakidi SignalR*@
+    <script>
+
+        const chat2 = document.querySelector(".chat-messages");
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chatHub")
+            .build();
+
+        connection.on("SendMessage", function (message) {
+
+            const utcDateString = message.createdTime;
+            const date = new Date(utcDateString);
+
+            const hours = date.getUTCHours();
+            const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+
+            const ampm = hours >= 12 ? "PM" : "AM";
+            const formattedHours = hours % 12 || 12;
+            const formattedTime = `${formattedHours}:${minutes} ${ampm}`;
+
+            const li = `
+
+                                                       <li class="message received">
+                                                        <div class="text">${message.text}</div>
+                                                        <time>${formattedTime}</time>
+                                                    </li>
+
+                                    `
+
+
+            chat2.innerHTML += li;
+
+            chat2.scrollTop = chat2.scrollHeight;
+
+        });
+
+        connection.start().catch(err => console.error(err));
+    </script>
+</body>
+</html>

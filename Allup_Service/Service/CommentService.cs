@@ -1,4 +1,4 @@
-﻿using Allup_Core.Entities;
+﻿    using Allup_Core.Entities;
 using Allup_Core.Enums;
 using Allup_DataAccess.Repositories.IRepositories;
 using Allup_Service.Dtos.CommentDtos;
@@ -54,6 +54,7 @@ namespace Allup_Service.Service
             var comment = _mapper.Map<Comment>(dto);
 
             comment.AppUserId = userId;
+            comment.CreatedAt = DateTime.UtcNow;
             comment.CreatedBy = _contextAccessor.HttpContext?.User.Identity?.Name ?? "System"; // İstifadəçi adı və ya "System"
             comment.UpdatedBy = _contextAccessor.HttpContext?.User.Identity?.Name ?? "System"; // İstifadəçi adı və ya "System"
 
@@ -125,7 +126,8 @@ namespace Allup_Service.Service
 
         public async Task<List<CommentGetDto>> GetComment(int productId)
         {
-            var comments = await _commentRepository.GetAllAsync(x => x.ProductId == productId);
+            var comments = await _commentRepository.GetAllAsync(x => x.ProductId == productId,
+                                                   include: q => q.Include(c => c.AppUser));
 
             if (comments == null) comments = new List<Comment>(); // boş list qaytar
 
