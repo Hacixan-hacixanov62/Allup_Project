@@ -15,7 +15,9 @@ namespace Allup_Service.UI.Vm
         public List<ReclamBanner> ReclamBanners { get; set; } = null!;
         public List<Blog> Blogs { get; set; } = null!;
         public int WishListCount { get; set; }
+        public int CompareCount { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         //public CommentCreateDto CommentCreateDto { get; set; } = new();
+        public string SelectedCurrency { get; set; } = null!;
     }
 }

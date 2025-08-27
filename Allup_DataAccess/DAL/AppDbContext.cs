@@ -45,6 +45,7 @@ namespace Allup_DataAccess.DAL
         public DbSet<WishlistItem> WishlistItems { get; set; }
         public DbSet<BlogComment> BlogComments { get; set; }
         public DbSet<About> Abouts { get; set; }
+        public DbSet<Compare> Compares { get; set; }
 
         //SignalR
         public DbSet<Chat> Chats { get; set; }
@@ -63,6 +64,19 @@ namespace Allup_DataAccess.DAL
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
+
+            modelBuilder.Entity<BlogTag>()
+                       .HasOne(bt => bt.Blog)
+                       .WithMany(b => b.BlogTags)
+                       .HasForeignKey(bt => bt.BlogId)
+                        .OnDelete(DeleteBehavior.Cascade); // yalnız Blog üçün
+
+            modelBuilder.Entity<BlogTag>()
+                .HasOne(bt => bt.Tag)
+                .WithMany(t => t.BlogTags)
+                .HasForeignKey(bt => bt.TagId)
+                .OnDelete(DeleteBehavior.Restrict); // Tag üçün Restrict
+
 
             //modelBuilder.Entity<Product>()
             //           .HasOne(p => p.Ingredient)

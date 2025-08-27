@@ -1,4 +1,5 @@
-﻿using Allup_Service.Dtos.CategoryDtos;
+﻿using Allup_Service.CurrencySymbol;
+using Allup_Service.Dtos.CategoryDtos;
 using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.CommentDtos;
 using Allup_Service.Dtos.ProductDtos;
@@ -20,7 +21,8 @@ namespace Allup_Project.Controllers
         private readonly IColorService _colorService;
         private readonly ICommentService _commentService;
         private readonly IFeaturesBannerService _featuresBannerService;
-        public ShopController(IProductService productService, ICategoryService categoryService, IMapper mapper, ISizeService sizeService, IColorService colorService, ICommentService commentService, IFeaturesBannerService featuresBannerService)
+        private readonly ICurrencyService _currencyService;
+        public ShopController(IProductService productService, ICategoryService categoryService, IMapper mapper, ISizeService sizeService, IColorService colorService, ICommentService commentService, IFeaturesBannerService featuresBannerService, ICurrencyService currencyService)
         {
             _productService = productService;
             _categoryService = categoryService;
@@ -29,15 +31,23 @@ namespace Allup_Project.Controllers
             _colorService = colorService;
             _commentService = commentService;
             _featuresBannerService = featuresBannerService;
+            _currencyService = currencyService;
         }
 
         public async Task<IActionResult> Index(string sortOrder, List<int> sizeIds, List<int> colorIds, int? minPrice =null, int? maxPrice =null, int page = 1, int pageSize = 5)
         {
+            string selectedCurrency = Request.Cookies["currency"] ?? "USD";
+
             var products = await _productService.GetAllAsync();
             var categories = await _categoryService.GetAllAsync();
             var sizes = await _sizeService.GetAllAsync();
             var colors = await _colorService.GetAllAsync();
             var banner = await _featuresBannerService.GetAllAsync();
+
+            foreach (var product in products)
+            {
+                product.SalePrice = _currencyService.ConvertCurrencyAsync(product.SalePrice, "AZN", selectedCurrency);
+            }
 
             if (sizeIds != null && sizeIds.Any())
             {
@@ -126,6 +136,7 @@ namespace Allup_Project.Controllers
                 HasPrevious = page > 1,
                 HasNext = page < totalPages,
                 FeaturesBanners = banner,
+                SelectedCurrency = selectedCurrency
             };
 
             // Əgər AJAX requestdirsə, sadəcə məhsulları json qaytar , Shopdaki produclari refressiz isletmek uzundur
@@ -155,16 +166,21 @@ namespace Allup_Project.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var product = await _productService.GetByIdAsync(id);
+
             if (product == null)
             {
                 return NotFound();
             }
             var comments = await _commentService.GetComment(id);
+            string selectedCurrency = Request.Cookies["currency"] ?? "USD";
+
+            product.SalePrice = _currencyService.ConvertCurrencyAsync(product.SalePrice, "AZN", selectedCurrency);
 
             ShopDetailDto shopDetailDto = new ShopDetailDto
             {
                 Product = product,
                 Comments = comments,
+                SelectedCurrency = selectedCurrency,
             };
 
             return View(shopDetailDto);

@@ -24,9 +24,10 @@ namespace Allup_Project.Areas.Admin.Controllers
         private readonly IColorService _colorService;
         private readonly ITagService _tagService;
         private readonly ISizeService _sizeService;
+        private readonly ICurrencyService _currencyService;
         private readonly IMapper _mapper;
         private readonly AppDbContext _context;
-        public ProductController(ICategoryService categoryService, IProductService productService, AppDbContext context, IMapper mapper, ISizeService sizeService , ITagService tagService , IColorService colorService , IBrandService brandService )
+        public ProductController(ICategoryService categoryService, IProductService productService, AppDbContext context, IMapper mapper, ISizeService sizeService, ITagService tagService, IColorService colorService, IBrandService brandService, ICurrencyService currencyService)
         {
             _categoryService = categoryService;
             _productService = productService;
@@ -36,15 +37,34 @@ namespace Allup_Project.Areas.Admin.Controllers
             _tagService = tagService;
             _colorService = colorService;
             _brandService = brandService;
+            _currencyService = currencyService;
         }
         [OutputCache(Duration = 60, Tags = new[] { "Tag" })]
         public async Task<IActionResult> Index(int page =1,int take =6)
         {
 
-            var product = await _productService.GetAllAsync();
-            return View(product);
+            var products = await _productService.GetAllAsync();
+
+            var currency = Request.Cookies["currency"] ?? "USD";
+
+            foreach (var p in products)
+            {
+                p.SalePrice = _currencyService.ConvertCurrencyAsync(p.SalePrice, "USD", currency);
+            }
+            ViewBag.Currency = currency;
+
+            return View(products);
         }
 
+        public IActionResult ChangeCurrency(string currency)
+        {
+            Response.Cookies.Append("currency", currency, new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddDays(7) // 7 gün yadda saxlasın
+            });
+
+            return RedirectToAction("Index");
+        }
         private async Task PopulateViewBags()
         {
         //    ViewBag.Brands = new SelectList(await _brandService.GetAllAsync(), "Id", "Name");

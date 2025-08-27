@@ -6,13 +6,8 @@ using Allup_Service.Dtos.ColorDtos;
 using Allup_Service.Dtos.SizeDtos;
 using Allup_Service.Dtos.TagDtos;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Allup_Service.Dtos.ProductDtos
 {

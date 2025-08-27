@@ -41,6 +41,7 @@ namespace Allup_Service.UI.Dtos
 
         public List<FeaturesBanner> FeaturesBanners { get; set; } = null!;
         public List<Brand> Brands { get; set; } = null!;
+        public string SelectedCurrency { get; set; } = null!;
 
     }
 }

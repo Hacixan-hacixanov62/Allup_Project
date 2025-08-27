@@ -1,7 +1,11 @@
-﻿@using Allup_Service.UI.Dtos
+﻿@using Allup_Service.CurrencySymbol
+@using Allup_Service.UI.Dtos
 @model ShopDetailDto
 
+@{
+    ViewData["Title"] = "Detail";
 
+}
 
     <div class="breadcrumb-area">
         <div class="container-fluid custom-container">
@@ -66,20 +70,25 @@
                             </ul>
                         </div>
                         <div class="product-price">
-                            <span class="price-sale">€@Model.Product.DiscountPercent</span>
-                            <span class="regular-price">€@Model.Product.CostPrice</span>
+                        <span class="price-sale">@Model.Product.CostPrice.ToString("0.00") @CurrencyHelper.GetSymbol(Model.SelectedCurrency)</span>
+                        <span class="regular-price">@Model.Product.SalePrice.ToString("0.00") @CurrencyHelper.GetSymbol(Model.SelectedCurrency)</span>
                         </div>
                         <div class="product-basic-info">
                             <div class="single-info">
-                                <span class="title">Ex Tax :</span>
-                                @if (Model.Product.SalePrice != null)
-                               {
-                                <span class="value">€@Model.Product.StockCount</span>
-                            }
-                            else
-                            {
-                                <span class="value">€0</span>
-                            }
+                         <div class="product-basic-info">
+    <div class="single-info">
+        <span class="title">Ex Tax :</span>
+        @if (Model.Product.SalePrice > 0) 
+        {
+            <span class="value">@Model.Product.SalePrice.ToString("0.00") @CurrencyHelper.GetSymbol(Model.SelectedCurrency)</span>
+        }
+        else
+        {
+            <span class="value">0 @CurrencyHelper.GetSymbol(Model.SelectedCurrency)</span>
+        }
+    </div>
+</div>
+
                         </div>
                             <div class="single-info">
                                 <span class="title">Brand :</span>

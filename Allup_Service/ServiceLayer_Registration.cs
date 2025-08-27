@@ -112,6 +112,11 @@ namespace Allup_Service
 
             services.AddScoped<IAboutRepository, AboutRepository>();
             services.AddScoped<IAboutService, AboutService>();
+
+            services.AddScoped<ICompareRepository, CompareRepository>();
+            services.AddScoped<ICompareService, CompareService>();
+
+            services.AddScoped<ICurrencyService, CurrencyService>();
         }
     }
 }

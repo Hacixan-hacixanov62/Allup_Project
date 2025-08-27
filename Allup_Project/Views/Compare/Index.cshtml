@@ -1,0 +1,161 @@
+﻿@using Allup_Core.Entities
+@model List<Compare>
+
+
+@{
+    decimal totalPrice = 0;
+
+    foreach (var item in Model)
+    {
+        (totalPrice += item.Count * (item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100))).ToString("0.00");
+    }
+}
+
+<form id="antiForgeryForm" style="display:none">
+    @Html.AntiForgeryToken()
+</form>
+
+
+<!--====== Breadcrumb Part Start ======-->
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item active">Compare</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+<!--====== Compare Part Start ======-->
+
+<section class="compare-page pt-10">
+    <div class="container-fluid custom-container">
+        <div class="compare-table table-responsive mt-30">
+            @foreach (var compare in Model)
+            {
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Product</th>
+                            <td>
+                                <div class="product-image-title">
+                                    <a class="product-image" href="#"><img src="@compare.Product.ProductImages.FirstOrDefault(m => m.IsCover)?.ImageUrl" alt="product"></a>
+                                    <h5 class="title"><a href="#">@compare.Product.Name</a></h5>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>
+                                <div class="description">
+                                    <p>@compare.Product.Desc</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td>$@compare.Product.CostPrice</td>
+                        </tr>
+                        <tr>
+                            <th>Color</th>
+                            <td>@compare.Product.ColorProducts</td>
+                        </tr>
+                        <tr>
+                            <th>Stock</th>
+                            <td>@compare.Product.StockCount</td>
+                        </tr>
+                        <tr>
+                            <th>Add to cart</th>
+                            <td><a asp-route-productid="@compare.Id" onclick="addToCart(@compare.Id)" class="icon ion-bag add-to-basket"></a></td>
+                        </tr>
+                        <tr>
+                            <th>Delete</th>
+                            <td> <a asp-controller="Compare" asp-action="DeleteCompare" data-id="@compare.ProductId" class="remove-from-compare"><i class="fal fa-trash-alt"></i></a></td>
+                        </tr>
+                        <tr>
+                            <th>Rating</th>
+                            <td>
+                                <ul class="rating">
+                                    <li class="rating-on"><i class="fas fa-star"></i></li>
+                                    <li class="rating-on"><i class="fas fa-star"></i></li>
+                                    <li class="rating-on"><i class="fas fa-star"></i></li>
+                                    <li class="rating-on"><i class="fas fa-star"></i></li>
+                                    <li class=""><i class="fas fa-star"></i></li>
+                                </ul>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</section>
+
+<!--====== Compare Part Ends ======-->
+
+@section Scripts{
+    <script>
+
+
+        function addToCart(productId) {
+            fetch(`/Basket/AddToCart?id=${productId}`, {
+                method: 'POST'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // İlk olaraq basket içeriğini yenilə
+                        fetch('/Basket/GetBasket')
+                            .then(res => res.text())
+                            .then(html => {
+                                document.getElementById("baskett").innerHTML = html;
+                            });
+
+                        // İkinci olaraq count-u yenilə
+                        return fetch('/Basket/getCountBasket');
+                    }
+                    throw new Error('Səbətə əlavə edilə bilmədi.');
+                })
+                .then(res => res.json())
+                .then(data => {
+                    // count-u set elə
+                    document.getElementById("basketCount").innerText = data.count;
+                    document.getElementById("smallcount").innerText = data.count;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+
+    </script>
+
+    <script>
+            $(".remove-from-compare").click(function (e) {
+            e.preventDefault();
+
+            var btn = $(this);
+            var productId = btn.data("id");
+
+            $.ajax({
+                url: '/Compare/DeleteCompare',
+                type: 'POST',
+                data: { id: productId },
+                success: function (res) {
+                    if (res.success) {
+
+                        btn.closest("tr").remove();
+                    }
+                }
+            });
+        });
+
+    </script>
+}
+
+

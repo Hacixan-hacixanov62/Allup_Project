@@ -28,7 +28,7 @@ namespace Allup_Project.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddWishlist(int id,int count =1)
+        public async Task<IActionResult> AddWishlist(int id,int count)
         {
            await _wishListService.AddToWishListAsync(id,count);
             return Json(new { success = true });

@@ -1,4 +1,5 @@
-﻿@using Allup_Service.UI.Vm
+﻿@using Allup_Service.CurrencySymbol
+@using Allup_Service.UI.Vm
 @model HomeVM
 @{
     ViewData["Title"] = "Home Page";
@@ -107,7 +108,7 @@
                                         <ul class="product-meta">
                                             <li><a asp-route-productid="@product.Id" onclick="addToCart(@product.Id)" class="icon ion-bag add-to-basket"></a></li>
                                             <li><a asp-controller="Wishlist" asp-action="AddWishlist" data-product-id="@product.Id" class="add-to-wishlist"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                            <li><a href="#"><i class="icon ion-android-options"></i></a></li>
+                                            <li><a asp-controller="Compare" asp-action="AddCompare" data-product-id="@product.Id" class="add-to-compare" ><i class="icon ion-android-options"></i></a></li>
                                             <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
                                         </ul>
                                     </div>
@@ -121,7 +122,7 @@
                                         </ul>
                                           <h4 class="product-title"><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id" >@product.Name</a></h4>
                                         <div class="product-price">
-                                            <span class="price-sale">€@product.SalePrice</span>
+                                            <span class="price-sale">@product.SalePrice.ToString("0.00") @CurrencyHelper.GetSymbol(Model.SelectedCurrency)</span>
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +148,7 @@
                                         <ul class="product-meta">
                                             <li><a asp-route-productid="@product.Id" onclick="addToCart(@product.Id)"><i class="icon ion-bag add-to-basket"></i></a></li>
                                             <li><a asp-controller="Wishlist" asp-action="AddWishlist"  data-product-id="@product.Id" class="add-to-wishlist"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                            <li><a href="#"><i class="icon ion-android-options"></i></a></li>
+                                            <li><a asp-controller="Compare" asp-action="AddCompare" data-product-id="@product.Id" class="add-to-compare" ><i class="icon ion-android-options"></i></a></li>
                                             <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
                                         </ul>
                                     </div>
@@ -161,7 +162,7 @@
                                         </ul>
                                         <h4 class="product-title"><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id">@product.Name</a></h4>
                                         <div class="product-price">
-                                            <span class="price-sale">€@product.SalePrice</span>
+                                            <span class="price-sale">@product.SalePrice.ToString("0.00") @CurrencyHelper.GetSymbol(Model.SelectedCurrency)</span>
                                         </div>
                                     </div>
                                 </div> <!-- single product -->
@@ -187,7 +188,7 @@
                                         <ul class="product-meta">
                                             <li><a  asp-route-productid="@product.Id" onclick="addToCart(@product.Id)" ><i class="icon ion-bag add-to-basket"></i></a></li>
                                             <li><a asp-controller="Wishlist" asp-action="AddWishlist" data-product-id="@product.Id" class="add-to-wishlist"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                            <li><a href="#"><i class="icon ion-android-options"></i></a></li>
+                                            <li><a asp-controller="Compare" asp-action="AddCompare" data-product-id="@product.Id" class="add-to-compare" ><i class="icon ion-android-options"></i></a></li>
                                             <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
                                         </ul>
                                     </div>
@@ -201,7 +202,7 @@
                                         </ul>
                                         <h4 class="product-title"><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id">@product.Name</a></h4>
                                         <div class="product-price">
-                                            <span class="price-sale">€@product.SalePrice</span>
+                                            <span class="price-sale">@product.SalePrice.ToString("0.00") @CurrencyHelper.GetSymbol(Model.SelectedCurrency)</span>
                                         </div>
                                     </div>
                                 </div> <!-- single product -->
@@ -214,8 +215,8 @@
     </div> <!-- container -->
 </section>
 
-
 <!--====== Product Part Ends ======-->
+
  <!--====== Banner Part Start ======-->
 
     <div class="banner-area pt-70">
@@ -236,8 +237,8 @@
 
 <!--====== Banner Part Ends ======-->
 
- <!--====== Product Part Start ======-->
 
+<!--====== Product Part Start ======-->
 <section class="product-area pt-100">
     <div class="container-fluid custom-container">
         <div class="row">
@@ -245,76 +246,35 @@
                 <div class="product-menu pb-30">
                     <ul class="nav justify-content-center" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="active" id="new-tab" data-toggle="tab" href="#new" role="tab" aria-controls="new" aria-selected="true">New Arrival</a>
+                            <a class="active" id="new2-tab" data-toggle="tab" href="#new2" role="tab" aria-controls="new2" aria-selected="true">New Arrival</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a id="bestseller-tab" data-toggle="tab" href="#bestseller" role="tab" aria-controls="bestseller" aria-selected="false">Bestseller</a>
+                            <a id="bestseller2-tab" data-toggle="tab" href="#bestseller2" role="tab" aria-controls="bestseller2" aria-selected="false">Bestseller</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a id="featured-tab" data-toggle="tab" href="#featured" role="tab" aria-controls="featured" aria-selected="false">Featured</a>
+                            <a id="featured2-tab" data-toggle="tab" href="#featured2" role="tab" aria-controls="featured2" aria-selected="false">Featured</a>
                         </li>
                     </ul>
                 </div> <!-- product menu -->
             </div>
         </div> <!-- row -->
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="new" role="tabpanel" aria-labelledby="new-tab">
+            <div class="tab-pane fade show active" id="new2" role="tabpanel" aria-labelledby="new2-tab">
                 <div class="product-items">
                     <div class="row " style="justify-content:center">
-                        
-                            @foreach (var product in Model.Products.Where(p=>p.IsNew==true))
-                            {
+                        @foreach (var product in Model.Products.Where(p => p.IsNew == true))
+                        {
                             <div class="col-lg-2">
                                 <div class="single-product mt-30">
                                     <div class="product-image">
-                                        <a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id" >
-                                            <img style="width:230px;height:170px" class="first-image" src="@product.ProductImages.Where(pi=>pi.IsCover==true).FirstOrDefault().ImageUrl" alt="product">
-                                            <img style="width:230px;height:170px" class="second-image" src="@product.ProductImages.Where(pi=>pi.IsCover==false).FirstOrDefault().ImageUrl" alt="product">
+                                        <a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id">
+                                            <img style="width:230px;height:170px" class="first-image" src="@product.ProductImages.Where(pi => pi.IsCover == true).FirstOrDefault().ImageUrl" alt="product">
+                                            <img style="width:230px;height:170px" class="second-image" src="@product.ProductImages.Where(pi => pi.IsCover == false).FirstOrDefault().ImageUrl" alt="product">
                                         </a>
                                         <ul class="product-meta">
                                             <li><a asp-route-productid="@product.Id" onclick="addToCart(@product.Id)" class="icon ion-bag add-to-basket"></a></li>
                                             <li><a asp-controller="Wishlist" asp-action="AddWishlist" data-product-id="@product.Id" class="add-to-wishlist"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                            <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                            <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product-content">
-                                        <ul class="product-rating">
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                        </ul>
-                                          <h4 class="product-title"><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id" >@product.Name</a></h4>
-                                        <div class="product-price">
-                                            <span class="price-sale">€@product.SalePrice</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            }
-                        
-                    </div> <!-- row -->
-                </div> <!-- product items -->
-            </div>
-            <div class="tab-pane fade" id="bestseller" role="tabpanel" aria-labelledby="bestseller-tab">
-                <div class="product-items">
-                    <div class="row " style="justify-content:center">
-                        
-                        @foreach (var product in Model.Products.Where(p => p.IsBestSeller == true))
-                        {
-                             <div class="col-lg-2">
-                                <div class="single-product mt-30">
-                                    <div class="product-image">
-                                        <a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id">
-                                            <img style="width:230px;height:170px" class="first-image" src="@product.ProductImages.Where(pi=>pi.IsCover==true).FirstOrDefault().ImageUrl" alt="product">
-                                            <img style="width:230px;height:170px" class="second-image" src="@product.ProductImages.Where(pi=>pi.IsCover==false).FirstOrDefault().ImageUrl" alt="product">
-                                        </a>
-                                        <ul class="product-meta">
-                                            <li><a asp-route-productid="@product.Id" onclick="addToCart(@product.Id)"><i class="icon ion-bag add-to-basket"></i></a></li>
-                                            <li><a asp-controller="Wishlist" asp-action="AddWishlist"  data-product-id="@product.Id" class="add-to-wishlist"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                            <li><a href="#"><i class="icon ion-android-options"></i></a></li>
+                                            <li><a asp-controller="Compare" asp-action="AddCompare" data-product-id="@product.Id" class="add-to-compare"><i class="icon ion-android-options"></i></a></li>
                                             <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
                                         </ul>
                                     </div>
@@ -328,33 +288,69 @@
                                         </ul>
                                         <h4 class="product-title"><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id">@product.Name</a></h4>
                                         <div class="product-price">
-                                            <span class="price-sale">€@product.SalePrice</span>
+                                            <span class="price-sale">@product.SalePrice.ToString("0.00") @CurrencyHelper.GetSymbol(Model.SelectedCurrency)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div> <!-- row -->
+                </div> <!-- product items -->
+            </div>
+            <div class="tab-pane fade" id="bestseller2" role="tabpanel" aria-labelledby="bestseller2-tab">
+                <div class="product-items">
+                    <div class="row " style="justify-content:center">
+                        @foreach (var product in Model.Products.Where(p => p.IsBestSeller == true))
+                        {
+                            <div class="col-lg-2">
+                                <div class="single-product mt-30">
+                                    <div class="product-image">
+                                        <a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id">
+                                            <img style="width:230px;height:170px" class="first-image" src="@product.ProductImages.Where(pi => pi.IsCover == true).FirstOrDefault().ImageUrl" alt="product">
+                                            <img style="width:230px;height:170px" class="second-image" src="@product.ProductImages.Where(pi => pi.IsCover == false).FirstOrDefault().ImageUrl" alt="product">
+                                        </a>
+                                        <ul class="product-meta">
+                                            <li><a asp-route-productid="@product.Id" onclick="addToCart(@product.Id)"><i class="icon ion-bag add-to-basket"></i></a></li>
+                                            <li><a asp-controller="Wishlist" asp-action="AddWishlist" data-product-id="@product.Id" class="add-to-wishlist"><i class="icon ion-android-favorite-outline"></i></a></li>
+                                            <li><a asp-controller="Compare" asp-action="AddCompare" data-product-id="@product.Id" class="add-to-compare"><i class="icon ion-android-options"></i></a></li>
+                                            <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="product-content">
+                                        <ul class="product-rating">
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <h4 class="product-title"><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id">@product.Name</a></h4>
+                                        <div class="product-price">
+                                            <span class="price-sale">@product.SalePrice.ToString("0.00") @CurrencyHelper.GetSymbol(Model.SelectedCurrency)</span>
                                         </div>
                                     </div>
                                 </div> <!-- single product -->
                             </div>
                         }
-                      
                     </div> <!-- row -->
                 </div> <!-- product items -->
             </div>
-            <div class="tab-pane fade" id="featured" role="tabpanel" aria-labelledby="featured-tab">
+            <div class="tab-pane fade" id="featured2" role="tabpanel" aria-labelledby="featured2-tab">
                 <div class="product-items">
                     <div class="row " style="justify-content:center">
-                       
-                         @foreach (var product in Model.Products.Where(p => p.IsFeatured == true))
-                         {
+                        @foreach (var product in Model.Products.Where(p => p.IsFeatured == true))
+                        {
                             <div class="col-lg-2">
                                 <div class="single-product mt-30">
-                                    <div class="product-image" >
+                                    <div class="product-image">
                                         <a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id">
-                                            <img style="width:230px;height:170px" class="first-image" src="@product.ProductImages.Where(pi=>pi.IsCover==true).FirstOrDefault().ImageUrl" alt="product">
-                                            <img style="width:230px;height:170px" class="second-image" src="@product.ProductImages.Where(pi=>pi.IsCover==false).FirstOrDefault().ImageUrl" alt="product">
+                                            <img style="width:230px;height:170px" class="first-image" src="@product.ProductImages.Where(pi => pi.IsCover == true).FirstOrDefault().ImageUrl" alt="product">
+                                            <img style="width:230px;height:170px" class="second-image" src="@product.ProductImages.Where(pi => pi.IsCover == false).FirstOrDefault().ImageUrl" alt="product">
                                         </a>
                                         <ul class="product-meta">
-                                            <li><a  asp-route-productid="@product.Id" onclick="addToCart(@product.Id)" ><i class="icon ion-bag add-to-basket"></i></a></li>
+                                            <li><a asp-route-productid="@product.Id" onclick="addToCart(@product.Id)"><i class="icon ion-bag add-to-basket"></i></a></li>
                                             <li><a asp-controller="Wishlist" asp-action="AddWishlist" data-product-id="@product.Id" class="add-to-wishlist"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                            <li><a href="#"><i class="icon ion-android-options"></i></a></li>
+                                            <li><a asp-controller="Compare" asp-action="AddCompare" data-product-id="@product.Id" class="add-to-compare"><i class="icon ion-android-options"></i></a></li>
                                             <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
                                         </ul>
                                     </div>
@@ -368,22 +364,22 @@
                                         </ul>
                                         <h4 class="product-title"><a asp-controller="Shop" asp-action="Detail" asp-route-id="@product.Id">@product.Name</a></h4>
                                         <div class="product-price">
-                                            <span class="price-sale">€@product.SalePrice</span>
+                                            <span class="price-sale">@product.SalePrice.ToString("0.00") @CurrencyHelper.GetSymbol(Model.SelectedCurrency)</span>
                                         </div>
                                     </div>
                                 </div> <!-- single product -->
                             </div>
-                         }                   
-                    <!-- row -->
+                        }
+                    </div> <!-- row -->
                 </div> <!-- product items -->
             </div>
         </div> <!-- tab content -->
     </div> <!-- container -->
 </section>
-
 <!--====== Product Part Ends ======-->
 
-    <!--====== Blog Part Start ======-->
+
+ <!--====== Blog Part Start ======-->
 
     <section class="blog-area pt-100">
         <div class="container">
@@ -418,7 +414,7 @@
         </div> <!-- container -->
     </section>
 
-    <!--====== Blog Part Ends ======-->
+ <!--====== Blog Part Ends ======-->
 
     <!--====== Brand Part Start ======-->
 
@@ -525,6 +521,26 @@
                 success: function (res) {
                     if (res.success) {
                         alert("Məhsul wishliste əlavə olundu! Yeni say: " + res.count);
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".add-to-compare").click(function (e) {
+            e.preventDefault();
+            var productId = $(this).data("product-id");
+
+            $.ajax({
+                url: '/Compare/AddCompare',
+                type: 'POST',
+                data: { id: productId },
+                success: function (res) {
+                    if (res.success) {
+                        alert("Məhsul Compareye əlavə olundu! Yeni say: " + res.count);
                     }
                 }
             });

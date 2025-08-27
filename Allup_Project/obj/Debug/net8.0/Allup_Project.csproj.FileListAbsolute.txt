@@ -266,10 +266,10 @@ D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\staticweba
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\staticwebassets.build.json.cache
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\staticwebassets.development.json
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\Allup_Pr.81DA7F3B.Up2Date
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\Allup_Project.dll
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\refint\Allup_Project.dll
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\Allup_Project.pdb
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\Allup_Project.genruntimeconfig.cache
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\ref\Allup_Project.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

@@ -1,5 +1,7 @@
-﻿using Allup_DataAccess.DAL;
+﻿using Allup_Core.Entities;
+using Allup_DataAccess.DAL;
 using Allup_Service.Dtos.CartDtos;
+using Allup_Service.Dtos.CompareDtos;
 using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Dtos.WisListDtos;
 using Allup_Service.Service;
@@ -20,6 +22,65 @@ namespace Allup_Service.UI.Services
         {
             _httpContextAccessor = httpContextAccessor;
             _context = context;
+        }
+
+        public CompareDetailDto GetCompareItem()
+        {
+            CompareDetailDto wishListDto = new CompareDetailDto();
+
+            if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var items = _context.Compares
+                    .Include(m => m.Product)
+                    .ThenInclude(m => m.ProductImages.Where(pi => pi.IsCover == true))
+                    .Where(m => m.AppUserId == userId)
+                    .ToList();
+
+                foreach (var bi in items)
+                {
+                    var wishlistItem = new CompareItemCard
+                    {
+                        ProductId = bi.Product.Id,
+                        Name = bi.Product.Name,
+                        Price = bi.Product.CostPrice,
+                        Count = bi.Count,
+                        Desc = bi.Product.Desc,
+                        InStock = bi.Product.StockCount,
+                        //Color = bi.Product.ColorProducts.Select(cp => cp.Color.Name).ToList()
+                    };
+
+                    wishListDto.CompareItems.Add(wishlistItem);
+                }
+            }
+            else
+            {
+                var basketStr = _httpContextAccessor.HttpContext.Request.Cookies[CompareService.COMPARE_KEY];
+                List<CompareDetailDto> cookieItems = null;
+
+                if (basketStr != null)
+                    cookieItems = JsonConvert.DeserializeObject<List<CompareDetailDto>>(basketStr);
+                else
+                    cookieItems = new List<CompareDetailDto>();
+
+                foreach (var cItem in cookieItems)
+                {
+                    var wishlistItem = new CompareItemCard
+                    {
+                        ProductId = cItem.ProductId,
+                        Name = cItem.Name,
+                        Price = cItem.Price,
+                        Count = cItem.Count,
+                        Desc = cItem.Desc,
+                        InStock = cItem.InStock,
+                    };
+
+                    wishListDto.CompareItems.Add(wishlistItem);
+                }
+            }
+
+            return wishListDto;
         }
 
         public CartGetDto GetUserBasketItem()
@@ -114,62 +175,59 @@ namespace Allup_Service.UI.Services
             return cartGetDto;
         }
 
-        public WishListCookieItemDto GetWishListItem()
+        public WislistDetailDto GetWishListItem()
         {
-            WishListCookieItemDto wishListCookieItemDto = new WishListCookieItemDto();
+            WislistDetailDto wishListDto = new WislistDetailDto();
 
             if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
                 var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var itemes = _context.WishlistItems.
-                           Include(m => m.Product).
-                           ThenInclude(m => m.ProductImages.Where(m => m.IsCover == true)).Where(m => m.AppUserId == userId).ToList();
+                var items = _context.WishlistItems
+                    .Include(m => m.Product)
+                    .ThenInclude(m => m.ProductImages.Where(pi => pi.IsCover == true))
+                    .Where(m => m.AppUserId == userId)
+                    .ToList();
 
-                foreach (var bi in itemes)
+                foreach (var bi in items)
                 {
-
-                    WishListCookieItemDto basketItemVM = new WishListCookieItemDto()
+                    var wishlistItem = new WishlistItemCard
                     {
-                        Count =bi.Count
+                        ProductId = bi.Product.Id,
+                        Name = bi.Product.Name,
+                        Price = bi.Product.CostPrice,
+                        Count = bi.Count
                     };
-                }
 
+                    wishListDto.WishlistItems.Add(wishlistItem);
+                }
             }
             else
             {
                 var basketStr = _httpContextAccessor.HttpContext.Request.Cookies[WishListService.WishList_KEY];
-
-                List<WishListCookieItemDto> cookieItems = null;
+                List<WislistDetailDto> cookieItems = null;
 
                 if (basketStr != null)
-                    cookieItems = JsonConvert.DeserializeObject<List<WishListCookieItemDto>>(basketStr);
+                    cookieItems = JsonConvert.DeserializeObject<List<WislistDetailDto>>(basketStr);
                 else
-                    cookieItems = new List<WishListCookieItemDto>();
+                    cookieItems = new List<WislistDetailDto>();
 
-
-                try
+                foreach (var cItem in cookieItems)
                 {
-                    foreach (var cItem in cookieItems)
+                    var wishlistItem = new WishlistItemCard
                     {
-                        WishListCookieItemDto basketItemVM = new WishListCookieItemDto()
-                        {
+                        ProductId = cItem.ProductId,
+                        Name = cItem.Name,
+                        Price = cItem.Price,
+                        Count = cItem.Count
+                    };
 
-                           Count = cItem.Count
-                        };
-                    }
+                    wishListDto.WishlistItems.Add(wishlistItem);
                 }
-                catch (Exception ex)
-                {
-
-                    Console.WriteLine(ex.Message);
-                }
-
-
-
             }
 
-            return wishListCookieItemDto;
+            return wishListDto;
         }
+
     }
 }

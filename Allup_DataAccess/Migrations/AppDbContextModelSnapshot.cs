@@ -681,6 +681,33 @@ namespace Allup_DataAccess.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("Allup_Core.Entities.Compare", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Compares");
+                });
+
             modelBuilder.Entity("Allup_Core.Entities.Contact", b =>
                 {
                     b.Property<int>("Id")
@@ -1552,7 +1579,7 @@ namespace Allup_DataAccess.Migrations
                     b.HasOne("Allup_Core.Entities.Tag", "Tag")
                         .WithMany("BlogTags")
                         .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Blog");
@@ -1615,6 +1642,25 @@ namespace Allup_DataAccess.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Parent");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Allup_Core.Entities.Compare", b =>
+                {
+                    b.HasOne("Allup_Core.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Allup_Core.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Product");
                 });

@@ -17,5 +17,7 @@ namespace Allup_Service.UI.Dtos
         public List<BrandGetDto> Brands { get; set; } = null!;
         public List<CommentGetDto> Comments { get; set; } = [];
         public CommentCreateDto CommentCreateDto { get; set; } = new();
+
+        public string SelectedCurrency { get; set; } = null!;
     }
 }

@@ -9,7 +9,7 @@ namespace Allup_Service.Dtos.WisListDtos
         public string Name { get; set; }
         public string Image { get; set; }
         public decimal Price { get; set; }
-
+        public int Count { get; set; }
         public int ProductId { get; set; }
         public  List<ProductGetDto> Products { get; set; } = new();
         public List<WishlistItemCard> WishlistItems { get; set; } = new();
