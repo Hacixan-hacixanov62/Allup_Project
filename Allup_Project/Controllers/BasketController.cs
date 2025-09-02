@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace Allup_Project.Controllers
@@ -18,25 +17,38 @@ namespace Allup_Project.Controllers
         private readonly IBasketService _basketService;
         private readonly UserManager<AppUser> _userManager;
         private readonly AppDbContext _context;
-        public BasketController(IBasketService basketService, AppDbContext context, UserManager<AppUser> userManager )
+        private readonly IProductService _productService;
+        private readonly ICurrencyService _currencyService;
+        public BasketController(IBasketService basketService, AppDbContext context, UserManager<AppUser> userManager, IProductService productService, ICurrencyService currencyService)
         {
             _basketService = basketService;
             _context = context;
             _userManager = userManager;
+            _productService = productService;
+            _currencyService = currencyService;
         }
 
 
-         
+
         public async Task<IActionResult> Index()
         {
+            string selectedCurrency = Request.Cookies["currency"] ?? "USD";
+
             var featuresBanners = await _context.FeaturesBanners.ToListAsync();
             var cartItems = await _basketService.GetBasketAsync();
             var cartItemsFto = await _basketService.GetCartAsync();
+            var products = await _productService.GetAllAsync();
+            foreach (var product in products)
+            {
+                product.SalePrice = _currencyService.ConvertCurrencyAsync(product.SalePrice, "AZN", selectedCurrency);
+            }
+
             BasketVM basketVM = new BasketVM
             {
                 FeaturesBanners = featuresBanners,
                 CartItems = cartItems,
                 Cart = cartItemsFto,
+                SelectedCurrency = selectedCurrency
             };
             return View(basketVM);
         }
@@ -130,13 +142,15 @@ namespace Allup_Project.Controllers
         }
 
 
+
+
         // CheckOut Page in BasketController ===================================================
 
         [Authorize]
         public async Task<IActionResult> CheckOut()
         {
             var basketItems = await _basketService.GetBasketAsync();
-             
+
             decimal total = basketItems.Sum(x => x.Product.CostPrice * x.Count);
 
             var vm = new CheckoutDto
@@ -202,6 +216,7 @@ namespace Allup_Project.Controllers
 
             return RedirectToAction("Index", new { orderId = order.Id });
         }
+
 
         #region Stripe
 

@@ -257,8 +257,6 @@ namespace Allup_Project.Controllers
         }
 
 
-
-
         [HttpPost]
         public async Task<IActionResult> CreateComment([Bind(Prefix = "CommentCreateDto")] CommentCreateDto dto)
         {
@@ -283,13 +281,13 @@ namespace Allup_Project.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> DeleteComment(int id)
         {
             await _commentService.DeleteAsync(id);
 
-            string returnUrl = Request.Headers["Referer"].ToString();
+            string returnUrl = Request.GetReturnUrl();
+
             if (string.IsNullOrEmpty(returnUrl))
                 return RedirectToAction("Index", "Home");
 

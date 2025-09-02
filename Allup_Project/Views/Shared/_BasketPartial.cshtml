@@ -19,7 +19,7 @@
                                                     </div>
                                                     <div class="cart-item-content media-body">
                                                         <h5 class="product-name"><a asp-controller="Shop" asp-action="Index">@cartItem.Product.Name</a></h5>
-                                                        <span class="product-price">€@((cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100)).ToString("0.00"))</span>
+                                                        <span class="product-price">@((cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100)).ToString("0.00"))€</span>
                                                         <span class="product-color"><strong>Color:</strong> @cartItem.Product.Colors</span>
                                                         <a asp-action="DeleteBasket" asp-controller="Basket" asp-route-id="@cartItem.Product.Id" class="product-close delete-basket-btn"><i class="fal fa-times"></i></a>
                                                     </div>
@@ -30,7 +30,7 @@
                                             <div class="cart-subtotals">
                                                 <div class="products price_inline">
                                                     <span class="label">Subtotal</span>
-                                                    <span class="value">€@((cartItem.Count * (cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100))).ToString("0.00"))</span>
+                                                    <span class="value">@((cartItem.Count * (cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100))).ToString("0.00"))€</span>
                                                 </div>
                                                 @* <div class="shipping price_inline">
                                                     <span class="label">Shipping</span>
@@ -43,7 +43,7 @@
                                             </div>
                                             <div class="cart-total price_inline">
                                                 <span class="label">Total</span>
-                                                <span class="value">€@((cartItem.Count * (cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100))).ToString("0.00"))</span>
+                                                <span class="value">@((cartItem.Count * (cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100))).ToString("0.00"))€</span>
                                             </div>
                                         </div> <!-- price content -->
                                         <div class="checkout text-center">
@@ -80,7 +80,7 @@ else
                                                     </div>
                                                     <div class="cart-item-content media-body">
                                                         <h5 class="product-name"><a asp-controller="Shop" asp-action="Index">@cartItem.Product.Name</a></h5>
-                                                        <span class="product-price">€@((cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100)).ToString("0.00"))</span>
+                                                        <span class="product-price">@((cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100)).ToString("0.00"))€</span>
                                                         <span class="product-color"><strong>Color:</strong> @cartItem.Product.Colors</span>
                                                         <a asp-action="DeleteBasket" asp-controller="Basket" asp-route-id="@cartItem.Product.Id" class="product-close delete-basket-btn"><i class="fal fa-times"></i></a>
                                                     </div>
@@ -91,7 +91,7 @@ else
                                             <div class="cart-subtotals">
                                                 <div class="products price_inline">
                                                     <span class="label">Subtotal</span>
-                                                    <span class="value">€@((cartItem.Count * (cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100))).ToString("0.00"))</span>
+                                                    <span class="value">@((cartItem.Count * (cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100))).ToString("0.00"))€</span>
                                                 </div>
                                                 @* <div class="shipping price_inline">
                                                     <span class="label">Shipping</span>
@@ -104,7 +104,7 @@ else
                                             </div>
                                             <div class="cart-total price_inline">
                                                 <span class="label">Total</span>
-                                                <span class="value">€@((cartItem.Count * (cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100))).ToString("0.00"))</span>
+                                                <span class="value">@((cartItem.Count * (cartItem.Product.CostPrice - (cartItem.Product.CostPrice * cartItem.Product.DiscountPercent/100))).ToString("0.00"))€</span>
                                             </div>
                                         </div> <!-- price content -->
                                         <div class="checkout text-center">

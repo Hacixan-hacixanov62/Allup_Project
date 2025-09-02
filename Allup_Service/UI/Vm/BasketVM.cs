@@ -14,6 +14,7 @@ namespace Allup_Service.UI.Vm
         //=============
         public int Id { get; set; }
         public int Count { get; set; }
+        public string SelectedCurrency { get; set; } = null!;
 
     }
 }

@@ -75,7 +75,7 @@
                     @* Delete düyməsi *@
                     @if (User.Identity.IsAuthenticated && comment.AppUserId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value)
                     {
-                        <form method="post" action="Shop/DeleteComment" style="display:inline;">
+                        <form class="delete-comment-form" method="post" asp-controller="Shop" asp-action="DeleteComment" style="display:inline;">
                             <input type="hidden" name="id" value="@comment.Id" />
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -131,4 +131,15 @@ else
         var form = document.getElementById('reply-form-' + commentId);
         form.style.display = form.style.display === 'none' ? 'block' : 'none';
     }
+</script>
+
+<script>
+        $(document).on("submit", ".delete-comment-form", function (e) {
+        e.preventDefault();
+        var form = $(this);
+        $.post(form.attr("action"), form.serialize(), function () {
+            form.closest(".single-rating-item").remove();
+        });
+    });
+
 </script>

@@ -11,9 +11,13 @@
         foreach (var item in cartItems)
         {
             var discountedPrice = item.Product.SalePrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100);
-            totalPrice += item.Count * discountedPrice;
+            totalPrice += item.Count * discountedPrice;  
         }
     }
+
+    decimal shippingFee = totalPrice > 1000 ? 0 : 10;
+    decimal grandTotal = totalPrice + shippingFee;
+
 }
 <!--====== Breadcrumb Part Start ======-->
 
@@ -142,16 +146,15 @@
                     <div class="checkout-total mt-30">
                         <h4 class="title">Product  <span>Total</span></h4>
                         <ul>
-                            @foreach(var basketItem in Model.BasketItems)
+                            @foreach (var basketItem in Model.BasketItems)
                             {
                                 var discountedPrice = basketItem.Product.SalePrice - (basketItem.Product.SalePrice * basketItem.Product.DiscountPercent / 100);
-                                var totalItemPrice = basketItem.Count * discountedPrice;
+                                var totalItemPrice = basketItem.Count * discountedPrice; 
 
                                 <li>
-                                    <p class="total-value">@basketItem.Product.Name X @basketItem.Count </p>
+                                    <p class="total-value">@basketItem.Product.Name x @basketItem.Count</p>
                                     <p class="total-amount">€@totalItemPrice.ToString("0.00")</p>
                                 </li>
-
                             }
                         </ul>
                         <div class="checkout-total-sub">
@@ -160,9 +163,9 @@
                         </div>
                         <div class="checkout-total-sub">
                             <p class="total-value">Shipping Fee </p>
-                            <p class="total-amount">€00.00</p>
+                            <p class="total-amount">€@shippingFee.ToString("0.00")</p>
                         </div>
-                        <h4 class="title mt-15">Product  <span>€@totalPrice.ToString("0.00")</span></h4>
+                        <h4 class="title mt-15">Product  <span>€@grandTotal.ToString("0.00")</span></h4>
                     </div>
                 </div>
 

@@ -1,6 +1,7 @@
 using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
 using Allup_DataAccess.Interceptors;
+using Allup_Project.Extensions;
 using Allup_Service;
 using Allup_Service.Hubs;
 using Allup_Service.Profiles;
@@ -100,6 +101,7 @@ namespace Allup_Project
 
             var app = builder.Build();
 
+            app.UseMiddleware<GlobalExceptionHandler>();
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {

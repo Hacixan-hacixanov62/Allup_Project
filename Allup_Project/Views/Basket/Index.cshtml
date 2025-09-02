@@ -1,4 +1,5 @@
-﻿@using Allup_Service.UI.Vm
+﻿@using Allup_Service.CurrencySymbol
+@using Allup_Service.UI.Vm
 @model BasketVM
 @{
     ViewData["Title"] = "Basket";
@@ -75,7 +76,7 @@
             <td>
                 <div class="product-price">
                     <span class="price" id="unit-price-@item.ProductId">
-                        $@((item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100)).ToString("0.00"))
+                        @((item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100)).ToString("0.00"))@CurrencyHelper.GetSymbol(@Model.SelectedCurrency)
                     </span>
                 </div>
             </td>
@@ -93,9 +94,9 @@
                 </div>
             </td>
             <td>
-                <div class="product-total">
+                <div class="product-total"> @*@product.SalePrice.ToString("0.00") @CurrencyHelper.GetSymbol(@Model.SelectedCurrency)*@
                     <span class="BasketItemTotalPrice" id="total-price-@item.ProductId">
-                        $@((item.Count * (item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100))).ToString("0.00"))
+                        @((item.Count * (item.Product.CostPrice - (item.Product.SalePrice * item.Product.DiscountPercent / 100))).ToString("0.00"))@CurrencyHelper.GetSymbol(@Model.SelectedCurrency) 
                     </span>
                 </div>
             </td>
@@ -136,7 +137,7 @@
                                     <div class="sub-total">
                                         <div class="single-total">
                                             <span class="cart-value">Subtotal</span>
-                                            <span class="cart-amount" id="subtotal-amount">€@totalPrice</span>
+                                            <span class="cart-amount" id="subtotal-amount">@totalPrice.ToString("0.00") @CurrencyHelper.GetSymbol(@Model.SelectedCurrency)</span>
                                         </div>
                                         @* <div class="single-total">
                                     <span class="cart-value">Shipping Cost</span>
@@ -146,7 +147,7 @@
                                     <div class="total">
                                         <div class="single-total">
                                             <span class="cart-value">Total (tax excl.)</span>
-                                            <span class="cart-amount" id="total-amount">€@totalPrice</span>
+                                            <span class="cart-amount" id="total-amount">@totalPrice.ToString("0.00") @CurrencyHelper.GetSymbol(@Model.SelectedCurrency)</span>
                                         </div>
                                         @* <div class="single-total">
                                     <span class="cart-value">Taxes</span>
