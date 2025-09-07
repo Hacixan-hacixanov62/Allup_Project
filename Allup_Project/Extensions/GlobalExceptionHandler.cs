@@ -1,6 +1,7 @@
 ﻿using Allup_Service.Dtos.CommanDtos;
 using Allup_Service.Exceptions.IException;
 using Newtonsoft.Json;
+using Serilog;
 using System.Net;
 
 namespace Allup_Project.Extensions
@@ -47,6 +48,9 @@ namespace Allup_Project.Extensions
                 errorMessage = exception.Message;
 
             }
+             
+            // Xətanı logla
+            Log.Error(exception, "GlobalExceptionHandler: Xəta baş verdi");
 
             context.Response.ContentType = "application/json";
 

@@ -77,6 +77,15 @@ D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\O
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\NuGet.ProjectModel.dll
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\NuGet.Protocol.dll
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\NuGet.Versioning.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\Serilog.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\Serilog.AspNetCore.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\Serilog.Extensions.Hosting.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\Serilog.Extensions.Logging.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\Serilog.Formatting.Compact.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\Serilog.Settings.Configuration.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\Serilog.Sinks.Console.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\Serilog.Sinks.Debug.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\Serilog.Sinks.File.dll
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\Stripe.net.dll
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\System.ClientModel.dll
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\PubTmp\Out\System.CodeDom.dll

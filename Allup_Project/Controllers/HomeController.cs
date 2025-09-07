@@ -1,10 +1,12 @@
 ﻿using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
+using Allup_Service.Dtos.CommanDtos;
 using Allup_Service.Dtos.ProductDtos;
 using Allup_Service.Service.IService;
 using Allup_Service.UI.Vm;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Allup_Project.Controllers
 {
@@ -93,6 +95,24 @@ namespace Allup_Project.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Error(string? json)
+        {
+            if (!string.IsNullOrEmpty(json))
+            {
+
+                string decodedJson = Uri.UnescapeDataString(json);
+
+                var dto = JsonConvert.DeserializeObject<ErrorDto>(decodedJson);
+                return View(dto);
+            }
+
+            return View(new ErrorDto
+            {
+                StatusCode = 500,
+                Message = "Gözlənilməyən xəta baş verdi."
+            });
         }
     }
 }

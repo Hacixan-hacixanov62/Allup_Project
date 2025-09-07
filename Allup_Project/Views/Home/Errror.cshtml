@@ -1,0 +1,93 @@
+﻿@using Allup_Service.Dtos.CommanDtos
+@model ErrorDto
+@{
+
+    Layout = null;
+}
+
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #b00020; /* Qırmızı arxa fon */
+    }
+
+    .error-container {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .error-box {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 50px;
+        text-align: center;
+        color: #fff;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        width: 90%;
+    }
+
+        .error-box h1 {
+            font-size: 120px;
+            margin: 0;
+        }
+
+        .error-box h2 {
+            font-size: 32px;
+            margin: 10px 0;
+        }
+
+        .error-box p {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .error-box a {
+            background-color: #ffffff;
+            color: #b00020;
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+            .error-box a:hover {
+                background-color: #f2f2f2;
+            }
+
+    @@media (max-width: 768px) {
+        .error-box h1
+
+    {
+        font-size: 80px;
+    }
+
+    .error-box h2 {
+        font-size: 24px;
+    }
+
+    .error-box p {
+        font-size: 16px;
+    }
+
+    }
+</style>
+
+<div class="error-container">
+    <div class="error-box">
+        <h2>@Model?.Name !!</h2>
+        <h1>@Model?.StatusCode </h1>
+        <p>@Model?.Message !!</p>
+        <a href="/">Ana Səhifəyə Qayıt</a>
+    </div>
+</div>

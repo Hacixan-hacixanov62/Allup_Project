@@ -1,4 +1,4 @@
-using Allup_Core.Entities;
+﻿using Allup_Core.Entities;
 using Allup_DataAccess.DAL;
 using Allup_DataAccess.Interceptors;
 using Allup_Project.Extensions;
@@ -9,6 +9,7 @@ using Allup_Service.Profiles.BlogCommentProfile;
 using Allup_Service.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using Stripe;
 using System.Reflection;
 
@@ -28,10 +29,18 @@ namespace Allup_Project
 
 
             builder.Services.AddBusinessServices();
+            builder.Services.AddHttpClient();
             //  builder.Services.AddBussniessRepository(builder.Configuration);
-          //  builder.Services.AddDalServices(builder.Configuration);
+            //  builder.Services.AddDalServices(builder.Configuration);
             //builder.Services.AddBusinessServices();
+            // Serilog konfiqurasiyası
 
+            Log.Logger = new LoggerConfiguration()
+              .WriteTo.File(
+                    Path.Combine(Directory.GetCurrentDirectory(), "logs", "myapp.txt"),
+                  rollingInterval: RollingInterval.Day
+              )
+              .CreateLogger(); // Serilog-u aktiv et
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -87,7 +96,7 @@ namespace Allup_Project
             //    {
             //        var uri = new Uri(context.RedirectUri);
             //        if (context.Request.Path.Value.ToLower().StartsWith("/admin"))
-            //        {
+            //         {
             //            context.Response.Redirect("/admin/account/login" + uri.Query);
             //        }
             //        else
@@ -118,7 +127,7 @@ namespace Allup_Project
 
             app.UseAuthentication(); // bu yeri yazmasaq Identity-nin login ve registeri islemeyecek , User sistemnen baglidir
             app.UseAuthorization(); // bu ise rol ve permissionler ucundur
-
+            
             app.UseOutputCache(); // Cache-i istifade etmek ucundur
 
             app.MapControllerRoute(

@@ -4,6 +4,7 @@
     Layout = "_Layout";
 }
 
+
 <!--====== Breadcrumb Part Start ======-->
 
 <div class="breadcrumb-area">
@@ -130,6 +131,26 @@
                         </li>
                     </ul>
                 </div>
+                <!-- Chatbox Button -->
+                <button id="chatToggleBtn" class="chat-toggle-btn">
+                    💬 Live Chat
+                </button>
+
+                <!-- Chatbox Container -->
+                <div id="chatBox" class="chat-box">
+                    <div class="chat-header">
+                        <span>AI Support</span>
+                        <button id="chatCloseBtn" class="close-btn">×</button>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Burada mesajlar görünəcək -->
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInputField" placeholder="Type your message..." />
+                        <button id="chatSendBtn">Send</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -251,8 +272,89 @@
 
 <!--====== Features Banner Part Ends ======-->
 
+<style>
+    /* Chatbox Toggle Button */
+    .chat-toggle-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        z-index: 999;
+    }
 
+    /* Chatbox */
+    .chat-box {
+        display: none;
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 320px;
+        height: 400px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
 
+    /* Header */
+    .chat-header {
+        background: #007bff;
+        color: white;
+        padding: 10px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Close button */
+    .close-btn {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    /* Messages */
+    .chat-messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        font-size: 14px;
+    }
+
+    /* Input */
+    .chat-input {
+        display: flex;
+        border-top: 1px solid #ddd;
+    }
+
+        .chat-input input {
+            flex: 1;
+            border: none;
+            padding: 10px;
+        }
+
+        .chat-input button {
+            background: #007bff;
+            border: none;
+            color: white;
+            padding: 0 15px;
+            cursor: pointer;
+        }
+
+</style>
 
 
 <script>
@@ -283,6 +385,122 @@
     });
 </script>
 
+<script>
+    const chatToggleBtn = document.getElementById("chatToggleBtn");
+    const chatBox = document.getElementById("chatBox");
+    const chatCloseBtn = document.getElementById("chatCloseBtn");
+    const chatSendBtn = document.getElementById("chatSendBtn");
+    const chatMessages = document.getElementById("chatMessages");
+    const chatInputField = document.getElementById("chatInputField");
+
+    // Açmaq
+    chatToggleBtn.addEventListener("click", () => {
+        chatBox.style.display = "flex";
+        chatToggleBtn.style.display = "none";
+    });
+
+    // Bağlamaq
+    chatCloseBtn.addEventListener("click", () => {
+        chatBox.style.display = "none";
+        chatToggleBtn.style.display = "block";
+    });
+
+    // Mesaj göndərmək
+    chatSendBtn.addEventListener("click", sendMessage);
+
+    // Enter klavişi ilə göndərmək
+    chatInputField.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            sendMessage();
+        }
+    });
+
+    async function sendMessage() {
+        const msg = chatInputField.value.trim();
+        if (msg !== "") {
+            // İstifadəçi mesajını əlavə et
+            addMessage("👤 " + msg, "user");
+            chatInputField.value = "";
+
+            // Yükləmə mesajını göstər
+            const loadingMsg = addMessage("🤖 Cavab hazırlanır...", "bot", true);
+
+            try {
+                console.log("Backend-ə sorğu göndərilir...");
+
+                const response = await fetch('/api/chat/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: msg })
+                });
+
+                console.log("Cavab alındı:", response.status);
+
+                const data = await response.json();
+                console.log("Cavab məlumatları:", data);
+
+                // Yükləmə mesajını sil
+                if (loadingMsg && loadingMsg.parentNode) {
+                    loadingMsg.parentNode.removeChild(loadingMsg);
+                }
+
+                if (!response.ok) {
+                    // Xəta mesajını göstər
+                    addMessage("❌ Xəta: " + (data.error || data.details || 'Naməlum xəta'), "error");
+                } else {
+                    // AI cavabını əlavə et
+                    addMessage("🤖 " + data.message, "bot");
+                }
+            } catch (error) {
+                console.error("Xəta baş verdi:", error);
+
+                // Yükləmə mesajını sil
+                if (loadingMsg && loadingMsg.parentNode) {
+                    loadingMsg.parentNode.removeChild(loadingMsg);
+                }
+
+                // Xəta mesajını göstər
+                addMessage("❌ Şəbəkə xətası: " + error.message, "error");
+            }
+        }
+    }
+
+    function addMessage(text, type, isTemporary = false) {
+        const msgElement = document.createElement("div");
+        msgElement.textContent = text;
+
+        if (type === "user") {
+            msgElement.style.textAlign = "right";
+            msgElement.style.backgroundColor = "#007bff";
+            msgElement.style.color = "white";
+        } else if (type === "bot") {
+            msgElement.style.textAlign = "left";
+            msgElement.style.backgroundColor = "#f1f1f1";
+            msgElement.style.color = "#333";
+        } else if (type === "error") {
+            msgElement.style.textAlign = "left";
+            msgElement.style.color = "red";
+            msgElement.style.backgroundColor = "#ffe6e6";
+        }
+
+        msgElement.style.margin = "5px 0";
+        msgElement.style.padding = "8px 12px";
+        msgElement.style.borderRadius = "12px";
+        msgElement.style.maxWidth = "80%";
+        msgElement.style.wordWrap = "break-word";
+
+        if (type === "user") {
+            msgElement.style.marginLeft = "auto";
+        }
+
+        chatMessages.appendChild(msgElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        return isTemporary ? msgElement : null;
+    }
+</script>
 
 <script>
     document.getElementById("contact-form").addEventListener("submit", function (e) {

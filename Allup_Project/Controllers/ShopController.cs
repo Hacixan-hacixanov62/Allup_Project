@@ -33,7 +33,7 @@ namespace Allup_Project.Controllers
             _featuresBannerService = featuresBannerService;
             _currencyService = currencyService;
         }
-
+        
         public async Task<IActionResult> Index(string sortOrder, List<int> sizeIds, List<int> colorIds, int? minPrice =null, int? maxPrice =null, int page = 1, int pageSize = 5)
         {
             string selectedCurrency = Request.Cookies["currency"] ?? "USD";

@@ -273,3 +273,12 @@ D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\refint\A
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\Allup_Project.pdb
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\Allup_Project.genruntimeconfig.cache
 D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\obj\Release\net8.0\ref\Allup_Project.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Release\net8.0\Serilog.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Release\net8.0\Serilog.AspNetCore.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Release\net8.0\Serilog.Extensions.Hosting.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Release\net8.0\Serilog.Extensions.Logging.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Release\net8.0\Serilog.Formatting.Compact.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Release\net8.0\Serilog.Settings.Configuration.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Release\net8.0\Serilog.Sinks.Console.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Release\net8.0\Serilog.Sinks.Debug.dll
+D:\Asp.Net Task (PB-202)\Allup_Project\Allup_Project\bin\Release\net8.0\Serilog.Sinks.File.dll
